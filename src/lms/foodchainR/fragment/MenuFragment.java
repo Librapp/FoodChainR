@@ -162,6 +162,7 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 			Intent intent = new Intent(getActivity(),
 					CaseStyleDetailActivity.class);
 			intent.putExtra("id", c.id);
+			intent.putExtra("name", c.name);
 			startActivity(intent);
 			break;
 		default:

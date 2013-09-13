@@ -257,7 +257,8 @@ public class JSONResponse {
 	public static String seatData(SeatData sd) {
 		JSONObject data = new JSONObject();
 		try {
-			data.putOpt("id", sd.tableId);
+			data.putOpt("seatId", sd.seatId);
+			data.putOpt("tableId", sd.tableId);
 			data.putOpt("styleId", sd.styleId);
 			data.putOpt("state", sd.state);
 			data.putOpt("customerId", sd.customerId);

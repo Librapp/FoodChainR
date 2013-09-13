@@ -72,12 +72,12 @@ public class MenuService extends BaseService {
 	}
 
 	/** 获取类型详情 */
-	public static boolean getStyleDetail(CaseStyleData csd) {
+	public static boolean getCaseStyleData(CaseStyleData csd) {
 		return am.getCaseStyleData(csd);
 	}
 
 	/** 按名字获取类型详情 */
-	public static boolean getStyleDetailByName(CaseStyleData csd) {
+	public static boolean getCaseStyleDataByName(CaseStyleData csd) {
 		return am.getCaseStyleDataByName(csd);
 	}
 

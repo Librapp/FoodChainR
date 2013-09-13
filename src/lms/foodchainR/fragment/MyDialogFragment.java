@@ -191,6 +191,7 @@ public class MyDialogFragment extends DialogFragment {
 							Intent intent = new Intent(getActivity(),
 									CaseStyleDetailActivity.class);
 							intent.putExtra("id", csd.id);
+							intent.putExtra("name", csd.name);
 							startActivity(intent);
 							dismiss();
 						}

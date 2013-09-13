@@ -59,7 +59,8 @@ public class CaseStyleDetailActivity extends Activity implements
 	private void initData() {
 		csd = new CaseStyleData();
 		csd.id = getIntent().getIntExtra("id", 0);
-		if (MenuService.getStyleDetail(csd)) {
+		csd.name = getIntent().getStringExtra("name");
+		if (MenuService.getCaseStyleData(csd)) {
 			name.setText(csd.name);
 		} else {
 			setResult(RESULT_CANCELED);
