@@ -1,5 +1,6 @@
 package lms.foodchainR.data;
 
+import java.util.ArrayList;
 /**
  * 
  * @author 李梦思
@@ -24,7 +25,7 @@ public class TableData {
 	// 状态
 	public int state = AVAILIABLE;
 	// 座位
-	private List<SeatData> seat;
+	private List<SeatData> seat = new ArrayList<SeatData>();
 	// 桌号
 	public String id;
 	// 类型

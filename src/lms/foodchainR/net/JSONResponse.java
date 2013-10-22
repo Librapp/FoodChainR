@@ -199,10 +199,9 @@ public class JSONResponse {
 	public static String hallInfo() {
 		JSONObject data = new JSONObject();
 		try {
-			ArrayList<TableStyleData> list = TableService.getTableStyles();
 			data.put(CODE, SUCCESS);
 			JSONArray array = new JSONArray();
-			for (TableStyleData tsd : list) {
+			for (TableStyleData tsd : TableService.getTableStyles()) {
 				array.put(tableStyleData(tsd));
 			}
 			data.putOpt("tableStyleList", array);

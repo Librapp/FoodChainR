@@ -1,5 +1,6 @@
 package lms.foodchainR.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public class TableStyleData {
 	// 图片
 	public String pic = "";
 	// 桌子列表
-	private List<TableData> table;
+	private List<TableData> table = new ArrayList<TableData>();
 	// 是否为新建
 	public boolean isNew = false;
 
