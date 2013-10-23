@@ -1488,11 +1488,12 @@ public class Device extends org.cybergarage.upnp.Device implements
 			if (!method.equals("")) {
 				httpRes.setStatusCode(HTTPStatus.OK);
 				if (method.equals(JSONRequest.RESTAURANTINFO)) {
-					dataBytes = JSONResponse.restaurantInfo().getBytes();
+					dataBytes = JSONResponse.restaurantInfo().toString()
+							.getBytes();
 					httpRes.setContent(dataBytes);
 					httpReq.post(httpRes);
 				} else if (method.equals(JSONRequest.MENU)) {
-					dataBytes = JSONResponse.menuData().getBytes();
+					dataBytes = JSONResponse.menuData().toString().getBytes();
 					httpRes.setContent(dataBytes);
 					httpReq.post(httpRes);
 				} else if (method.equals(JSONRequest.MESSAGE)) {
@@ -1510,6 +1511,10 @@ public class Device extends org.cybergarage.upnp.Device implements
 						httpReq.returnOK();
 					else
 						httpReq.returnBadRequest();
+				} else if (method.equals(JSONRequest.HALLINFO)) {
+					dataBytes = JSONResponse.hallInfo().toString().getBytes();
+					httpRes.setContent(dataBytes);
+					httpReq.post(httpRes);
 				}
 			} else
 				return false;

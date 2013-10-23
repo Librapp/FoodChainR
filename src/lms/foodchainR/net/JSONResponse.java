@@ -43,7 +43,7 @@ public class JSONResponse {
 		return data.toString();
 	};
 
-	public static String menuData() {
+	public static JSONObject menuData() {
 		JSONObject data = new JSONObject();
 		String msg = "";
 		try {
@@ -62,7 +62,7 @@ public class JSONResponse {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return data.toString();
+		return data;
 	};
 
 	private static JSONObject caseStyleDataResponse(CaseStyleData csd) {
@@ -78,7 +78,8 @@ public class JSONResponse {
 		return data;
 	};
 
-	public static String caseStyleDetailResponse(String msg, CaseStyleData csd) {
+	public static JSONObject caseStyleDetailResponse(String msg,
+			CaseStyleData csd) {
 		JSONObject data = new JSONObject();
 		try {
 			if (msg.equals("")) {
@@ -99,7 +100,7 @@ public class JSONResponse {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return data.toString();
+		return data;
 	};
 
 	private static JSONObject caseDataResponse(CaseData c) {
@@ -134,7 +135,7 @@ public class JSONResponse {
 		return data;
 	};
 
-	public static String caseDetailResponse(String msg, CaseData c) {
+	public static JSONObject caseDetailResponse(String msg, CaseData c) {
 		JSONObject data = new JSONObject();
 		try {
 			if (msg.equals("")) {
@@ -168,10 +169,10 @@ public class JSONResponse {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return data.toString();
+		return data;
 	};
 
-	public static String restaurantInfo() {
+	public static JSONObject restaurantInfo() {
 		JSONObject data = new JSONObject();
 		try {
 			data.put(CODE, SUCCESS);
@@ -187,16 +188,15 @@ public class JSONResponse {
 			// data.putOpt("seatCount", Self.current().seatCount);
 			data.putOpt("state", Self.current().state);
 			data.putOpt("email", Self.current().email);
-			data.putOpt("hallInfo", hallInfo());
 			// data.putOpt("freeseat", Self.current().freeseat);
 			// data.putOpt("waitNumber", Self.current().waitNumber);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return data.toString();
+		return data;
 	}
 
-	public static String hallInfo() {
+	public static JSONObject hallInfo() {
 		JSONObject data = new JSONObject();
 		try {
 			data.put(CODE, SUCCESS);
@@ -208,10 +208,10 @@ public class JSONResponse {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return data.toString();
+		return data;
 	}
 
-	public static String tableStyleData(TableStyleData ts) {
+	public static JSONObject tableStyleData(TableStyleData ts) {
 		JSONObject data = new JSONObject();
 		try {
 			data.putOpt("id", ts.id);
@@ -227,10 +227,10 @@ public class JSONResponse {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return data.toString();
+		return data;
 	}
 
-	public static String tableData(TableData td) {
+	public static JSONObject tableData(TableData td) {
 		JSONObject data = new JSONObject();
 		try {
 			data.putOpt("id", td.id);
@@ -250,10 +250,10 @@ public class JSONResponse {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return data.toString();
+		return data;
 	}
 
-	public static String seatData(SeatData sd) {
+	public static JSONObject seatData(SeatData sd) {
 		JSONObject data = new JSONObject();
 		try {
 			data.putOpt("seatId", sd.seatId);
@@ -267,6 +267,6 @@ public class JSONResponse {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return data.toString();
+		return data;
 	}
 }

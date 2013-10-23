@@ -15,6 +15,7 @@ public class JSONRequest {
 	public static final String MENU = "menu";
 	public static final String MESSAGE = "message";
 	public static final String CASEDETAIL = "caseDetail";
+	public static final String HALLINFO = "hallInfo";
 
 	public static String menuRequest() {
 		JSONObject holder = new JSONObject();
@@ -49,7 +50,7 @@ public class JSONRequest {
 	public static String hallInfoRequest() {
 		JSONObject holder = new JSONObject();
 		try {
-			holder.put(METHOD, RESTAURANTINFO);
+			holder.put(METHOD, HALLINFO);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
