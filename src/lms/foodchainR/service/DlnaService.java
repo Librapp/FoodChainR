@@ -1,7 +1,5 @@
 package lms.foodchainR.service;
 
-import java.util.UUID;
-
 import lms.foodchainR.data.CustomerData;
 import lms.foodchainR.data.EmployeeData;
 import lms.foodchainR.data.OtherData;
@@ -17,15 +15,12 @@ import org.cybergarage.upnp.control.ActionListener;
 import org.cybergarage.upnp.device.DeviceChangeListener;
 import org.cybergarage.upnp.device.SearchResponseListener;
 import org.cybergarage.upnp.ssdp.SSDPPacket;
-import org.cybergarage.util.Debug;
 import org.cybergarage.xml.Node;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
-import android.telephony.TelephonyManager;
-import android.util.Log;
 
 /**
  * @author 李梦思
@@ -89,33 +84,12 @@ public class DlnaService extends Service implements DeviceChangeListener,
 		d = new lms.foodchainR.upnp.Device(root, device);
 		d.setFriendlyName(Self.current().name);
 		d.setActionListener(this);
-		String uuid = "uuid:" + getMyUUID();
-		d.setUDN(uuid);
 		// TODO
 		d.setDeviceType(OtherData.RESTAURANTDEVICETYPE);
 		d.setDescriptionURI(OtherData.DESCRIPTIONURL);
 		if (FileInfoUtils.writeFile(d.getRootNode().toString().getBytes(),
 				"FCR", "description.xml"))
 			d.start();
-	}
-
-	private String getMyUUID() {
-		final TelephonyManager tm = (TelephonyManager) getBaseContext()
-				.getSystemService(TELEPHONY_SERVICE);
-		final String tmDevice, tmSerial, androidId;
-		tmDevice = "" + tm.getDeviceId();
-		tmSerial = "" + tm.getSimSerialNumber();
-		androidId = ""
-				+ android.provider.Settings.Secure.getString(
-						getContentResolver(),
-						android.provider.Settings.Secure.ANDROID_ID);
-
-		UUID deviceUuid = new UUID(androidId.hashCode(),
-				((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
-		String uniqueId = deviceUuid.toString();
-		if (Debug.isOn())
-			Log.d("debug", "uuid=" + uniqueId);
-		return uniqueId;
 	}
 
 	private void initControlPoint() {
@@ -153,7 +127,7 @@ public class DlnaService extends Service implements DeviceChangeListener,
 			// TODO 发现厨师
 			EmployeeData c = new EmployeeData(dev, EmployeeData.COOKER);
 		}
-		sendBroadcast(new Intent(NEW_DEVICES_FOUND));
+		// sendBroadcast(new Intent(NEW_DEVICES_FOUND));
 	}
 
 	@Override
