@@ -138,7 +138,6 @@ import org.cybergarage.upnp.device.Advertiser;
 import org.cybergarage.upnp.device.Description;
 import org.cybergarage.upnp.device.InvalidDescriptionException;
 import org.cybergarage.upnp.device.NTS;
-import org.cybergarage.upnp.device.ST;
 import org.cybergarage.upnp.device.SearchListener;
 import org.cybergarage.upnp.device.USN;
 import org.cybergarage.upnp.event.Subscriber;
@@ -1311,11 +1310,9 @@ public class Device extends org.cybergarage.upnp.Device implements
 		if (isRootDevice == true)
 			devUSN += "::" + USN.ROOTDEVICE;
 
-		if (ST.isRootDevice(ssdpST) == true) {
-			if (isRootDevice == true)
-				postSearchResponse(ssdpPacket, ST.ROOT_DEVICE, devUSN);
+		if (ssdpST.equals("FC")) {
+			postSearchResponse(ssdpPacket, "FC", devUSN);
 		}
-
 		ServiceList serviceList = getServiceList();
 		int serviceCnt = serviceList.size();
 		for (int n = 0; n < serviceCnt; n++) {
