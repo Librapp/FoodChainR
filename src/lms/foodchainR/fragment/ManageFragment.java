@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.List;
 
 import lms.foodchainR.R;
-import lms.foodchainR.activity.EmployeeActivity;
 import lms.foodchainR.dao.Table_DBHelper;
 import lms.foodchainR.data.OtherData;
 import lms.foodchainR.data.Self;
@@ -270,17 +269,18 @@ public class ManageFragment extends Fragment implements OnClickListener,
 			}
 			break;
 		case R.id.rd_employee:
-			Intent iE = new Intent(getActivity(), EmployeeActivity.class);
-			startActivity(iE);
+			Toast.makeText(getActivity(), "正在开发", Toast.LENGTH_SHORT).show();
+			// Intent iE = new Intent(getActivity(), EmployeeActivity.class);
+			// startActivity(iE);
 			break;
 		case R.id.rd_vip:
-
+			Toast.makeText(getActivity(), "正在开发", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.bill:
-
+			Toast.makeText(getActivity(), "正在开发", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.store:
-
+			Toast.makeText(getActivity(), "正在开发", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.rd_logo:
 			CharSequence[] items = { "相册", "拍照" };

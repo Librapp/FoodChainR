@@ -15,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class CaseStyleFragment extends ListFragment implements OnClickListener {
 	private CaseStyleData csd;
@@ -48,6 +49,9 @@ public class CaseStyleFragment extends ListFragment implements OnClickListener {
 		edit = new Button(getActivity());
 		edit.setText(R.string.edit);
 		edit.setOnClickListener(this);
+		TextView name = new TextView(getActivity());
+		name.setText(csd.name);
+		getListView().addHeaderView(name);
 		getListView().addFooterView(edit);
 		if (cdb.getCaseStyleData(csd) && csd.getList().size() > 0) {
 			ma = new MenuAdapter(getActivity(), csd.getList());

@@ -154,6 +154,7 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 		switch (item.getItemId()) {
 		case DELETE:
 			if (MenuService.deleteStyle(c)) {
+				styleList = cdb.getStyle();
 				mfa = new MenuFragAdapter(getChildFragmentManager());
 				pager.setAdapter(mfa);
 			}

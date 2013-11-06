@@ -2,10 +2,8 @@ package lms.foodchainR.activity;
 
 import lms.foodchainR.R;
 import lms.foodchainR.fragment.HallFragment;
-import lms.foodchainR.fragment.KitchenFragment;
 import lms.foodchainR.fragment.ManageFragment;
 import lms.foodchainR.fragment.MenuFragment;
-import lms.foodchainR.fragment.MessageFragment;
 import lms.foodchainR.service.DlnaService;
 import lms.foodchainR.service.MenuService;
 import lms.foodchainR.service.TableService;
@@ -78,14 +76,15 @@ public class MainActivity extends SherlockFragmentActivity implements
 				ft.attach(frag);
 		} else if (tab.getText().equals(
 				getResources().getString(R.string.kitchen))) {
-			Fragment frag = getSupportFragmentManager().findFragmentByTag(
-					getResources().getString(R.string.kitchen));
-			if (frag == null) {
-				frag = new KitchenFragment();
-				ft.replace(R.id.frame, frag,
-						getResources().getString(R.string.kitchen));
-			} else
-				ft.attach(frag);
+			Toast.makeText(this, "正在开发", Toast.LENGTH_SHORT).show();
+			// Fragment frag = getSupportFragmentManager().findFragmentByTag(
+			// getResources().getString(R.string.kitchen));
+			// if (frag == null) {
+			// frag = new KitchenFragment();
+			// ft.replace(R.id.frame, frag,
+			// getResources().getString(R.string.kitchen));
+			// } else
+			// ft.attach(frag);
 		} else if (tab.getText().equals(
 				getResources().getString(R.string.manage))) {
 			Fragment frag = getSupportFragmentManager().findFragmentByTag(
@@ -108,14 +107,15 @@ public class MainActivity extends SherlockFragmentActivity implements
 				ft.attach(frag);
 		} else if (tab.getText().equals(
 				getResources().getString(R.string.message))) {
-			Fragment frag = getSupportFragmentManager().findFragmentByTag(
-					getResources().getString(R.string.message));
-			if (frag == null) {
-				frag = new MessageFragment();
-				ft.replace(R.id.frame, frag,
-						getResources().getString(R.string.message));
-			} else
-				ft.attach(frag);
+			Toast.makeText(this, "正在开发", Toast.LENGTH_SHORT).show();
+			// Fragment frag = getSupportFragmentManager().findFragmentByTag(
+			// getResources().getString(R.string.message));
+			// if (frag == null) {
+			// frag = new MessageFragment();
+			// ft.replace(R.id.frame, frag,
+			// getResources().getString(R.string.message));
+			// } else
+			// ft.attach(frag);
 		}
 	}
 

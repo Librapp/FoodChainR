@@ -276,7 +276,7 @@ public class Case_DBHelper extends Base_DBHelper {
 			db.delete(STYLEDATA, "id=?", selectArgs);
 			ContentValues values = new ContentValues();
 			values.put("style", 0);
-			db.update(CASEDATA, null, "style=?", selectArgs);
+			db.update(CASEDATA, values, "style=?", selectArgs);
 			db.setTransactionSuccessful();
 			return true;
 		} catch (Exception e) {
