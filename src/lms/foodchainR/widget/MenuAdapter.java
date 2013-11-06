@@ -48,7 +48,7 @@ public class MenuAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 			holder.name = (TextView) view.findViewById(R.id.case_name);
 			holder.price = (TextView) view.findViewById(R.id.case_price);
-			holder.state = (ImageView) view.findViewById(R.id.case_status);
+			holder.state = (TextView) view.findViewById(R.id.case_status);
 			holder.pic = (ImageView) view.findViewById(R.id.case_pic);
 			view.setTag(holder);
 		} else
@@ -58,10 +58,10 @@ public class MenuAdapter extends BaseAdapter {
 
 		switch (c.state) {
 		case CaseData.AVILIABLE:
-			holder.state.setImageResource(R.drawable.case_aviliable);
+			holder.state.setText("热卖中");
 			break;
 		case CaseData.UNAVILIABLE:
-			holder.state.setImageResource(R.drawable.case_soldout);
+			holder.state.setText("售罄");
 			break;
 		default:
 			break;
@@ -77,7 +77,7 @@ public class MenuAdapter extends BaseAdapter {
 	class ViewHolder {
 		TextView name;
 		TextView price;
-		ImageView state;
+		TextView state;
 		ImageView pic;
 	}
 }

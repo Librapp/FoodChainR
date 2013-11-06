@@ -37,30 +37,12 @@ public class MainActivity extends SherlockFragmentActivity implements
 		final ActionBar bar = getSupportActionBar();
 		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
-
-		Tab hall = bar.newTab();
-		hall.setText(R.string.hall);
-		hall.setTabListener(this);
-		bar.addTab(hall);
-
-		Tab kitchen = bar.newTab();
-		kitchen.setText(R.string.kitchen);
-		kitchen.setTabListener(this);
-		bar.addTab(kitchen);
-
-		Tab manage = bar.newTab();
-		manage.setText(R.string.manage);
-		manage.setTabListener(this);
-		bar.addTab(manage);
-
+		bar.addTab(bar.newTab().setText(R.string.hall).setTabListener(this));
+		bar.addTab(bar.newTab().setText(R.string.kitchen).setTabListener(this));
+		bar.addTab(bar.newTab().setText(R.string.manage).setTabListener(this));
 		bar.addTab(bar.newTab().setText(R.string.menu).setTabListener(this));
-
-		Tab message = bar.newTab();
-		message.setText(R.string.message);
-		message.setTabListener(this);
-		bar.addTab(message);
+		bar.addTab(bar.newTab().setText(R.string.message).setTabListener(this));
 		bar.getTabAt(2).select();
-
 	}
 
 	@Override

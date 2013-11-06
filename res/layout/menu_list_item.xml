@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:padding="5dp" >
     <ImageView
         android:id="@+id/case_pic"
         android:layout_width="100dp"
@@ -29,15 +30,14 @@
         android:layout_toRightOf="@+id/case_pic"
         android:text="@string/price"
         android:textColor="@android:color/black" />
-    <ImageView
+    <TextView
         android:id="@+id/case_status"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:contentDescription="@string/app_name"
         android:padding="5dp"
         android:scaleType="fitXY"
-        android:src="@drawable/case_aviliable" />
+        android:text="@string/state" />
     <!-- 以后在这里加上根据原料数量动态计算显示可以做的份数 -->
 </RelativeLayout>

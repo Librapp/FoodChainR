@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CaseData {
 	// Id
-	public int id;
+	public int id = 0;
 	// 网上Id
 	public int caseId = 0;
 	// 图片

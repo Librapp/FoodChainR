@@ -59,19 +59,23 @@ public class Case_DBHelper extends Base_DBHelper {
 			cursor = db.query(CASEDATA, null, "name=? OR id=? OR caseId=?",
 					selectArgs, null, null, null);
 			if (cursor != null && cursor.moveToNext()) {
-				c.id = cursor.getInt(cursor.getColumnIndex("id"));
-				c.caseId = cursor.getInt(cursor.getColumnIndex("caseId"));
-				c.name = cursor.getString(cursor.getColumnIndex("name"));
-				c.price = cursor.getFloat(cursor.getColumnIndex("price"));
-				c.intro = cursor.getString(cursor.getColumnIndex("intro"));
-				c.picPath = cursor.getString(cursor.getColumnIndex("pic"));
-				c.cookTime = cursor.getInt(cursor.getColumnIndex("cookTime"));
-				c.style = cursor.getInt(cursor.getColumnIndex("style"));
-				c.family = cursor.getInt(cursor.getColumnIndex("family"));
-				c.isNew = false;
+				if (cursor.getCount() > 0 && !c.isNew) {
+					c.id = cursor.getInt(cursor.getColumnIndex("id"));
+					c.caseId = cursor.getInt(cursor.getColumnIndex("caseId"));
+					c.name = cursor.getString(cursor.getColumnIndex("name"));
+					c.price = cursor.getFloat(cursor.getColumnIndex("price"));
+					c.intro = cursor.getString(cursor.getColumnIndex("intro"));
+					c.picPath = cursor.getString(cursor.getColumnIndex("pic"));
+					c.cookTime = cursor.getInt(cursor
+							.getColumnIndex("cookTime"));
+					c.style = cursor.getInt(cursor.getColumnIndex("style"));
+					c.family = cursor.getInt(cursor.getColumnIndex("family"));
+					c.isNew = false;
+				} else
+					c.isNew = true;
 				return true;
 			} else
-				return false;
+				return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;

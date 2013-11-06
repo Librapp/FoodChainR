@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import lms.foodchainR.R;
+import lms.foodchainR.dao.Case_DBHelper;
 import lms.foodchainR.data.CaseData;
 import lms.foodchainR.data.OtherData;
 import lms.foodchainR.service.MenuService;
@@ -50,6 +51,7 @@ import android.widget.Toast;
 public class CaseDetailActivity extends Activity implements OnClickListener {
 
 	private String theSmall = null;
+	private Case_DBHelper cdb;
 	private ImageView pic;
 	private Bitmap result;
 
@@ -74,6 +76,8 @@ public class CaseDetailActivity extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.casedetail);
+		cdb = new Case_DBHelper(this);
+		cdb.getCaseDetail(CaseData.current());
 		if (CaseData.current().isNew)
 			isEdit = true;
 		initView();
@@ -112,6 +116,7 @@ public class CaseDetailActivity extends Activity implements OnClickListener {
 	}
 
 	private void initData() {
+
 		mark.setRating((float) CaseData.current().mark);
 		if (isEdit) {
 			name.setVisibility(View.GONE);

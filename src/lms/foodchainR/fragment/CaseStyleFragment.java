@@ -15,7 +15,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 public class CaseStyleFragment extends ListFragment implements OnClickListener {
 	private CaseStyleData csd;
@@ -33,7 +32,10 @@ public class CaseStyleFragment extends ListFragment implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		csd = new CaseStyleData();
-		csd.id = getArguments() != null ? getArguments().getInt("styleId") : 0;
+		if (getArguments() != null) {
+			csd.id = getArguments().getInt("styleId");
+			csd.name = getArguments().getString("name");
+		}
 	}
 
 	@Override
@@ -45,13 +47,9 @@ public class CaseStyleFragment extends ListFragment implements OnClickListener {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		cdb = new Case_DBHelper(getActivity());
-
 		edit = new Button(getActivity());
 		edit.setText(R.string.edit);
 		edit.setOnClickListener(this);
-		TextView name = new TextView(getActivity());
-		name.setText(csd.name);
-		getListView().addHeaderView(name);
 		getListView().addFooterView(edit);
 		if (cdb.getCaseStyleData(csd) && csd.getList().size() > 0) {
 			ma = new MenuAdapter(getActivity(), csd.getList());
@@ -62,13 +60,14 @@ public class CaseStyleFragment extends ListFragment implements OnClickListener {
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-
+		// TODO
 	}
 
-	public static CaseStyleFragment newInstance(int id) {
+	public static CaseStyleFragment newInstance(int id, String name) {
 		CaseStyleFragment f = new CaseStyleFragment();
 		Bundle args = new Bundle();
 		args.putInt("styleId", id);
+		args.putString("name", name);
 		f.setArguments(args);
 		return f;
 	}
@@ -77,6 +76,7 @@ public class CaseStyleFragment extends ListFragment implements OnClickListener {
 	public void onClick(View v) {
 		Intent intent = new Intent(getActivity(), CaseStyleDetailActivity.class);
 		intent.putExtra("id", csd.id);
+		intent.putExtra("name", csd.name);
 		startActivity(intent);
 	}
 

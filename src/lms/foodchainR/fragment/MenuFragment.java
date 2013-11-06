@@ -25,6 +25,8 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 public class MenuFragment extends Fragment implements OnPageChangeListener,
@@ -54,8 +56,13 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 	private void getData(Context context) {
 		cdb = new Case_DBHelper(context);
 		styleList = cdb.getStyle();
+		RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		rl.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+		rl.setMargins(5, 5, 5, 5);
 		for (CaseStyleData csd : styleList) {
 			TextView name = new TextView(getActivity());
+			name.setLayoutParams(rl);
 			name.setText(csd.name);
 			name.setOnLongClickListener(this);
 			title.addView(name);
@@ -82,7 +89,7 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 		@Override
 		public Fragment getItem(int arg0) {
 			CaseStyleData csd = styleList.get(arg0);
-			return CaseStyleFragment.newInstance(csd.id);
+			return CaseStyleFragment.newInstance(csd.id, csd.name);
 		}
 
 		@Override

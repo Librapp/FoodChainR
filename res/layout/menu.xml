@@ -22,9 +22,12 @@
             android:text="@string/addnewstyle"
             android:textSize="14sp" />
         <HorizontalScrollView
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/create" >
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/create"
+            android:padding="3dp" >
             <LinearLayout
                 android:id="@+id/title"
                 android:layout_width="wrap_content"

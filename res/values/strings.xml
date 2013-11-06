@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="addfriend">加为好友</string>
     <string name="address">地址：</string>
     <string name="app_name">FoodChainR</string>
@@ -102,5 +101,6 @@
     <string name="complete">完成</string>
     <string name="addnewstyle">添加新类型</string>
     <string name="store">库存</string>
-
+    <string name="state">状态</string>
+    <string name="addnewcase">添加新菜肴</string>
 </resources>
