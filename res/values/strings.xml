@@ -103,4 +103,66 @@
     <string name="store">库存</string>
     <string name="state">状态</string>
     <string name="addnewcase">添加新菜肴</string>
+    <string name="pleaseinputusername">请输入用户名</string>
+    <string name="pleaseinputpassword">请输入密码</string>
+    <string name="forgotpassword">忘记密码</string>
+    <string name="autologin">自动登录</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="servenumber">客服电话 010-58852308</string>
+    <string name="pleaseconfirmpassword">请再次输入密码</string>
+    <string name="pleaseinputmobilenumber">请输入手机号</string>
+    <string name="pleaseinputkidname">请输入宝贝姓名</string>
+    <string name="cancel">取消</string>
+    <string-array name="genders">
+        <item>男</item>
+        <item>女</item>
+    </string-array>
+    <string-array name="grades">
+        <item>小班</item>
+        <item>中班</item>
+        <item>大班</item>
+    </string-array>
+    <string-array name="ages">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+    <string name="gender">性别</string>
+    <string name="age">年龄</string>
+    <string name="grade">年级</string>
+    <string name="klass">班级</string>
+    <string name="ctbri">中国电信股份有限公司北京研究院</string>
+    <string name="chinatelecom">中国电信</string>
+    <string name="about">关于我们</string>
+    <string name="childinfo">宝贝信息</string>
+    <string name="parentinfo">家长信息</string>
+    <string name="checkupdate">检查更新</string>
+    <string name="exit">退出</string>
+    <string name="back">返回</string>
+    <string name="versioninfo">版本信息</string>
+    <string name="version">1.0</string>
+    <string name="mark">评分</string>
+    <string name="submit">提交</string>
+    <string name="dianping">点评</string>
+    <string name="feedback">意见反馈</string>
+    <string name="pleaseinputfeedbacktopic">请给意见反馈加个标题</string>
+    <string name="pleaseinputconnection">请输入您方便的联系方式</string>
+    <string name="retrieve">找回密码</string>
+    <string name="pleaseinputbindphonenumber">请输入绑定的手机号</string>
+    <string name="selectbabyphoto">选择照片</string>
+    <string name="pleaseinputbabyname">请输入宝贝姓名</string>
+    <string name="save">保存</string>
+    <string name="selectyoueryuan">去选择宝贝所在的幼儿园</string>
+    <string name="currentyoueryuan">当前幼儿园</string>
+    <string name="update">检查更新</string>
+    <string name="order">排序</string>
+    <string name="location">地区</string>
+    <string name="province">省份</string>
+    <string-array name="provinces"></string-array>
+    <string-array name="orders"></string-array>
 </resources>
