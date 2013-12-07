@@ -55,9 +55,9 @@ public class Case_DBHelper extends Base_DBHelper {
 		Cursor cursor = null;
 		try {
 			db = getReadableDatabase();
-			selectArgs = new String[] { c.name, c.id + "", c.caseId + "" };
-			cursor = db.query(CASEDATA, null, "name=? OR id=? OR caseId=?",
-					selectArgs, null, null, null);
+			selectArgs = new String[] { c.name };
+			cursor = db.query(CASEDATA, null, "name=?", selectArgs, null, null,
+					null);
 			if (cursor != null && cursor.moveToNext()) {
 				if (cursor.getCount() > 0 && !c.isNew) {
 					c.id = cursor.getInt(cursor.getColumnIndex("id"));

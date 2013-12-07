@@ -3,12 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
     <RelativeLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/all_title" >
-
         <Button
             android:id="@+id/back"
             android:layout_width="wrap_content"
@@ -18,7 +16,6 @@
             android:layout_margin="3dp"
             android:background="@drawable/back"
             android:padding="3dp" />
-
         <TextView
             android:id="@+id/name"
             style="@style/title"
@@ -26,7 +23,6 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/name" />
-
         <Button
             android:id="@+id/add"
             android:layout_width="wrap_content"
@@ -34,13 +30,13 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_margin="3dp"
-            android:padding="5dp"
+            android:gravity="center"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:text="@string/add" />
     </RelativeLayout>
-
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
 </LinearLayout>
