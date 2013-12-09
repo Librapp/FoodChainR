@@ -24,10 +24,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
-import android.widget.TextView;
 
 public class MenuFragment extends Fragment implements OnPageChangeListener,
 		OnClickListener, OnLongClickListener {
@@ -47,6 +47,13 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 	}
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
+	}
+
+	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		initView();
 		getData(getActivity());
@@ -60,18 +67,20 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		rl.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
 		rl.setMargins(5, 5, 5, 5);
-		for (CaseStyleData csd : styleList) {
-			TextView name = new TextView(getActivity());
+		for (int i = 0; i < styleList.size(); i++) {
+			CaseStyleData csd = styleList.get(i);
+			Button name = new Button(getActivity());
+			name.setId(i);
 			name.setLayoutParams(rl);
 			name.setText(csd.name);
 			name.setOnLongClickListener(this);
+			name.setOnCreateContextMenuListener(this);
 			title.addView(name);
 		}
 		mfa = new MenuFragAdapter(getChildFragmentManager());
 		pager.setAdapter(mfa);
 		pager.setCurrentItem(0);
 		title.setOnLongClickListener(this);
-		title.setOnCreateContextMenuListener(this);
 	}
 
 	private void initView() {
@@ -169,7 +178,9 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 		case EDIT:
 			Intent intent = new Intent(getActivity(),
 					CaseStyleDetailActivity.class);
+
 			intent.putExtra("id", c.id);
+
 			intent.putExtra("name", c.name);
 			startActivity(intent);
 			break;
