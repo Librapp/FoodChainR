@@ -6,6 +6,7 @@ import lms.foodchainR.net.NetMessageType;
 import lms.foodchainR.service.DlnaService;
 import lms.foodchainR.service.MenuService;
 import lms.foodchainR.service.TableService;
+import lms.foodchainR.ui.NewMainActivity;
 import lms.foodchainR.util.SharePerformanceUtil;
 
 import org.cybergarage.util.Debug;
@@ -77,7 +78,7 @@ public class SplashActivity extends BaseActivity {
 	}
 
 	private void openMainPageFast() {
-		Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+		Intent intent = new Intent(SplashActivity.this, NewMainActivity.class);
 		startActivity(intent);
 		finish();
 	}

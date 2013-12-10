@@ -34,11 +34,13 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 	private Case_DBHelper cdb;
 	private LinearLayout title;
 	private ViewPager pager;
+	private Button edit;
 	private ArrayList<CaseStyleData> styleList;
 	private MenuFragAdapter mfa;
 	private final int DELETE = 1;
 	private final int EDIT = 2;
 	private int currentItem = 0;
+	private boolean isEdit = false;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,7 +88,8 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 	private void initView() {
 		pager = (ViewPager) getView().findViewById(R.id.pager);
 		title = (LinearLayout) getView().findViewById(R.id.title);
-		getView().findViewById(R.id.create).setOnClickListener(this);
+		edit = (Button) getView().findViewById(R.id.edit);
+		edit.setOnClickListener(this);
 	}
 
 	private class MenuFragAdapter extends FragmentPagerAdapter {
@@ -138,12 +141,25 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.create:
-			createNewCaseStyle();
+		case R.id.edit:
+			if (isEdit) {
+				isEdit = false;
+				edit.setText("编辑");
+
+			} else {
+				isEdit = true;
+				showEdit();
+			}
 			break;
 		default:
 			break;
 		}
+	}
+
+	private void showEdit() {
+		edit.setText("完成");
+		getChildFragmentManager().beginTransaction()
+				.replace(R.id.pager, new CaseStyleListFragment()).commit();
 	}
 
 	private void createNewCaseStyle() {
@@ -178,9 +194,7 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 		case EDIT:
 			Intent intent = new Intent(getActivity(),
 					CaseStyleDetailActivity.class);
-
 			intent.putExtra("id", c.id);
-
 			intent.putExtra("name", c.name);
 			startActivity(intent);
 			break;

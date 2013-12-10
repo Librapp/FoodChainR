@@ -114,24 +114,6 @@
     <string name="pleaseinputmobilenumber">请输入手机号</string>
     <string name="pleaseinputkidname">请输入宝贝姓名</string>
     <string name="cancel">取消</string>
-    <string-array name="genders">
-        <item>男</item>
-        <item>女</item>
-    </string-array>
-    <string-array name="grades">
-        <item>小班</item>
-        <item>中班</item>
-        <item>大班</item>
-    </string-array>
-    <string-array name="ages">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-    </string-array>
     <string name="gender">性别</string>
     <string name="age">年龄</string>
     <string name="grade">年级</string>
@@ -165,4 +147,5 @@
     <string name="province">省份</string>
     <string-array name="provinces"></string-array>
     <string-array name="orders"></string-array>
+    <string name="delete">删除</string>
 </resources>
