@@ -40,4 +40,11 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_below="@+id/titlelayout" />
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titlelayout"
+        android:descendantFocusability="blocksDescendants"
+        android:visibility="gone" />
 </RelativeLayout>

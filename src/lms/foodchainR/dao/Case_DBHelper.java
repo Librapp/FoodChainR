@@ -207,6 +207,25 @@ public class Case_DBHelper extends Base_DBHelper {
 		}
 	}
 
+	public boolean upgradeCaseStyle(CaseStyleData c) {
+		db = getWritableDatabase();
+		try {
+			ContentValues values = new ContentValues();
+			values.put("name", c.name);
+			selectArgs = new String[] { c.id + "" };
+			db.beginTransaction();
+			db.update(STYLEDATA, values, "id=?", selectArgs);
+			db.setTransactionSuccessful();
+			getCaseStyleDataByName(c);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			db.endTransaction();
+		}
+	}
+
 	/** 修改已有菜 */
 	public boolean upgradeCase(CaseData c) {
 		db = getWritableDatabase();

@@ -1,20 +1,30 @@
 package lms.foodchainR.activity;
 
+import java.util.List;
+
 import lms.foodchainR.R;
+import lms.foodchainR.dao.Case_DBHelper;
 import lms.foodchainR.data.CaseData;
 import lms.foodchainR.data.CaseStyleData;
 import lms.foodchainR.service.MenuService;
-import lms.foodchainR.widget.MenuAdapter;
+import lms.foodchainR.util.ViewHolder;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,14 +41,20 @@ public class CaseStyleDetailActivity extends Activity implements
 
 	private TextView name;
 	private ListView listView;
+	private Button edit;
+	private Button create;
 
 	private final int REQUEST_CREATECASE = 1;
 	private final int DETAIL = 1;
 	private final int DELETE = 2;
 	private int currentItem = 0;
+	private boolean isEdit = false;
 
+	private Case_DBHelper cdb;
 	private CaseStyleData csd;
 	private MenuAdapter ma;
+	private mlistener listener;
+	private List<CaseData> list;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -53,10 +69,13 @@ public class CaseStyleDetailActivity extends Activity implements
 		name = (TextView) findViewById(R.id.name);
 		listView = (ListView) findViewById(R.id.list);
 		findViewById(R.id.back).setOnClickListener(this);
-		findViewById(R.id.add).setOnClickListener(this);
+		edit = (Button) findViewById(R.id.edit);
+		edit.setOnClickListener(this);
 	}
 
 	private void initData() {
+		listener = new mlistener();
+		cdb = new Case_DBHelper(this);
 		csd = new CaseStyleData();
 		csd.id = getIntent().getIntExtra("id", 0);
 		csd.name = getIntent().getStringExtra("name");
@@ -66,7 +85,13 @@ public class CaseStyleDetailActivity extends Activity implements
 			setResult(RESULT_CANCELED);
 			finish();
 		}
-		ma = new MenuAdapter(this, csd.getList());
+		create = new Button(this);
+		create.setId(0);
+		create.setText(R.string.create);
+		create.setOnClickListener(listener);
+		listView.addFooterView(create);
+		list = csd.getList();
+		ma = new MenuAdapter(this, list);
 		listView.setAdapter(ma);
 		listView.setOnItemLongClickListener(this);
 		listView.setOnCreateContextMenuListener(this);
@@ -78,8 +103,9 @@ public class CaseStyleDetailActivity extends Activity implements
 		case R.id.back:
 			finish();
 			break;
-		case R.id.add:
-			openCreateNewCaseActivity();
+		case R.id.edit:
+			isEdit = !isEdit;
+			ma.notifyDataSetChanged();
 			break;
 		default:
 			break;
@@ -131,6 +157,97 @@ public class CaseStyleDetailActivity extends Activity implements
 			return true;
 		default:
 			return super.onContextItemSelected(item);
+		}
+	}
+
+	public class MenuAdapter extends BaseAdapter {
+		private Context context;
+		private List<CaseData> lc;
+
+		public MenuAdapter(Context context, List<CaseData> lc) {
+			this.context = context;
+			this.lc = lc;
+		}
+
+		@Override
+		public int getCount() {
+			return lc.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return lc.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View view = convertView;
+			ViewHolder holder;
+			CaseData c = lc.get(position);
+			if (view == null) {
+				view = LayoutInflater.from(context).inflate(
+						R.layout.menu_list_item, null);
+				holder = new ViewHolder();
+				holder.text = (TextView) view.findViewById(R.id.case_name);
+				holder.text1 = (TextView) view.findViewById(R.id.case_price);
+				holder.text2 = (TextView) view.findViewById(R.id.case_status);
+				holder.pic = (ImageView) view.findViewById(R.id.case_pic);
+				holder.btn = (Button) view.findViewById(R.id.delete);
+				view.setTag(holder);
+			} else
+				holder = (ViewHolder) view.getTag();
+			holder.text1.setText(c.price + "元");
+			holder.text.setText(c.name);
+			if (isEdit)
+				holder.btn.setVisibility(View.VISIBLE);
+			else
+				holder.btn.setVisibility(View.GONE);
+			holder.btn.setOnClickListener(listener);
+			switch (c.state) {
+			case CaseData.AVILIABLE:
+				holder.text2.setText("热卖中");
+				break;
+			case CaseData.UNAVILIABLE:
+				holder.text2.setText("售罄");
+				break;
+			default:
+				break;
+			}
+
+			Drawable d = Drawable.createFromPath(c.picPath);
+			if (d != null) {
+				holder.pic.setImageDrawable(d);
+			}
+			return view;
+		}
+	}
+
+	private class mlistener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			CaseData c;
+			switch (v.getId()) {
+			case R.id.delete:
+				c = csd.getList().get(currentItem);
+				if (MenuService.deleteCase(c)) {
+					if (cdb.getCaseStyleData(csd))
+						list = csd.getList();
+					ma = new MenuAdapter(CaseStyleDetailActivity.this, list);
+					listView.setAdapter(ma);
+				}
+				break;
+			case 0:
+				openCreateNewCaseActivity();
+				break;
+			default:
+				break;
+			}
 		}
 	}
 }

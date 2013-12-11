@@ -7,6 +7,7 @@ import lms.foodchainR.activity.CaseStyleDetailActivity;
 import lms.foodchainR.dao.Case_DBHelper;
 import lms.foodchainR.data.CaseStyleData;
 import lms.foodchainR.service.MenuService;
+import lms.foodchainR.util.ViewHolder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,16 +25,25 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
 
 public class MenuFragment extends Fragment implements OnPageChangeListener,
-		OnClickListener, OnLongClickListener {
+		OnClickListener, OnLongClickListener, OnItemClickListener,
+		OnItemSelectedListener {
 	private Case_DBHelper cdb;
 	private LinearLayout title;
 	private ViewPager pager;
+	private ListView list;
+	private Button create;
 	private Button edit;
 	private ArrayList<CaseStyleData> styleList;
 	private MenuFragAdapter mfa;
@@ -41,6 +51,7 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 	private final int EDIT = 2;
 	private int currentItem = 0;
 	private boolean isEdit = false;
+	private mlistener listener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,7 +83,7 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 		for (int i = 0; i < styleList.size(); i++) {
 			CaseStyleData csd = styleList.get(i);
 			Button name = new Button(getActivity());
-			name.setId(i);
+			name.setId(csd.id);
 			name.setLayoutParams(rl);
 			name.setText(csd.name);
 			name.setOnLongClickListener(this);
@@ -86,7 +97,16 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 	}
 
 	private void initView() {
+		listener = new mlistener();
 		pager = (ViewPager) getView().findViewById(R.id.pager);
+		list = (ListView) getView().findViewById(R.id.list);
+		list.setOnItemSelectedListener(this);
+		list.setOnItemClickListener(this);
+		create = new Button(getActivity());
+		create.setId(0);
+		create.setText(R.string.create);
+		create.setOnClickListener(listener);
+		list.addFooterView(create);
 		title = (LinearLayout) getView().findViewById(R.id.title);
 		edit = (Button) getView().findViewById(R.id.edit);
 		edit.setOnClickListener(this);
@@ -145,7 +165,10 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 			if (isEdit) {
 				isEdit = false;
 				edit.setText("编辑");
-
+				list.setVisibility(View.GONE);
+				pager.setVisibility(View.VISIBLE);
+				mfa = new MenuFragAdapter(getChildFragmentManager());
+				pager.setAdapter(mfa);
 			} else {
 				isEdit = true;
 				showEdit();
@@ -158,8 +181,11 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 
 	private void showEdit() {
 		edit.setText("完成");
-		getChildFragmentManager().beginTransaction()
-				.replace(R.id.pager, new CaseStyleListFragment()).commit();
+		// getChildFragmentManager().beginTransaction()
+		// .replace(R.id.pager, new CaseStyleListFragment()).commit();
+		list.setAdapter(new CaseStyleListAdapter());
+		list.setVisibility(View.VISIBLE);
+		pager.setVisibility(View.GONE);
 	}
 
 	private void createNewCaseStyle() {
@@ -189,6 +215,7 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 				styleList = cdb.getStyle();
 				mfa = new MenuFragAdapter(getChildFragmentManager());
 				pager.setAdapter(mfa);
+				title.removeViewAt(currentItem);
 			}
 			break;
 		case EDIT:
@@ -202,6 +229,99 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 			break;
 		}
 		return true;
+	}
+
+	private class CaseStyleListAdapter extends BaseAdapter {
+
+		@Override
+		public int getCount() {
+			return styleList.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return styleList.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			ViewHolder holder;
+			if (convertView == null) {
+				holder = new ViewHolder();
+				convertView = LayoutInflater.from(getActivity()).inflate(
+						R.layout.casestyle_list_item, null);
+				holder.text = (TextView) convertView
+						.findViewById(R.id.cli_name);
+				holder.btn = (Button) convertView.findViewById(R.id.cli_edit);
+				holder.btn1 = (Button) convertView
+						.findViewById(R.id.cli_delete);
+				convertView.setTag(holder);
+			} else
+				holder = (ViewHolder) convertView.getTag();
+			holder.text.setText(styleList.get(position).name);
+			holder.btn.setOnClickListener(listener);
+			holder.btn1.setOnClickListener(listener);
+			return convertView;
+		}
+	}
+
+	private class mlistener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			CaseStyleData c;
+			switch (v.getId()) {
+			case R.id.cli_edit:
+				c = styleList.get(currentItem);
+				Intent intent = new Intent(getActivity(),
+						CaseStyleDetailActivity.class);
+				intent.putExtra("id", c.id);
+				intent.putExtra("name", c.name);
+				startActivity(intent);
+				break;
+			case R.id.cli_delete:
+				c = styleList.get(currentItem);
+				if (MenuService.deleteStyle(c)) {
+					styleList = cdb.getStyle();
+					// mfa = new MenuFragAdapter(getChildFragmentManager());
+					// pager.setAdapter(mfa);
+					list.setAdapter(new CaseStyleListAdapter());
+					title.removeViewAt(currentItem);
+				}
+				break;
+			case 0:
+				createNewCaseStyle();
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	@Override
+	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+			long arg3) {
+		currentItem = arg2;
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> arg0) {
+		currentItem = 0;
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		currentItem = arg2;
+		CaseStyleData c = styleList.get(arg2);
+		Intent intent = new Intent(getActivity(), CaseStyleDetailActivity.class);
+		intent.putExtra("id", c.id);
+		intent.putExtra("name", c.name);
+		startActivity(intent);
 	}
 
 }

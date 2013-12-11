@@ -24,7 +24,7 @@
             android:layout_centerInParent="true"
             android:text="@string/name" />
         <Button
-            android:id="@+id/add"
+            android:id="@+id/edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -33,10 +33,11 @@
             android:gravity="center"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:text="@string/add" />
+            android:text="@string/edit" />
     </RelativeLayout>
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants" />
 </LinearLayout>

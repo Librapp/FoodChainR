@@ -40,6 +40,16 @@ public class MyDialogFragment extends DialogFragment {
 		return f;
 	}
 
+	public static MyDialogFragment caseStyleInstance(String name, int id) {
+		MyDialogFragment f = new MyDialogFragment();
+		mNum = CASESTYLE;
+		Bundle b = new Bundle();
+		b.putString("name", name);
+		b.putInt("id", id);
+		f.setArguments(b);
+		return f;
+	}
+
 	public static MyDialogFragment tableStyleInstance(String code,
 			int seatcount, int count) {
 		MyDialogFragment f = new MyDialogFragment();
@@ -176,7 +186,15 @@ public class MyDialogFragment extends DialogFragment {
 		case CASESTYLE:
 			setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme);
 			v = inflater.inflate(R.layout.dialog_casestyle, container, false);
+			Bundle b = new Bundle();
+			if (getArguments() != null)
+				b = getArguments();
+			String name = "";
+			name = b.getString("name");
+			final int id = b.getInt("id");
 			edit1 = (EditText) v.findViewById(R.id.name);
+
+			edit1.setText(name);
 			edit1.requestFocus();
 			v.findViewById(R.id.ok).setOnClickListener(new OnClickListener() {
 				@Override
@@ -184,16 +202,21 @@ public class MyDialogFragment extends DialogFragment {
 					if (edit1.getText().toString().trim().length() > 0) {
 						CaseStyleData csd = new CaseStyleData();
 						csd.name = edit1.getText().toString().trim();
-						if (new Case_DBHelper(getActivity())
-								.createCaseStyle(csd)) {
+						if (id == 0) {
+							if (new Case_DBHelper(getActivity())
+									.createCaseStyle(csd)) {
+								new Case_DBHelper(getActivity())
+										.getCaseStyleDataByName(csd);
+								Intent intent = new Intent(getActivity(),
+										CaseStyleDetailActivity.class);
+								intent.putExtra("id", csd.id);
+								intent.putExtra("name", csd.name);
+								startActivity(intent);
+								dismiss();
+							}
+						} else {
 							new Case_DBHelper(getActivity())
-									.getCaseStyleDataByName(csd);
-							Intent intent = new Intent(getActivity(),
-									CaseStyleDetailActivity.class);
-							intent.putExtra("id", csd.id);
-							intent.putExtra("name", csd.name);
-							startActivity(intent);
-							dismiss();
+									.upgradeCaseStyle(csd);
 						}
 					}
 				}

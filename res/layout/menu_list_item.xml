@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
     android:padding="5dp" >
     <ImageView
         android:id="@+id/case_pic"
@@ -12,7 +13,7 @@
         android:contentDescription="@string/app_name"
         android:padding="5dp"
         android:scaleType="fitXY"
-        android:src="@drawable/icon" />
+        android:src="@drawable/danchaofan" />
     <TextView
         android:id="@+id/case_name"
         android:layout_width="wrap_content"
@@ -40,4 +41,12 @@
         android:scaleType="fitXY"
         android:text="@string/state" />
     <!-- 以后在这里加上根据原料数量动态计算显示可以做的份数 -->
+    <Button
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="@string/delete"
+        android:visibility="gone" />
 </RelativeLayout>
