@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -37,7 +38,7 @@ import android.widget.Toast;
  * 
  */
 public class CaseStyleDetailActivity extends Activity implements
-		OnClickListener, OnItemLongClickListener {
+		OnClickListener, OnItemLongClickListener, OnItemClickListener {
 
 	private TextView name;
 	private ListView listView;
@@ -93,8 +94,8 @@ public class CaseStyleDetailActivity extends Activity implements
 		list = csd.getList();
 		ma = new MenuAdapter(this, list);
 		listView.setAdapter(ma);
-		listView.setOnItemLongClickListener(this);
-		listView.setOnCreateContextMenuListener(this);
+		// listView.setOnItemLongClickListener(this);
+		// listView.setOnCreateContextMenuListener(this);
 	}
 
 	@Override
@@ -104,6 +105,10 @@ public class CaseStyleDetailActivity extends Activity implements
 			finish();
 			break;
 		case R.id.edit:
+			if (isEdit)
+				edit.setText("完成");
+			else
+				edit.setText("编辑");
 			isEdit = !isEdit;
 			ma.notifyDataSetChanged();
 			break;
@@ -249,5 +254,13 @@ public class CaseStyleDetailActivity extends Activity implements
 				break;
 			}
 		}
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		currentItem = arg2;
+		Intent i = new Intent(this, CaseDetailActivity.class);
+		CaseData.current = list.get(arg2);
+		startActivity(i);
 	}
 }

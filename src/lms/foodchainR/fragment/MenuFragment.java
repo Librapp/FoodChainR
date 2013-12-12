@@ -278,11 +278,8 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 			switch (v.getId()) {
 			case R.id.cli_edit:
 				c = styleList.get(currentItem);
-				Intent intent = new Intent(getActivity(),
-						CaseStyleDetailActivity.class);
-				intent.putExtra("id", c.id);
-				intent.putExtra("name", c.name);
-				startActivity(intent);
+				MyDialogFragment.caseStyleInstance(c.name, c.id).show(
+						getChildFragmentManager(), "dialog");
 				break;
 			case R.id.cli_delete:
 				c = styleList.get(currentItem);

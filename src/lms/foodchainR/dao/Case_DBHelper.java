@@ -75,7 +75,7 @@ public class Case_DBHelper extends Base_DBHelper {
 					c.isNew = true;
 				return true;
 			} else
-				return true;
+				return false;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;

@@ -116,7 +116,6 @@ public class CaseDetailActivity extends Activity implements OnClickListener {
 	}
 
 	private void initData() {
-
 		mark.setRating((float) CaseData.current().mark);
 		if (isEdit) {
 			name.setVisibility(View.GONE);
