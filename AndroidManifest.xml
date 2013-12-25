@@ -31,16 +31,9 @@
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name" >
-        <!-- 基本页 -->
-        <activity
-            android:name=".activity.BaseActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
-        </activity>
         <!-- 登陆页 -->
         <activity
-            android:name=".activity.SplashActivity"
+            android:name=".ui.SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
@@ -49,13 +42,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- 主页 -->
-        <activity
-            android:name=".activity.MainActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Sherlock.Light.DarkActionBar"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
         <!-- 新主页 -->
         <activity
             android:name=".ui.NewMainActivity"
@@ -63,41 +49,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Sherlock.Light.DarkActionBar"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <!-- 员工页 -->
-        <activity
-            android:name=".activity.EmployeeActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar"
-            android:windowSoftInputMode="adjustPan|stateUnspecified" >
-        </activity>
-        <!-- 员工详情页 -->
-        <activity
-            android:name=".activity.EmployeeDetailActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar"
-            android:windowSoftInputMode="adjustPan|stateUnspecified" >
-        </activity>
-        <!-- 顾客详情页 -->
-        <activity
-            android:name=".activity.CustomerDetailActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-        </activity>
         <!-- 菜肴详情页 -->
         <activity
             android:name=".activity.CaseDetailActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar"
-            android:windowSoftInputMode="adjustPan|stateUnspecified" >
-        </activity>
-        <!-- 帐单页 -->
-        <activity
-            android:name=".activity.BillActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"
@@ -111,6 +65,20 @@
             android:theme="@android:style/Theme.Light.NoTitleBar"
             android:windowSoftInputMode="adjustPan|stateUnspecified" >
         </activity>
+        <!-- 二级界面 -->
+        <activity
+            android:name=".ui.SecondaryActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:windowSoftInputMode="adjustPan|stateUnspecified" />
+        <!-- 详情界面 -->
+        <activity
+            android:name=".ui.SDetailActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:windowSoftInputMode="adjustPan|stateUnspecified" />
         <service
             android:name=".service.LocateMySelfService"
             android:enabled="true" >

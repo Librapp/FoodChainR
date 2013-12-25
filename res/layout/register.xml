@@ -49,83 +49,42 @@
             android:inputType="textPassword"
             android:padding="3dp" />
         <EditText
-            android:id="@+id/mobile"
+            android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:background="@android:color/white"
-            android:hint="@string/pleaseinputmobilenumber"
-            android:inputType="number"
+            android:hint="@string/pleaseinputemail"
+            android:inputType="textEmailAddress"
             android:padding="3dp" />
-        <EditText
-            android:id="@+id/kidname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:background="@android:color/white"
-            android:hint="@string/pleaseinputkidname"
-            android:inputType="text"
-            android:padding="3dp" />
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-            <TableRow>
-                <Spinner
-                    android:id="@+id/gender"
-                    android:layout_width="0dp"
-                    android:layout_height="35dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/register_spinner"
-                    android:entries="@array/genders"
-                    android:prompt="@string/gender" />
-                <Spinner
-                    android:id="@+id/age"
-                    android:layout_width="0dp"
-                    android:layout_height="35dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/register_spinner"
-                    android:entries="@array/ages"
-                    android:prompt="@string/age" />
-            </TableRow>
-            <TableRow>
-                <Spinner
-                    android:id="@+id/grade"
-                    android:layout_width="0dp"
-                    android:layout_height="35dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/register_spinner"
-                    android:entries="@array/grades"
-                    android:prompt="@string/grade" />
-                <Spinner
-                    android:id="@+id/klass"
-                    android:layout_width="0dp"
-                    android:layout_height="35dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/register_spinner"
-                    android:prompt="@string/klass" />
-            </TableRow>
-        </TableLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
             <Button
                 android:id="@+id/register"
+                style="@style/LoginBtn"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:padding="10dp"
-                android:text="@string/register"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:text="@string/register" />
             <Button
                 android:id="@+id/cancel"
+                style="@style/LoginBtn"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:padding="10dp"
-                android:text="@string/cancel"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:text="@string/cancel" />
         </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+            <com.sina.weibo.sdk.widget.LoginButton
+                android:id="@+id/weibo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp" />
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

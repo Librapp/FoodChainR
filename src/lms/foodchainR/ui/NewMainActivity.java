@@ -11,6 +11,12 @@ import android.view.View;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 
+/**
+ * 
+ * @author 梦思
+ * @description 主界面
+ * @createTime 2013/12/25
+ */
 public class NewMainActivity extends SlidingFragmentActivity {
 
 	private Fragment mContent;

@@ -36,6 +36,12 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
+/**
+ * 
+ * @author 梦思
+ * @description 菜单模块
+ * @createTime 2013/12/25
+ */
 public class MenuFragment extends Fragment implements OnPageChangeListener,
 		OnClickListener, OnLongClickListener, OnItemClickListener,
 		OnItemSelectedListener {
