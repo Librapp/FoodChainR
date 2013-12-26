@@ -44,8 +44,6 @@ public class SecondaryActivity extends FragmentActivity implements
 		case R.string.feedback:
 			mContent = new FeedbackFragment();
 			break;
-		case R.string.userinfo:
-			mContent = new UserCenterFragment();
 		default:
 			break;
 		}

@@ -1,7 +1,7 @@
 package lms.foodchainR.fragment;
 
 import lms.foodchainR.R;
-import lms.foodchainR.activity.MainActivity;
+import lms.foodchainR.ui.MainActivity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -96,8 +96,6 @@ public class BaiduMapFragment extends Fragment implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.changeview:
-			mContent = new SearchFragment();
-			switchFragment(mContent);
 			break;
 		case R.id.search_btn:
 			if (edit.getText().toString().trim().equals("")) {

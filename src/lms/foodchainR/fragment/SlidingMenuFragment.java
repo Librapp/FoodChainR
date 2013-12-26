@@ -1,7 +1,7 @@
 package lms.foodchainR.fragment;
 
 import lms.foodchainR.R;
-import lms.foodchainR.ui.NewMainActivity;
+import lms.foodchainR.ui.MainActivity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -57,8 +57,8 @@ public class SlidingMenuFragment extends ListFragment {
 		if (getActivity() == null)
 			return;
 
-		if (getActivity() instanceof NewMainActivity) {
-			NewMainActivity ra = (NewMainActivity) getActivity();
+		if (getActivity() instanceof MainActivity) {
+			MainActivity ra = (MainActivity) getActivity();
 			ra.switchContent(fragment);
 		}
 	}

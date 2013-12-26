@@ -9,11 +9,15 @@ import org.cybergarage.upnp.Device;
  * @description 用户基类
  */
 public class UserData {
-	private static UserData current;
+	private static UserData self;
 	// ID
 	public String id = "";
 	// 用户名
 	public String name = "";
+	/** 签名 */
+	public String signature;
+	/** 昵称 */
+	public String nickname;
 	// 头像
 	public String headPic = "";
 	// 地址ַ
@@ -28,6 +32,8 @@ public class UserData {
 	public String comeTime = "";
 	// 离开时间
 	public String leaveTime = "";
+	/** 密码 */
+	public String password = "";
 	// 级别
 	public int level = 0;
 	// 信用
@@ -47,11 +53,11 @@ public class UserData {
 	// 消息
 	private List<MessageData> message;
 
-	public static UserData current() {
-		if (current == null) {
-			current = new UserData();
+	public static UserData self() {
+		if (self == null) {
+			self = new UserData();
 		}
-		return current;
+		return self;
 	}
 
 	public void setComment(List<CommentData> comment) {

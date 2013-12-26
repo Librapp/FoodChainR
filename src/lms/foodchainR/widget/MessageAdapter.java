@@ -79,9 +79,9 @@ public class MessageAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				if (cd.direction == 1)
-					UserData.current().id = cd.sId;
+					UserData.self().id = cd.sId;
 				else
-					UserData.current().id = cd.rId;
+					UserData.self().id = cd.rId;
 				// TODO 用户详情
 			}
 		});

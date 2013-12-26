@@ -2,9 +2,7 @@ package lms.foodchainR.ui;
 
 import lms.foodchainR.R;
 import lms.foodchainR.fragment.AboutFragment;
-import lms.foodchainR.fragment.FeedbackFragment;
 import lms.foodchainR.fragment.LoginFragment;
-import lms.foodchainR.fragment.SendCommentFragment;
 import lms.foodchainR.fragment.WebBrowserFragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -37,20 +35,12 @@ public class DetailActivity extends FragmentActivity implements OnClickListener 
 		title.setText(t);
 		Bundle b = new Bundle();
 		switch (t) {
-		case R.string.myfollowedyoueryuan:
-			mContent = new SendCommentFragment();
-			break;
 		case R.string.mycomment:
 			mContent = new AboutFragment();
 			break;
 		case R.string.message:
 			mContent = new LoginFragment();
 			break;
-		case R.string.mybabyinfo:
-			mContent = new FeedbackFragment();
-			break;
-		case R.string.myinfo:
-			mContent = new UserCenterFragment();
 		case R.string.webbrowser:
 			String url = getIntent().getStringExtra("url");
 			mContent = new WebBrowserFragment();

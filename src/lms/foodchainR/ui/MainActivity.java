@@ -17,7 +17,7 @@ import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
  * @description 主界面
  * @createTime 2013/12/25
  */
-public class NewMainActivity extends SlidingFragmentActivity {
+public class MainActivity extends SlidingFragmentActivity {
 
 	private Fragment mContent;
 
