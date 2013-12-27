@@ -74,7 +74,7 @@ public class UserInfoEditFragment extends Fragment implements OnClickListener {
 			// TODO
 			break;
 		case R.id.photo:
-			MyDialogFragment.choosePicInstance().show(
+			MyAlertDialogFragment.choosePicInstance().show(
 					getChildFragmentManager(), "choose picture");
 			break;
 		default:

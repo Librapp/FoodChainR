@@ -51,7 +51,7 @@ public class SplashActivity extends Activity {
 		startService(new Intent(this, MenuService.class));
 		// startService(new Intent(this, BillService.class));
 		startService(new Intent(this, TableService.class));
-		startService(new Intent(this, DlnaService.class));
+		startService(new Intent(new Intent(DlnaService.SEARCH_DEVICE)));
 		// startService(new Intent(this, LocateMySelfService.class));
 		handler.sendEmptyMessage(INITDATAEND);
 	}
