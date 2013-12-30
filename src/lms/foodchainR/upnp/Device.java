@@ -1282,7 +1282,6 @@ public class Device extends org.cybergarage.upnp.Device implements
 		ssdpRes.setLocation(rootDevLocation);
 		// Thanks for Brent Hills (10/20/04)
 		ssdpRes.setMYNAME(getFriendlyName());
-
 		int mx = ssdpPacket.getMX();
 		TimerUtil.waitRandom(mx * 1000);
 
