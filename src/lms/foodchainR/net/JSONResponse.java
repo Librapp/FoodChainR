@@ -1,6 +1,7 @@
 package lms.foodchainR.net;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import lms.foodchainR.data.CaseData;
 import lms.foodchainR.data.CaseStyleData;
@@ -72,6 +73,12 @@ public class JSONResponse {
 			data.putOpt("name", csd.name);
 			data.putOpt("startTime", csd.startTime);
 			data.putOpt("endTime", csd.endTime);
+			JSONArray array = new JSONArray();
+			List<CaseData> list = csd.getList();
+			for (CaseData c : list) {
+				array.put(caseDataResponse(c));
+			}
+			data.putOpt("caseList", array);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

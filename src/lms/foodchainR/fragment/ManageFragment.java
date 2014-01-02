@@ -153,6 +153,7 @@ public class ManageFragment extends Fragment implements OnClickListener,
 		tel = (TextView) getView().findViewById(R.id.rd_tel_num);
 		tel.setText(Self.current().tel);
 		telE = (EditText) getView().findViewById(R.id.rd_tel_edit);
+		telE.setText(Self.current().tel);
 
 		sms = (TextView) getView().findViewById(R.id.rd_sms_num);
 		sms.setText(Self.current().sms);
@@ -253,14 +254,18 @@ public class ManageFragment extends Fragment implements OnClickListener,
 				rdMiddle.setVisibility(View.GONE);
 				rdButtom.setVisibility(View.GONE);
 				name.setVisibility(View.GONE);
+				nameE.setText(Self.current().name);
 				nameE.setVisibility(View.VISIBLE);
 				tel.setVisibility(View.GONE);
 				telE.setVisibility(View.VISIBLE);
 				sms.setVisibility(View.GONE);
+				smsE.setText(Self.current().sms);
 				smsE.setVisibility(View.VISIBLE);
 				location.setVisibility(View.GONE);
+				locationE.setText(Self.current().address);
 				locationE.setVisibility(View.VISIBLE);
 				intro.setVisibility(View.GONE);
+				introE.setText(Self.current().intro);
 				introE.setVisibility(View.VISIBLE);
 
 				logo.setClickable(true);

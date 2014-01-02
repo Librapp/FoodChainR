@@ -42,12 +42,9 @@ public class CaseStyleDetailActivity extends Activity implements
 
 	private TextView name;
 	private ListView listView;
-	private Button edit;
-	private Button create;
+	private Button edit, create;
 
-	private final int REQUEST_CREATECASE = 1;
-	private final int DETAIL = 1;
-	private final int DELETE = 2;
+	private final int REQUEST_CREATECASE = 1, DETAIL = 1, DELETE = 2;
 	private int currentItem = 0;
 	private boolean isEdit = false;
 
@@ -105,11 +102,11 @@ public class CaseStyleDetailActivity extends Activity implements
 			finish();
 			break;
 		case R.id.edit:
+			isEdit = !isEdit;
 			if (isEdit)
 				edit.setText("完成");
 			else
 				edit.setText("编辑");
-			isEdit = !isEdit;
 			ma.notifyDataSetChanged();
 			break;
 		default:

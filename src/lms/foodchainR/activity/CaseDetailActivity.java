@@ -146,6 +146,7 @@ public class CaseDetailActivity extends Activity implements OnClickListener {
 			intro.setText(CaseData.current().intro);
 			cooktime.setText(CaseData.current().cookTime + "");
 
+			name.setVisibility(View.VISIBLE);
 			price.setVisibility(View.VISIBLE);
 			intro.setVisibility(View.VISIBLE);
 			cooktime.setVisibility(View.VISIBLE);

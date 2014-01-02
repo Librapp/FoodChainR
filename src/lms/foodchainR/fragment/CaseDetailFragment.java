@@ -58,21 +58,12 @@ public class CaseDetailFragment extends Fragment implements OnClickListener {
 	private ImageView pic;
 	private Bitmap result;
 
-	private TextView name;
-	private TextView price;
-	private TextView intro;
-	private TextView cooktime;
-	private EditText nameEd;
-	private EditText priceEd;
-	private EditText introEd;
-	private EditText cooktimeEd;
+	private TextView name, price, intro, cooktime;
+	private EditText nameEd, priceEd, introEd, cooktimeEd;
 	private Button edit;
 	private RatingBar mark;
 
-	public static final int DETAIL = 0;
-	public static final int CREATE = 1;
-	public static final int EDIT = 2;
-
+	public static final int DETAIL = 0, CREATE = 1, EDIT = 2;
 	private boolean isEdit = false;
 
 	@Override
@@ -155,6 +146,7 @@ public class CaseDetailFragment extends Fragment implements OnClickListener {
 			intro.setText(CaseData.current().intro);
 			cooktime.setText(CaseData.current().cookTime + "");
 
+			name.setVisibility(View.VISIBLE);
 			price.setVisibility(View.VISIBLE);
 			intro.setVisibility(View.VISIBLE);
 			cooktime.setVisibility(View.VISIBLE);
@@ -222,8 +214,10 @@ public class CaseDetailFragment extends Fragment implements OnClickListener {
 			initData();
 			break;
 		case R.id.case_pic:
-			CharSequence[] items = { "相册", "拍照" };
-			ChooseImage(items);
+			MyAlertDialogFragment.choosePicInstance().show(
+					getChildFragmentManager(), "Dialog");
+			// CharSequence[] items = { "相册", "拍照" };
+			// ChooseImage(items);
 			break;
 		case R.id.back:
 			if (isEdit) {
