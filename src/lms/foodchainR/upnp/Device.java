@@ -1321,6 +1321,7 @@ public class Device extends org.cybergarage.upnp.Device implements
 	}
 
 	public void deviceSearchReceived(SSDPPacket ssdpPacket) {
+		// if (!HostInterface.isIPv6Address(ssdpPacket.getRemoteAddress()))
 		deviceSearchResponse(ssdpPacket);
 	}
 
@@ -1450,7 +1451,6 @@ public class Device extends org.cybergarage.upnp.Device implements
 
 	private void httpPostRequestRecieved(HTTPRequest httpReq) {
 		if (httpReq.isSOAPAction() == true) {
-			// SOAPRequest soapReq = new SOAPRequest(httpReq);
 			soapActionRecieved(httpReq);
 			return;
 		} else if (parseRequest(httpReq)) {

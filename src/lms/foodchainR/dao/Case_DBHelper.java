@@ -96,6 +96,8 @@ public class Case_DBHelper extends Base_DBHelper {
 			while (cursor.moveToNext()) {
 				CaseStyleData c = new CaseStyleData(cursor.getInt(0),
 						cursor.getString(1));
+				if (!getCaseStyleData(c))
+					c.setList(new ArrayList<CaseData>());
 				list.add(c);
 			}
 		} catch (Exception e) {

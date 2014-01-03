@@ -95,7 +95,7 @@ public class JSONResponse {
 				data.putOpt("name", csd.name);
 				data.putOpt("startTime", csd.startTime);
 				data.putOpt("endTime", csd.endTime);
-				ArrayList<CaseData> list = csd.getList();
+				List<CaseData> list = csd.getList();
 				JSONArray array = new JSONArray();
 				for (CaseData c : list) {
 					array.put(caseDataResponse(c));
