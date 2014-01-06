@@ -11,9 +11,12 @@ import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.URL;
 
+import org.cybergarage.util.Debug;
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 public class NetUtil {
 	public static String DEFAULT_IP = "http://192.165.58.111:9080/";
@@ -51,6 +54,8 @@ public class NetUtil {
 			conn.setConnectTimeout(15000);
 			conn.connect();
 			if (params != null) {
+				if (Debug.isOn())
+					Log.i("通信", params);
 				OutputStream outStream = conn.getOutputStream();
 				OutputStreamWriter objSW = new OutputStreamWriter(outStream);
 				BufferedWriter out = new BufferedWriter(objSW);
