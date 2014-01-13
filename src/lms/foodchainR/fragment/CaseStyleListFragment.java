@@ -27,7 +27,7 @@ public class CaseStyleListFragment extends ListFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.menulist, container, false);
+		return inflater.inflate(R.layout.casestyle, container, false);
 	}
 
 	@Override

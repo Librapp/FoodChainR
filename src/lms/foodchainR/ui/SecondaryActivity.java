@@ -44,6 +44,9 @@ public class SecondaryActivity extends FragmentActivity implements
 		case R.string.feedback:
 			mContent = new FeedbackFragment();
 			break;
+		case R.string.editstyle:
+
+			break;
 		default:
 			break;
 		}

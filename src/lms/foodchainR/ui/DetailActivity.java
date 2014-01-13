@@ -2,6 +2,7 @@ package lms.foodchainR.ui;
 
 import lms.foodchainR.R;
 import lms.foodchainR.fragment.AboutFragment;
+import lms.foodchainR.fragment.CaseDetailFragment;
 import lms.foodchainR.fragment.LoginFragment;
 import lms.foodchainR.fragment.WebBrowserFragment;
 import android.os.Bundle;
@@ -43,8 +44,14 @@ public class DetailActivity extends FragmentActivity implements OnClickListener 
 			break;
 		case R.string.webbrowser:
 			String url = getIntent().getStringExtra("url");
-			mContent = new WebBrowserFragment();
 			b.putString("url", url);
+			mContent = new WebBrowserFragment();
+			break;
+		case R.string.casedetail:
+			int id = getIntent().getIntExtra("id", 0);
+			b.putInt("id", id);
+			mContent = new CaseDetailFragment();
+			break;
 		default:
 			break;
 		}
