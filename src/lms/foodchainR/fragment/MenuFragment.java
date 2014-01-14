@@ -21,9 +21,11 @@ import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -44,7 +46,7 @@ import android.widget.TextView;
  */
 public class MenuFragment extends Fragment implements OnPageChangeListener,
 		OnClickListener, OnLongClickListener, OnItemClickListener,
-		OnItemSelectedListener {
+		OnItemSelectedListener, OnTouchListener {
 	private Case_DBHelper cdb;
 	private LinearLayout title;
 	private ViewPager pager;
@@ -105,6 +107,8 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 	private void initView() {
 		listener = new mlistener();
 		pager = (ViewPager) getView().findViewById(R.id.pager);
+		pager.setOnPageChangeListener(this);
+		pager.setOnTouchListener(this);
 		list = (ListView) getView().findViewById(R.id.list);
 		list.setOnItemSelectedListener(this);
 		list.setOnItemClickListener(this);
@@ -325,6 +329,12 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 		intent.putExtra("id", c.id);
 		intent.putExtra("name", c.name);
 		startActivity(intent);
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+
+		return pager.getCurrentItem() != 0;
 	}
 
 }

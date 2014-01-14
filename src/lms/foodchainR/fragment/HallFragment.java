@@ -17,6 +17,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * 
+ * @author 梦思
+ * @description 大厅模块
+ * @createTime 2014/1/14
+ */
 public class HallFragment extends Fragment implements OnPageChangeListener {
 	private Table_DBHelper tdb;
 	private ViewPager pager;
