@@ -64,14 +64,14 @@ public class Bill_DBHelper extends Base_DBHelper {
 		Cursor cursor = null;
 		try {
 			db = getReadableDatabase();
-			selectArgs = new String[] { b.customerId, b.customerName, b.seatId,
-					b.tableId };
+			selectArgs = new String[] { b.customerId + "", b.customerName,
+					b.seatId, b.tableId };
 			cursor = db.query(BILLDATA, null,
 					"customerId=? OR customerName=? OR seatId=? OR tableId=?",
 					selectArgs, "tableId", null, "seatId");
 			if (cursor != null) {
 				b.id = cursor.getInt(cursor.getColumnIndex("billId"));
-				b.customerId = cursor.getString(cursor
+				b.customerId = cursor.getInt(cursor
 						.getColumnIndex("customerId"));
 				b.customerName = cursor.getString(cursor
 						.getColumnIndex("customerName"));

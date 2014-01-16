@@ -3,7 +3,10 @@ package lms.foodchainR.net;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import lms.foodchainR.dao.Bill_DBHelper;
+import lms.foodchainR.data.BillData;
 import lms.foodchainR.data.CaseData;
 import lms.foodchainR.data.CaseStyleData;
 import lms.foodchainR.data.MessageData;
@@ -15,6 +18,8 @@ import lms.foodchainR.data.TableStyleData;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.content.Context;
 
 /**
  * 
@@ -240,6 +245,36 @@ public class JSONParser {
 			// default:
 			// break;
 			// }
+		} catch (JSONException e) {
+			e.printStackTrace();
+			msg = e.getMessage();
+		}
+		return msg;
+	}
+
+	/** 解析CaseStyleDataList */
+	public static String order(Context context, String result) {
+		msg = "";
+		Bill_DBHelper bdb = new Bill_DBHelper(context);
+		try {
+			JSONObject data = new JSONObject(result);
+			BillData bd = new BillData();
+			bd.customerId = data.getInt("id");
+			bd.customerName = data.getString("name");
+			bd.address = data.getString("address");
+			JSONArray array = data.getJSONArray("caseList");
+			List<CaseData> list = new ArrayList<CaseData>();
+			for (int i = 0; i < array.length(); i++) {
+				CaseData cd = new CaseData();
+				JSONObject item = array.getJSONObject(i);
+				cd.id = item.getInt("id");
+				cd.name = item.getString("name");
+				cd.message = item.getString("message");
+				cd.orderTime = item.getString("orderTime");
+				list.add(cd);
+			}
+			bd.setCaseList(list);
+			bdb.createBillData(bd);
 		} catch (JSONException e) {
 			e.printStackTrace();
 			msg = e.getMessage();

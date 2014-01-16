@@ -13,7 +13,7 @@ import java.util.List;
 public class BillData {
 
 	public int id = 0;
-	public String customerId = "";
+	public int customerId = 0;
 	public String seatId = "";
 	public String tableId = "";
 	// 创建时间
@@ -50,7 +50,7 @@ public class BillData {
 
 	}
 
-	public BillData(int id, String customerId, String seatId, String tableId,
+	public BillData(int id, int customerId, String seatId, String tableId,
 			String createTime, String address, int type, int state, int tip,
 			float discount, float cost) {
 		this.id = id;
