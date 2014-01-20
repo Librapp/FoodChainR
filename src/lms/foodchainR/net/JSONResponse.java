@@ -30,7 +30,7 @@ public class JSONResponse {
 	private final static int SUCCESS = 0;
 	private final static int FAIL = 1;
 
-	public static String result(String msg) {
+	public static JSONObject result(String msg) {
 		JSONObject data = new JSONObject();
 		try {
 			if (msg.equals(""))
@@ -41,7 +41,7 @@ public class JSONResponse {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return data.toString();
+		return data;
 	};
 
 	public static JSONObject menuData() {

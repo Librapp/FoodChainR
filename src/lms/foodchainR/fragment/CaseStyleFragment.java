@@ -16,6 +16,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 
+/**
+ * 
+ * @author 梦思
+ * @description 菜品分类模块
+ * @createTime 2014/1/20
+ */
 public class CaseStyleFragment extends ListFragment implements OnClickListener {
 	private CaseStyleData csd;
 	private Case_DBHelper cdb;
