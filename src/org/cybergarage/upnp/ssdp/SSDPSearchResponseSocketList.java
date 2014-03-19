@@ -18,10 +18,13 @@
 package org.cybergarage.upnp.ssdp;
 
 import java.net.InetAddress;
+import java.util.Calendar;
 import java.util.Vector;
 
 import org.cybergarage.net.HostInterface;
 import org.cybergarage.upnp.ControlPoint;
+
+import android.util.Log;
 
 public class SSDPSearchResponseSocketList extends Vector {
 	// //////////////////////////////////////////////
@@ -74,30 +77,18 @@ public class SSDPSearchResponseSocketList extends Vector {
 		String[] bindAddresses;
 		if (binds != null) {
 			bindAddresses = new String[binds.length];
-			// for (int i = 0; i < binds.length; i++) {
-			// bindAddresses[i] = binds[i].getHostAddress();
-			// }
-			// } else {
-			// int nHostAddrs = HostInterface.getNHostAddresses();
-			// bindAddresses = new String[nHostAddrs];
-			// for (int n = 0; n < nHostAddrs; n++) {
-			// bindAddresses[n] = HostInterface.getHostAddress(n);
-			// }
-			// }
-			// try {
-			// for (int j = 0; j < bindAddresses.length; j++) {
-			for (int i = 0; i < 1; i++) {
+			for (int i = 0; i < binds.length; i++) {
 				bindAddresses[i] = binds[i].getHostAddress();
 			}
 		} else {
 			int nHostAddrs = HostInterface.getNHostAddresses();
 			bindAddresses = new String[nHostAddrs];
-			for (int n = 0; n < 1; n++) {
+			for (int n = 0; n < nHostAddrs; n++) {
 				bindAddresses[n] = HostInterface.getHostAddress(n);
 			}
 		}
 		try {
-			for (int j = 0; j < 1; j++) {
+			for (int j = 0; j < bindAddresses.length; j++) {
 				SSDPSearchResponseSocket socket = new SSDPSearchResponseSocket(
 						bindAddresses[j], port);
 				add(socket);
@@ -161,6 +152,7 @@ public class SSDPSearchResponseSocketList extends Vector {
 			// sock.joinGroup(ssdpAddr, SSDP.PORT, bindAddr);
 			if (sock.post(ssdpAddr, SSDP.PORT, req) == false)
 				ret = false;
+			Log.e("发送响应", Calendar.getInstance().getTime().toGMTString());
 			// sock.leaveGroup(ssdpAddr, SSDP.PORT, bindAddr);
 		}
 		return ret;

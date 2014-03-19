@@ -1322,8 +1322,8 @@ public class Device extends org.cybergarage.upnp.Device implements
 
 	public void deviceSearchReceived(SSDPPacket ssdpPacket) {
 		// TODO IPv6地址通信有待优化
-		if (!HostInterface.isIPv6Address(ssdpPacket.getRemoteAddress()))
-			deviceSearchResponse(ssdpPacket);
+		// if (!HostInterface.isIPv6Address(ssdpPacket.getRemoteAddress()))
+		deviceSearchResponse(ssdpPacket);
 	}
 
 	// //////////////////////////////////////////////
