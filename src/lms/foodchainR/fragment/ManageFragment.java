@@ -61,24 +61,10 @@ public class ManageFragment extends Fragment implements OnClickListener,
 	private RelativeLayout rdButtom;
 	private LinearLayout rdMiddle;
 
-	private ImageView logo;
-	private ImageView bg;
-
-	private TextView name;
-	private TextView tel;
-	private TextView sms;
-	private TextView location;
-	private TextView intro;
-	private TextView noTableTip;
-
-	private EditText nameE;
-	private EditText telE;
-	private EditText smsE;
-	private EditText locationE;
-	private EditText introE;
-
-	private Button edit;
-	private Button add;
+	private ImageView logo, bg;
+	private TextView name, tel, sms, location, intro, noTableTip;
+	private EditText nameE, telE, smsE, locationE, introE;
+	private Button edit, add;
 
 	// 桌子类型列表
 	private ListView tableList;
@@ -89,8 +75,7 @@ public class ManageFragment extends Fragment implements OnClickListener,
 	private boolean modified = false;
 	// 桌子类型位置
 	private int whatItem = 0;
-	private final int EDIT = 1;
-	private final int DELETE = 2;
+	private final int EDIT = 1, DELETE = 2;
 
 	private String theSmall = "";
 	private Bitmap photoResult;

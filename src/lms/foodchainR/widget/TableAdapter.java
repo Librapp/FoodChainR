@@ -3,6 +3,7 @@ package lms.foodchainR.widget;
 import java.util.List;
 
 import lms.foodchainR.R;
+import lms.foodchainR.data.SeatData;
 import lms.foodchainR.data.TableData;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,9 +12,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TableAdapter extends BaseAdapter {
 	private Context context;
@@ -50,7 +51,7 @@ public class TableAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 			holder.id = (TextView) view.findViewById(R.id.tli_table_id);
 			holder.icon = (ImageView) view.findViewById(R.id.tli_table_icon);
-			holder.seat = (GridView) view.findViewById(R.id.tli_seat_grid);
+			holder.seat = (MyGridView) view.findViewById(R.id.tli_seat_grid);
 			view.setTag(holder);
 		} else {
 			holder = (ViewHolder) view.getTag();
@@ -62,8 +63,25 @@ public class TableAdapter extends BaseAdapter {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO 跳转到顾客详情
+				SeatData data = (SeatData) parent.getAdapter()
+						.getItem(position);
+				switch (data.state) {
+				case SeatData.AVAILIABLE:
 
+					break;
+				case SeatData.OCCUPY:
+					// TODO 跳转到顾客详情
+					Toast.makeText(context, "添加跳转到顾客详情功能", Toast.LENGTH_SHORT)
+							.show();
+					break;
+				case SeatData.DIRTY:
+					// TODO 打扫
+					Toast.makeText(context, "添加派人打扫功能", Toast.LENGTH_SHORT)
+							.show();
+					break;
+				default:
+					break;
+				}
 			}
 		});
 		// TODO 根据状态换图片
@@ -81,6 +99,6 @@ public class TableAdapter extends BaseAdapter {
 	static class ViewHolder {
 		TextView id;
 		ImageView icon;
-		GridView seat;
+		MyGridView seat;
 	}
 }
