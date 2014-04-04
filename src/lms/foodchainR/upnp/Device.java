@@ -1156,6 +1156,8 @@ public class Device extends org.cybergarage.upnp.Device implements
 			ssdpReq.setNT(devUDN);
 			ssdpReq.setUSN(devUDN);
 			ssdpSock.post(ssdpReq);
+			if (Debug.isOn())
+				Log.e("ssdpReq", ssdpReq.toString());
 		}
 
 		// uuid:device-UUID::urn:schemas-upnp-org:device:deviceType:v
@@ -1163,7 +1165,8 @@ public class Device extends org.cybergarage.upnp.Device implements
 		String devUSN = getNotifyDeviceTypeUSN();
 		ssdpReq.setNT(devNT);
 		ssdpReq.setUSN(devUSN);
-		Log.i("ssdpReq", ssdpReq.toString());
+		if (Debug.isOn())
+			Log.e("ssdpReq", ssdpReq.toString());
 		ssdpSock.post(ssdpReq);
 
 		// Thanks for Mikael Hakman (04/25/05)
@@ -1197,9 +1200,10 @@ public class Device extends org.cybergarage.upnp.Device implements
 			if (bindAddresses[j] == null || bindAddresses[j].length() == 0)
 				continue;
 			int ssdpCount = getSSDPAnnounceCount();
-			for (int i = 0; i < ssdpCount; i++)
-				announce(bindAddresses[j]);
-
+			for (int i = 0; i < ssdpCount; i++) {
+				if (HostInterface.isIPv4Address(bindAddresses[j]))
+					announce(bindAddresses[j]);
+			}
 		}
 	}
 
@@ -1309,8 +1313,9 @@ public class Device extends org.cybergarage.upnp.Device implements
 		if (isRootDevice == true)
 			devUSN += "::" + USN.ROOTDEVICE;
 
-		if (ssdpST.equals("FC")) {
-			postSearchResponse(ssdpPacket, "FC", devUSN);
+		if (ssdpST.equals("urn:schemas-upnp-org:device:FC")) {
+			postSearchResponse(ssdpPacket, "urn:schemas-upnp-org:device:FC",
+					devUSN);
 		}
 		ServiceList serviceList = getServiceList();
 		int serviceCnt = serviceList.size();

@@ -217,3 +217,5 @@ pip-log.txt
 
 *.properties
 *.properties
+project.properties
+*.properties
