@@ -73,4 +73,19 @@ public class TableService extends BaseService {
 	public static List<TableData> getTableList() {
 		return tdb.getTableList();
 	}
+
+	/** 选座位或者排号 */
+	public static void setSeat(SeatData data, int peopleCount) {
+		List<TableStyleData> list = tdb.getTableStyleDataList();
+		int i = 0;
+		while (list.get(i).seatCount < peopleCount)
+			i++;
+		TableStyleData tsd = list.get(i);
+
+		if (data.seatId != null) {
+
+		} else {
+
+		}
+	}
 }

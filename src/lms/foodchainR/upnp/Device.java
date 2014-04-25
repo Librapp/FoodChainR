@@ -1501,6 +1501,13 @@ public class Device extends org.cybergarage.upnp.Device implements
 					dataBytes = JSONResponse.hallInfo().toString().getBytes();
 					httpRes.setContent(dataBytes);
 					httpReq.post(httpRes);
+				} else if (method.equals(JSONRequest.SETSEAT)) {
+					data.opt("userId");
+					data.opt("userName");
+					data.opt("peopleCount");
+					data.opt("seatId");
+					data.opt("tableId");
+					// TableService.setSeat();
 				}
 			} else
 				return false;

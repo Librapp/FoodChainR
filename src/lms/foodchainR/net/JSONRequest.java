@@ -16,6 +16,7 @@ public class JSONRequest {
 	public static final String MESSAGE = "message";
 	public static final String CASEDETAIL = "caseDetail";
 	public static final String HALLINFO = "hallInfo";
+	public static final String SETSEAT = "setSeat";
 
 	public static String menuRequest() {
 		JSONObject holder = new JSONObject();
