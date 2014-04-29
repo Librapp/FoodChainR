@@ -32,6 +32,14 @@ public class CustomerData extends UserData {
 	private List<RestaurantData> favoriteRes;
 	// 黑名单
 	private List<RestaurantData> blackList;
+	/** 是否拼桌 */
+	public boolean share = false;
+	/** 就餐人数 */
+	public int peopleCount = 1;
+	/** 排号 */
+	public int number = 0;
+	/** 排队桌子类型 */
+	public String tableStyleId;
 
 	public CustomerData(String name, String id, int gender, int credit,
 			String address, String tel, int status, String seatId,

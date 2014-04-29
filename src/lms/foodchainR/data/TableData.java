@@ -43,6 +43,10 @@ public class TableData {
 	/** 顾客地址 */
 	public String customerURL;
 	private static TableData current;
+	/** 空座位数 */
+	public int freeSeat = 4;
+	/** 是否愿意拼桌 */
+	public boolean share = false;
 
 	public TableData() {
 

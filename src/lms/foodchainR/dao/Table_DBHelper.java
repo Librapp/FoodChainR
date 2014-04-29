@@ -1,8 +1,10 @@
 package lms.foodchainR.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import lms.foodchainR.data.CustomerData;
 import lms.foodchainR.data.SeatData;
 import lms.foodchainR.data.TableData;
 import lms.foodchainR.data.TableStyleData;
@@ -22,6 +24,7 @@ public class Table_DBHelper extends Base_DBHelper {
 	private final String TABLESTYLEDATA = "tableStyleData";
 	private final String TABLEDATA = "tableData";
 	private final String SEATDATA = "seatData";
+	private final String LISTDATA = "listData";
 
 	public Table_DBHelper(Context context) {
 		super(context, "fcr_table.db", null, VERSION);
@@ -47,6 +50,7 @@ public class Table_DBHelper extends Base_DBHelper {
 		db.execSQL(createTableDataTable());
 		db.execSQL(createTableStyleDataTable());
 		db.execSQL(createSeatDataTable());
+		db.execSQL(createListDataTable());
 	}
 
 	/** 生成餐桌类型表 */
@@ -69,6 +73,15 @@ public class Table_DBHelper extends Base_DBHelper {
 				+ ",styleId varchar" + ",state integer" + ",customerId integer"
 				+ ",customerName varchar" + ",icon varchar"
 				+ ",bookTime varchar" + ")";
+	}
+
+	/** 生成排号表 */
+	private String createListDataTable() {
+		return CREATE + LISTDATA + " (" + AUTO_KEY + "customerId varchar"
+				+ ",customerName varchar" + ",tel varchar"
+				+ ",peopleCount integer" + ",number integer"
+				+ ",comeTime varchar" + ",billId integer" + ",styleId varchar"
+				+ ")";
 	}
 
 	// ------------------------------------------------------ 插入一组对象
@@ -396,8 +409,6 @@ public class Table_DBHelper extends Base_DBHelper {
 
 			String[] whereArgs = { s.seatId };
 			values.put("id", s.seatId);
-			values.put("tableId", s.tableId);
-			values.put("styleId", s.styleId);
 			values.put("state", s.state);
 			values.put("customerName", s.customerName);
 			values.put("customerId", s.customerId);
@@ -465,6 +476,80 @@ public class Table_DBHelper extends Base_DBHelper {
 		}
 	}
 
+	/** 选座排队 */
+	public void setSeat(SeatData seat, CustomerData customer) {
+		Cursor cursor = null;
+		db = getReadableDatabase();
+		String sql = "";
+		if (seat == null) {
+			sql = "seatCount>=?";
+			selectArgs = new String[] { customer.peopleCount + "" };
+			db.beginTransaction();
+			cursor = db.query(TABLESTYLEDATA, null, sql, selectArgs, null,
+					null, "seatCount");
+			db.setTransactionSuccessful();
+			if (cursor.moveToNext()) {
+				TableStyleData tsd = new TableStyleData();
+				tsd.id = cursor.getString(cursor.getColumnIndex("styleId"));
+				sql = "freeSeat>=?,styleId=?,share=?";
+				selectArgs = new String[] {
+						String.valueOf(customer.peopleCount), tsd.id,
+						String.valueOf(customer.share) };
+				db.beginTransaction();
+				cursor = db.query(TABLEDATA, null, sql, selectArgs, "styleId",
+						null, "freeSeat");
+				db.setTransactionSuccessful();
+				if (cursor.moveToNext()) {
+					// TODO 分配座位
+				} else {
+					ContentValues values = new ContentValues();
+					values.put("styleId", tsd.id);
+					values.put("customerId", customer.id);
+					values.put("customerName", customer.name);
+					values.put("tel", customer.tel);
+					values.put("peopleCount", customer.peopleCount);
+					values.put("comeTime", new Date().toLocaleString());
+					db = getWritableDatabase();
+					db.beginTransaction();
+					db.insert(LISTDATA, null, values);
+					db.setTransactionSuccessful();
+					db.endTransaction();
+					// TODO　返回排号
+				}
+			}
+		} else {
+			sql = "tableId=?,share=?,freeSeat>=?";
+			selectArgs = new String[] { seat.tableId,
+					String.valueOf(customer.share),
+					String.valueOf(customer.peopleCount) };
+			db.beginTransaction();
+			cursor = db.query(TABLEDATA, null, sql, selectArgs, null, null,
+					null);
+			db.setTransactionSuccessful();
+			if (cursor.moveToNext()) {
+				TableData td = new TableData();
+				td.freeSeat = cursor.getInt(cursor.getColumnIndex("freeSeat"))
+						- customer.peopleCount;
+				td.id = cursor.getString(cursor.getColumnIndex("tableId"));
+				db.setTransactionSuccessful();
+				db.beginTransaction();
+				selectArgs = new String[] { seat.tableId,
+						String.valueOf(SeatData.AVAILIABLE) };
+				cursor = db.query(SEATDATA, null, "tableId=?,state=?",
+						selectArgs, null, null, null);
+				List<SeatData> list = new ArrayList<SeatData>();
+				while (cursor.moveToNext()) {
+					SeatData sd = new SeatData();
+					sd.seatId = cursor.getString(cursor
+							.getColumnIndex("seatId"));
+					// TODO
+				}
+
+				db = getWritableDatabase();
+
+			}
+		}
+	}
 	/** 控制数据库读写 */
 	// public final static int SET_SEAT = 1;
 	// private Handler writeHandler;
