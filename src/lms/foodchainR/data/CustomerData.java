@@ -45,7 +45,6 @@ public class CustomerData extends UserData {
 			String address, String tel, int status, String seatId,
 			String tableId) {
 		this.name = name;
-		this.id = id;
 		this.gender = gender;
 		this.credit = credit;
 		this.address = address;
@@ -56,7 +55,6 @@ public class CustomerData extends UserData {
 	}
 
 	public CustomerData(Device d) {
-		this.id = d.getUDN();
 		this.name = d.getFriendlyName();
 		this.device = d;
 	}

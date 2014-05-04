@@ -56,7 +56,7 @@ public class TableAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
-		holder.id.setText(t.id);
+		holder.id.setText(t.tableId);
 		SeatAdapter sa = new SeatAdapter(context, t.getSeat());
 		holder.seat.setAdapter(sa);
 		holder.seat.setOnItemClickListener(new OnItemClickListener() {

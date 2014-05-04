@@ -10,19 +10,18 @@ import java.util.List;
  * 
  */
 public class CaseStyleData {
-
-	public int id;
+	/** 类型Id */
+	public int styleId;
+	/** 名称 */
 	public String name;
 	List<CaseData> list;
-	public String startTime;
-	public String endTime;
 
 	public CaseStyleData() {
 
 	}
 
-	public CaseStyleData(int id, String name) {
-		this.id = id;
+	public CaseStyleData(int styleId, String name) {
+		this.styleId = styleId;
 		this.name = name;
 	}
 

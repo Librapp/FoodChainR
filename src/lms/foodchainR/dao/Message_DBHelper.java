@@ -130,7 +130,8 @@ public class Message_DBHelper extends Base_DBHelper {
 		Cursor cursor = null;
 		try {
 			db = getReadableDatabase();
-			selectArgs = new String[] { c.id, c.id };
+			selectArgs = new String[] { String.valueOf(c.id),
+					String.valueOf(c.id) };
 			cursor = db.query(MESSAGEDATA, null, "sId=? OR rId=?", selectArgs,
 					null, null, "id");
 			if (cursor != null) {

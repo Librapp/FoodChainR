@@ -39,7 +39,7 @@ public class CaseStyleFragment extends ListFragment implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		csd = new CaseStyleData();
 		if (getArguments() != null) {
-			csd.id = getArguments().getInt("styleId");
+			csd.styleId = getArguments().getInt("styleId");
 			csd.name = getArguments().getString("name");
 		}
 	}
@@ -81,7 +81,7 @@ public class CaseStyleFragment extends ListFragment implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		Intent intent = new Intent(getActivity(), CaseStyleDetailActivity.class);
-		intent.putExtra("id", csd.id);
+		intent.putExtra("id", csd.styleId);
 		intent.putExtra("name", csd.name);
 		startActivity(intent);
 	}

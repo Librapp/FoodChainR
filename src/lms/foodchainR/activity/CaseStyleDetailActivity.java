@@ -75,7 +75,7 @@ public class CaseStyleDetailActivity extends Activity implements
 		listener = new mlistener();
 		cdb = new Case_DBHelper(this);
 		csd = new CaseStyleData();
-		csd.id = getIntent().getIntExtra("id", 0);
+		csd.styleId = getIntent().getIntExtra("id", 0);
 		csd.name = getIntent().getStringExtra("name");
 		if (MenuService.getCaseStyleData(csd)) {
 			name.setText(csd.name);
@@ -118,7 +118,7 @@ public class CaseStyleDetailActivity extends Activity implements
 		Intent i = new Intent(this, CaseDetailActivity.class);
 		CaseData.current = new CaseData();
 		CaseData.current().isNew = true;
-		CaseData.current().style = csd.id;
+		CaseData.current().style = csd.styleId;
 		startActivityForResult(i, REQUEST_CREATECASE);
 
 	}

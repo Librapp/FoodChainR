@@ -59,7 +59,7 @@ public class TableStyleAdapter extends BaseAdapter {
 		} else
 			holder = (ViewHolder) view.getTag();
 		final TableStyleData ts = lts.get(position);
-		holder.id_txt.setText(ts.id);
+		holder.id_txt.setText(ts.styleId);
 		holder.seatCount_txt.setText(ts.seatCount + "");
 		holder.tableCount_txt.setText(ts.count + "");
 		return view;

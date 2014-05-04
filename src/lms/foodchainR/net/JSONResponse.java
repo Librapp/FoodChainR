@@ -69,10 +69,8 @@ public class JSONResponse {
 	private static JSONObject caseStyleDataResponse(CaseStyleData csd) {
 		JSONObject data = new JSONObject();
 		try {
-			data.putOpt("id", csd.id);
+			data.putOpt("id", csd.styleId);
 			data.putOpt("name", csd.name);
-			data.putOpt("startTime", csd.startTime);
-			data.putOpt("endTime", csd.endTime);
 			JSONArray array = new JSONArray();
 			List<CaseData> list = csd.getList();
 			for (CaseData c : list) {
@@ -91,7 +89,7 @@ public class JSONResponse {
 		try {
 			if (msg.equals("")) {
 				data.put(CODE, SUCCESS);
-				data.putOpt("id", csd.id);
+				data.putOpt("id", csd.styleId);
 				data.putOpt("name", csd.name);
 				data.putOpt("startTime", csd.startTime);
 				data.putOpt("endTime", csd.endTime);
@@ -221,7 +219,7 @@ public class JSONResponse {
 	public static JSONObject tableStyleData(TableStyleData ts) {
 		JSONObject data = new JSONObject();
 		try {
-			data.putOpt("id", ts.id);
+			data.putOpt("id", ts.styleId);
 			data.putOpt("tableCount", ts.count);
 			data.putOpt("seatCount", ts.seatCount);
 			data.putOpt("icon", ts.icon);
@@ -240,7 +238,7 @@ public class JSONResponse {
 	public static JSONObject tableData(TableData td) {
 		JSONObject data = new JSONObject();
 		try {
-			data.putOpt("id", td.id);
+			data.putOpt("id", td.tableId);
 			data.putOpt("seatCount", td.seatCount);
 			data.putOpt("styleId", td.styleId);
 			data.putOpt("state", td.state);

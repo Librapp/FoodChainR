@@ -63,7 +63,7 @@ public class HallFragment extends Fragment implements OnPageChangeListener {
 		@Override
 		public Fragment getItem(int arg0) {
 			TableStyleData csd = styleList.get(arg0);
-			return TableStyleFragment.newInstance(csd.id);
+			return TableStyleFragment.newInstance(csd.styleId);
 		}
 
 		@Override

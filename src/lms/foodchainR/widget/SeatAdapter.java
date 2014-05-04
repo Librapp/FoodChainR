@@ -70,7 +70,7 @@ public class SeatAdapter extends BaseAdapter {
 			holder.id.setVisibility(View.GONE);
 			break;
 		case SeatData.OCCUPY:
-			holder.id.setText(ls.get(position).customerName);
+			holder.id.setText(ls.get(position).customer.name);
 			holder.clean.setImageResource(R.drawable.seat_clean);
 			holder.order.setImageResource(R.drawable.seat_order_normal);
 			holder.pay.setImageResource(R.drawable.seat_pay_normal);
@@ -78,7 +78,7 @@ public class SeatAdapter extends BaseAdapter {
 			holder.id.setVisibility(View.VISIBLE);
 			break;
 		case SeatData.HAVING:
-			holder.id.setText(ls.get(position).customerName);
+			holder.id.setText(ls.get(position).customer.name);
 			holder.clean.setImageResource(R.drawable.seat_clean);
 			holder.order.setImageResource(R.drawable.seat_order_normal);
 			holder.pay.setImageResource(R.drawable.seat_pay_normal);
@@ -86,7 +86,7 @@ public class SeatAdapter extends BaseAdapter {
 			holder.id.setVisibility(View.VISIBLE);
 			break;
 		case SeatData.WAITING:
-			holder.id.setText(ls.get(position).customerName);
+			holder.id.setText(ls.get(position).customer.name);
 			holder.clean.setImageResource(R.drawable.seat_clean);
 			holder.order.setImageResource(R.drawable.seat_order_pressed);
 			holder.pay.setImageResource(R.drawable.seat_pay_normal);
@@ -94,12 +94,11 @@ public class SeatAdapter extends BaseAdapter {
 			holder.id.setVisibility(View.VISIBLE);
 			break;
 		case SeatData.PAY:
-			holder.id.setText(ls.get(position).customerName);
+			holder.id.setText(ls.get(position).customer.name);
 			holder.clean.setImageResource(R.drawable.seat_clean);
 			holder.order.setImageResource(R.drawable.seat_order_normal);
 			holder.pay.setImageResource(R.drawable.seat_pay_pressed);
 			// TODO　获取用户头像
-
 			holder.id.setVisibility(View.VISIBLE);
 			break;
 		default:

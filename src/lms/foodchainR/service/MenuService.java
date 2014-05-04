@@ -68,7 +68,7 @@ public class MenuService extends BaseService {
 
 	/** 获取类型列表 */
 	public static ArrayList<CaseStyleData> getStyle() {
-		return am.getStyle();
+		return am.getCaseStyleList();
 	}
 
 	/** 获取类型详情 */

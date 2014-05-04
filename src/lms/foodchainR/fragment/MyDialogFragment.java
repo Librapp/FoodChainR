@@ -98,8 +98,8 @@ public class MyDialogFragment extends DialogFragment {
 					if (isNew) {
 						if (!edit1.getText().toString().trim().equals("")) {
 							String id = edit1.getText().toString();
-							tsb.id = id;
-							if (tsb.id.length() != 2) {
+							tsb.styleId = id;
+							if (tsb.styleId.length() != 2) {
 								Toast.makeText(getActivity(),
 										"编号必须为两位，请修改后重新保存！", Toast.LENGTH_SHORT)
 										.show();
@@ -201,7 +201,7 @@ public class MyDialogFragment extends DialogFragment {
 										.getCaseStyleDataByName(csd);
 								Intent intent = new Intent(getActivity(),
 										CaseStyleDetailActivity.class);
-								intent.putExtra("id", csd.id);
+								intent.putExtra("id", csd.styleId);
 								intent.putExtra("name", csd.name);
 								startActivity(intent);
 								dismiss();

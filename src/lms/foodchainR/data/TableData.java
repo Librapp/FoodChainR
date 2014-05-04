@@ -24,29 +24,21 @@ public class TableData {
 	public int seatCount = 4;
 	// 状态
 	public int state = AVAILIABLE;
-	// 座位
+	/** 座位 */
 	private List<SeatData> seat = new ArrayList<SeatData>();
 	// 桌号
-	public String id;
+	public String tableId;
 	// 类型
 	public String styleId;
 	// 预定时间
 	public String bookTime;
-	// 图标
-	public String icon;
 	/** 顾客Id */
 	public int customerId;
-	/** 顾客姓名 */
-	public String customerName;
-	/** 顾客头像 */
-	public String customerPic;
-	/** 顾客地址 */
-	public String customerURL;
 	private static TableData current;
 	/** 空座位数 */
 	public int freeSeat = 4;
-	/** 是否愿意拼桌 */
-	public boolean share = false;
+	/** 第一个来的顾客 */
+	public CustomerData customer;
 
 	public TableData() {
 
@@ -59,20 +51,9 @@ public class TableData {
 		} else if (i < 100) {
 			id = "0" + id;
 		}
-		this.id = ts.id + id;
-		this.styleId = ts.id;
+		this.tableId = ts.styleId + id;
+		this.styleId = ts.styleId;
 		this.seatCount = ts.seatCount;
-	}
-
-	public TableData(String tableId, String styleId, int seatCount, int state,
-			int customerId, String customerName, String bookTime) {
-		this.id = tableId;
-		this.styleId = styleId;
-		this.seatCount = seatCount;
-		this.state = state;
-		this.customerId = customerId;
-		this.customerName = customerName;
-		this.bookTime = bookTime;
 	}
 
 	public static TableData current() {

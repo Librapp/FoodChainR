@@ -34,7 +34,7 @@ public class CaseStyleListFragment extends ListFragment implements
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		cdb = new Case_DBHelper(getActivity());
-		list = cdb.getStyle();
+		list = cdb.getCaseStyleList();
 		create = new Button(getActivity());
 		create.setText(R.string.create);
 		create.setOnClickListener(this);

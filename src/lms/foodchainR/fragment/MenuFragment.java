@@ -83,7 +83,7 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 
 	private void getData(Context context) {
 		cdb = new Case_DBHelper(context);
-		styleList = cdb.getStyle();
+		styleList = cdb.getCaseStyleList();
 		RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		rl.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
@@ -91,7 +91,7 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 		for (int i = 0; i < styleList.size(); i++) {
 			CaseStyleData csd = styleList.get(i);
 			Button name = new Button(getActivity());
-			name.setId(csd.id);
+			name.setId(csd.styleId);
 			name.setLayoutParams(rl);
 			name.setText(csd.name);
 			name.setOnLongClickListener(this);
@@ -131,7 +131,7 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 		@Override
 		public Fragment getItem(int arg0) {
 			CaseStyleData csd = styleList.get(arg0);
-			return CaseStyleFragment.newInstance(csd.id, csd.name);
+			return CaseStyleFragment.newInstance(csd.styleId, csd.name);
 		}
 
 		@Override
@@ -222,7 +222,7 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 		switch (item.getItemId()) {
 		case DELETE:
 			if (MenuService.deleteStyle(c)) {
-				styleList = cdb.getStyle();
+				styleList = cdb.getCaseStyleList();
 				mfa = new MenuFragAdapter(getChildFragmentManager());
 				pager.setAdapter(mfa);
 				title.removeViewAt(currentItem);
@@ -231,7 +231,7 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 		case EDIT:
 			Intent intent = new Intent(getActivity(),
 					CaseStyleDetailActivity.class);
-			intent.putExtra("id", c.id);
+			intent.putExtra("id", c.styleId);
 			intent.putExtra("name", c.name);
 			startActivity(intent);
 			break;
@@ -288,13 +288,13 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 			switch (v.getId()) {
 			case R.id.cli_edit:
 				c = styleList.get(currentItem);
-				MyDialogFragment.caseStyleInstance(c.name, c.id).show(
+				MyDialogFragment.caseStyleInstance(c.name, c.styleId).show(
 						getChildFragmentManager(), "dialog");
 				break;
 			case R.id.cli_delete:
 				c = styleList.get(currentItem);
 				if (MenuService.deleteStyle(c)) {
-					styleList = cdb.getStyle();
+					styleList = cdb.getCaseStyleList();
 					// mfa = new MenuFragAdapter(getChildFragmentManager());
 					// pager.setAdapter(mfa);
 					list.setAdapter(new CaseStyleListAdapter());
@@ -326,7 +326,7 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 		currentItem = arg2;
 		CaseStyleData c = styleList.get(arg2);
 		Intent intent = new Intent(getActivity(), CaseStyleDetailActivity.class);
-		intent.putExtra("id", c.id);
+		intent.putExtra("id", c.styleId);
 		intent.putExtra("name", c.name);
 		startActivity(intent);
 	}

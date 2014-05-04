@@ -16,7 +16,7 @@ public class TableStyleData {
 	// 桌子有多少座位
 	public int seatCount = 4;
 	// 类型Id
-	public String id = "A1";
+	public String styleId = "A1";
 	// 图标
 	public String icon = "";
 	// 图片
@@ -27,7 +27,7 @@ public class TableStyleData {
 	public boolean isNew = false;
 
 	public TableStyleData(String id, int seatCount, int count) {
-		this.id = id;
+		this.styleId = id;
 		this.seatCount = seatCount;
 		this.count = count;
 	}

@@ -14,7 +14,7 @@ public abstract class Base_DBHelper extends SQLiteOpenHelper {
 	SQLiteDatabase db;
 	public static final String CREATE = "CREATE TABLE IF NOT EXISTS ";
 	public static final String DROP = "DROP TABLE IF EXISTS ";
-	public static final String AUTO_KEY = "id integer primary key autoincrement";
+	public static final String AUTO_KEY = " integer primary key autoincrement";
 	public static String[] selectArgs;
 	public static String[] columns;
 

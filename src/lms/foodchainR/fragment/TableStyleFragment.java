@@ -26,7 +26,7 @@ public class TableStyleFragment extends ListFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		tsd = new TableStyleData();
-		tsd.id = getArguments().getString("styleId");
+		tsd.styleId = getArguments().getString("styleId");
 		tdb = new Table_DBHelper(getActivity());
 		if (tdb.getTableStyleDetail(tsd))
 			if (tsd.getTable().size() > 0) {

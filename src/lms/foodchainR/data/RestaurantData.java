@@ -49,7 +49,6 @@ public class RestaurantData extends UserData {
 	}
 
 	public RestaurantData(Device d) {
-		this.id = d.getUDN();
 		this.name = d.getFriendlyName();
 		this.headPic = d.getLocation() + d.getIcon(0).getURL();
 	}

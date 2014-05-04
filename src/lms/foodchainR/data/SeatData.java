@@ -17,24 +17,16 @@ public class SeatData {
 	public static final int PAY = 6;
 
 	public int state = AVAILIABLE;
-	// 类型
-	public String styleId;
 	// 桌号
 	public String tableId;
 	// 座位号
 	public String seatId;
 	// 图标
 	public String icon;
-	// 预定时间
-	public String bookTime;
 	/** 顾客Id */
 	public int customerId;
-	/** 顾客姓名 */
-	public String customerName;
-	/** 顾客头像 */
-	public String customerPic;
-	/** 顾客地址 */
-	public String customerURL;
+	/** 顾客实体 */
+	public CustomerData customer;
 
 	private static SeatData current;
 
@@ -49,15 +41,11 @@ public class SeatData {
 
 	}
 
-	public SeatData(String seatId, String tableId, String styleId, int status,
-			int customerId, String customerName, String bookTime) {
+	public SeatData(String seatId, String tableId, int state, int customerId) {
 		this.seatId = seatId;
 		this.tableId = tableId;
-		this.state = status;
-		this.styleId = styleId;
+		this.state = state;
 		this.customerId = customerId;
-		this.customerName = customerName;
-		this.bookTime = bookTime;
 	}
 
 	public SeatData(TableData t, int j) {
@@ -65,8 +53,7 @@ public class SeatData {
 		if (j < 10) {
 			id = "0" + id;
 		}
-		this.seatId = t.id + id;
-		this.tableId = t.id;
-		this.styleId = t.styleId;
+		this.seatId = t.tableId + id;
+		this.tableId = t.tableId;
 	}
 }

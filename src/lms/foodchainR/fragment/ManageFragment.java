@@ -294,7 +294,7 @@ public class ManageFragment extends Fragment implements OnClickListener,
 
 	private void editTableStyle() {
 		TableStyleData ts = tableStyleList.get(whatItem);
-		MyDialogFragment.tableStyleInstance(ts.id, ts.count, ts.seatCount)
+		MyDialogFragment.tableStyleInstance(ts.styleId, ts.count, ts.seatCount)
 				.show(getChildFragmentManager(), "dialog");
 	}
 

@@ -57,7 +57,7 @@ public class JSONParser {
 		msg = "";
 		try {
 			JSONObject data = new JSONObject(result);
-			csd.id = data.optInt("id");
+			csd.styleId = data.optInt("id");
 			csd.name = data.optString("name");
 			csd.startTime = data.optString("startTime");
 			csd.endTime = data.optString("endTime");
@@ -147,7 +147,7 @@ public class JSONParser {
 		msg = "";
 		try {
 			JSONObject data = new JSONObject(result);
-			ts.id = data.optString("id");
+			ts.styleId = data.optString("id");
 			ts.icon = data.optString("icon");
 			ts.pic = data.optString("pic");
 			ts.seatCount = data.optInt("seatCount");
@@ -176,7 +176,7 @@ public class JSONParser {
 		msg = "";
 		try {
 			JSONObject data = new JSONObject(result);
-			td.id = data.optString("id");
+			td.tableId = data.optString("id");
 			td.icon = data.optString("icon");
 			td.seatCount = data.optInt("seatCount");
 			JSONArray array = data.optJSONArray("seatList");
