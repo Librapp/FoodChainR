@@ -56,17 +56,13 @@ public class Message_DBHelper extends Base_DBHelper {
 		db = getWritableDatabase();
 		try {
 			ContentValues values = new ContentValues();
-			values.put("id", c.id);
+			values.put("id", c.messageId);
 			values.put("direction", c.direction);
 			values.put("hasRead", c.hasRead);
 			values.put("content", c.content);
-			values.put("url", c.url);
-			values.put("pic", c.pic);
 			values.put("time", c.time);
-			values.put("sId", c.sId);
-			values.put("rId", c.rId);
-			values.put("userName", c.userName);
-			values.put("userPic", c.userPic);
+			values.put("senderId", c.sender.id);
+			values.put("receiverId", c.receiver.id);
 			db.beginTransaction();
 			db.insert(MESSAGEDATA, null, values);
 			db.setTransactionSuccessful();
@@ -84,17 +80,13 @@ public class Message_DBHelper extends Base_DBHelper {
 		db = getWritableDatabase();
 		try {
 			ContentValues values = new ContentValues();
-			values.put("id", c.id);
+			values.put("id", c.messageId);
 			values.put("direction", c.direction);
 			values.put("hasRead", c.hasRead);
 			values.put("content", c.content);
-			values.put("url", c.url);
-			values.put("pic", c.pic);
 			values.put("time", c.time);
-			values.put("sId", c.sId);
-			values.put("rId", c.rId);
-			values.put("userName", c.userName);
-			values.put("userPic", c.userPic);
+			values.put("senderId", c.sender.id);
+			values.put("receiverId", c.receiver.id);
 			db.beginTransaction();
 			db.insert(MESSAGEDATA, null, values);
 			db.setTransactionSuccessful();
@@ -113,7 +105,7 @@ public class Message_DBHelper extends Base_DBHelper {
 		try {
 			ContentValues values = new ContentValues();
 			values.put("hasRead", c.hasRead);
-			selectArgs = new String[] { c.id + "" };
+			selectArgs = new String[] { c.messageId + "" };
 			db.beginTransaction();
 			db.update(MESSAGEDATA, values, "id=?", selectArgs);
 			db.setTransactionSuccessful();
@@ -138,21 +130,19 @@ public class Message_DBHelper extends Base_DBHelper {
 				ArrayList<MessageData> list = new ArrayList<MessageData>();
 				while (cursor.moveToNext()) {
 					MessageData m = new MessageData();
-					m.id = cursor.getInt(cursor.getColumnIndex("id"));
+					m.messageId = cursor.getInt(cursor.getColumnIndex("id"));
 					m.direction = cursor.getInt(cursor
 							.getColumnIndex("direction"));
 					m.hasRead = cursor.getInt(cursor.getColumnIndex("hasRead"));
 					m.content = cursor.getString(cursor
 							.getColumnIndex("content"));
-					m.url = cursor.getString(cursor.getColumnIndex("url"));
-					m.pic = cursor.getString(cursor.getColumnIndex("pic"));
 					m.time = cursor.getString(cursor.getColumnIndex("time"));
-					m.userName = cursor.getString(cursor
-							.getColumnIndex("userName"));
-					m.userPic = cursor.getString(cursor
-							.getColumnIndex("userPic"));
-					m.sId = cursor.getString(cursor.getColumnIndex("sId"));
-					m.rId = cursor.getString(cursor.getColumnIndex("rId"));
+					UserData sender = new UserData();
+					sender.id = cursor
+							.getInt(cursor.getColumnIndex("senderId"));
+					UserData receiver = new UserData();
+					receiver.id = cursor.getInt(cursor
+							.getColumnIndex("receiverId"));
 					list.add(m);
 				}
 				c.setMessage(list);

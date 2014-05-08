@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import lms.foodchainR.R;
 import lms.foodchainR.dao.Bill_DBHelper;
-import lms.foodchainR.data.CaseData;
 import lms.foodchainR.data.EmployeeData;
+import lms.foodchainR.data.OrderData;
 import lms.foodchainR.widget.BillDetailAdapter;
 import lms.foodchainR.widget.CookerListAdapter;
 import lms.foodchainR.widget.StepGallery;
@@ -32,7 +32,7 @@ public class KitchenFragment extends Fragment implements OnItemClickListener {
 	private CookerListAdapter cla;
 	private BillDetailAdapter ba;
 	private Bill_DBHelper bdb;
-	private ArrayList<CaseData> caseList;
+	private ArrayList<OrderData> caseList;
 	private ArrayList<EmployeeData> cookerList;
 
 	@Override

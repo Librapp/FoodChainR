@@ -17,14 +17,14 @@ public class SeatData {
 	public static final int PAY = 6;
 
 	public int state = AVAILIABLE;
+	/***/
+	public String styleId;
 	// 桌号
 	public String tableId;
 	// 座位号
 	public String seatId;
 	// 图标
 	public String icon;
-	/** 顾客Id */
-	public int customerId;
 	/** 顾客实体 */
 	public CustomerData customer;
 
@@ -45,7 +45,6 @@ public class SeatData {
 		this.seatId = seatId;
 		this.tableId = tableId;
 		this.state = state;
-		this.customerId = customerId;
 	}
 
 	public SeatData(TableData t, int j) {
@@ -55,5 +54,6 @@ public class SeatData {
 		}
 		this.seatId = t.tableId + id;
 		this.tableId = t.tableId;
+		this.styleId = t.styleId;
 	}
 }

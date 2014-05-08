@@ -103,7 +103,6 @@ import java.net.URL;
 import java.util.Calendar;
 
 import lms.foodchainR.data.MessageData;
-import lms.foodchainR.data.Self;
 import lms.foodchainR.net.JSONRequest;
 import lms.foodchainR.net.JSONResponse;
 import lms.foodchainR.service.MessageService;
@@ -1486,13 +1485,7 @@ public class Device extends org.cybergarage.upnp.Device implements
 					MessageData ms = new MessageData();
 					ms.content = data.optString("content");
 					ms.time = Calendar.getInstance().getTime().toString();
-					ms.pic = data.optString("pic");
-					ms.url = data.optString("url");
 					JSONObject user = data.optJSONObject("user");
-					ms.userName = user.optString("userName");
-					ms.sId = user.optString("sId");
-					ms.userPic = user.optString("userPic");
-					ms.rId = Self.current().id;
 					if (MessageService.insertMessage(ms))
 						httpReq.returnOK();
 					else

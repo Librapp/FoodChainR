@@ -118,7 +118,7 @@ public class CaseStyleDetailActivity extends Activity implements
 		Intent i = new Intent(this, CaseDetailActivity.class);
 		CaseData.current = new CaseData();
 		CaseData.current().isNew = true;
-		CaseData.current().style = csd.styleId;
+		CaseData.current().styleId = csd.styleId;
 		startActivityForResult(i, REQUEST_CREATECASE);
 
 	}
@@ -126,7 +126,7 @@ public class CaseStyleDetailActivity extends Activity implements
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view,
 			int position, long id) {
-		currentItem = csd.getList().get(position).id;
+		currentItem = csd.getList().get(position).caseId;
 		return false;
 	}
 
@@ -145,12 +145,12 @@ public class CaseStyleDetailActivity extends Activity implements
 			Intent i = new Intent(this, CaseDetailActivity.class);
 			CaseData.current = new CaseData();
 			CaseData.current().isNew = false;
-			CaseData.current().id = currentItem;
+			CaseData.current().caseId = currentItem;
 			startActivity(i);
 			return true;
 		case DELETE:
 			CaseData c = new CaseData();
-			c.id = currentItem;
+			c.caseId = currentItem;
 			if (MenuService.deleteCase(c)) {
 				// TODO 刷新
 				Toast.makeText(this, "删除成功", Toast.LENGTH_SHORT).show();

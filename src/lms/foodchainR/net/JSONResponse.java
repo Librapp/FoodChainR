@@ -5,6 +5,8 @@ import java.util.List;
 
 import lms.foodchainR.data.CaseData;
 import lms.foodchainR.data.CaseStyleData;
+import lms.foodchainR.data.CustomerData;
+import lms.foodchainR.data.ListData;
 import lms.foodchainR.data.SeatData;
 import lms.foodchainR.data.Self;
 import lms.foodchainR.data.TableData;
@@ -42,7 +44,7 @@ public class JSONResponse {
 			e.printStackTrace();
 		}
 		return data;
-	};
+	}
 
 	public static JSONObject menuData() {
 		JSONObject data = new JSONObject();
@@ -64,7 +66,7 @@ public class JSONResponse {
 			e.printStackTrace();
 		}
 		return data;
-	};
+	}
 
 	private static JSONObject caseStyleDataResponse(CaseStyleData csd) {
 		JSONObject data = new JSONObject();
@@ -81,7 +83,7 @@ public class JSONResponse {
 			e.printStackTrace();
 		}
 		return data;
-	};
+	}
 
 	public static JSONObject caseStyleDetailResponse(String msg,
 			CaseStyleData csd) {
@@ -91,8 +93,6 @@ public class JSONResponse {
 				data.put(CODE, SUCCESS);
 				data.putOpt("id", csd.styleId);
 				data.putOpt("name", csd.name);
-				data.putOpt("startTime", csd.startTime);
-				data.putOpt("endTime", csd.endTime);
 				List<CaseData> list = csd.getList();
 				JSONArray array = new JSONArray();
 				for (CaseData c : list) {
@@ -106,31 +106,18 @@ public class JSONResponse {
 			e.printStackTrace();
 		}
 		return data;
-	};
+	}
 
 	private static JSONObject caseDataResponse(CaseData c) {
 		JSONObject data = new JSONObject();
 		try {
-			data.putOpt("id", c.id);
 			data.putOpt("caseId", c.caseId);
 			data.putOpt("name", c.name);
-			data.putOpt("billId", c.billId);
-			data.putOpt("cookerId", c.cookerId);
 			data.putOpt("cookTime", c.cookTime);
-			data.putOpt("count", c.count);
-			data.putOpt("family", c.family);
-			data.putOpt("orderId", c.orderId);
 			data.putOpt("state", c.state);
-			data.putOpt("style", c.style);
-			data.putOpt("time", c.time);
-			data.putOpt("type", c.type);
-			data.putOpt("waiterId", c.waiterId);
-			data.putOpt("weekday", c.weekday);
-			data.putOpt("waitTime", c.waitTime);
+			data.putOpt("styleId", c.styleId);
 			data.putOpt("intro", c.intro);
 			data.putOpt("mark", c.mark);
-			data.putOpt("message", c.message);
-			data.putOpt("orderTime", c.orderTime);
 			data.putOpt("picPath", c.picPath);
 			data.putOpt("price", c.price);
 			data.putOpt("special", c.special);
@@ -138,33 +125,20 @@ public class JSONResponse {
 			e.printStackTrace();
 		}
 		return data;
-	};
+	}
 
 	public static JSONObject caseDetailResponse(String msg, CaseData c) {
 		JSONObject data = new JSONObject();
 		try {
 			if (msg.equals("")) {
 				data.put(CODE, SUCCESS);
-				data.putOpt("id", c.id);
 				data.putOpt("caseId", c.caseId);
 				data.putOpt("name", c.name);
-				data.putOpt("billId", c.billId);
-				data.putOpt("cookerId", c.cookerId);
 				data.putOpt("cookTime", c.cookTime);
-				data.putOpt("count", c.count);
-				data.putOpt("family", c.family);
-				data.putOpt("orderId", c.orderId);
 				data.putOpt("state", c.state);
-				data.putOpt("style", c.style);
-				data.putOpt("time", c.time);
-				data.putOpt("type", c.type);
-				data.putOpt("waiterId", c.waiterId);
-				data.putOpt("weekday", c.weekday);
-				data.putOpt("waitTime", c.waitTime);
+				data.putOpt("styleId", c.styleId);
 				data.putOpt("intro", c.intro);
 				data.putOpt("mark", c.mark);
-				data.putOpt("message", c.message);
-				data.putOpt("orderTime", c.orderTime);
 				data.putOpt("picPath", c.picPath);
 				data.putOpt("price", c.price);
 				data.putOpt("special", c.special);
@@ -175,7 +149,7 @@ public class JSONResponse {
 			e.printStackTrace();
 		}
 		return data;
-	};
+	}
 
 	public static JSONObject restaurantInfo() {
 		JSONObject data = new JSONObject();
@@ -243,10 +217,7 @@ public class JSONResponse {
 			data.putOpt("styleId", td.styleId);
 			data.putOpt("state", td.state);
 			data.putOpt("waiterId", td.waiterId);
-			data.putOpt("customerId", td.customerId);
-			data.putOpt("customerName", td.customerName);
-			data.putOpt("customerPic", td.customerPic);
-			data.putOpt("customerURL", td.customerURL);
+			data.putOpt("customer", td.customer);
 			JSONArray array = new JSONArray();
 			for (SeatData sd : td.getSeat()) {
 				array.put(seatData(sd));
@@ -263,12 +234,40 @@ public class JSONResponse {
 		try {
 			data.putOpt("seatId", sd.seatId);
 			data.putOpt("tableId", sd.tableId);
-			data.putOpt("styleId", sd.styleId);
 			data.putOpt("state", sd.state);
-			data.putOpt("customerId", sd.customerId);
-			data.putOpt("customerName", sd.customerName);
-			data.putOpt("customerPic", sd.customerPic);
-			data.putOpt("customerURL", sd.customerURL);
+			data.putOpt("customer", sd.customer);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return data;
+	}
+
+	public static JSONObject listData(ListData ld) {
+		JSONObject data = new JSONObject();
+		try {
+			data.putOpt("listId", ld.listId);
+			data.putOpt("billId", ld.billId);
+			data.putOpt("number", ld.number);
+			data.putOpt("comeTime", ld.comeTime);
+
+			data.putOpt("customer", ld.customer);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return data;
+	}
+
+	public static JSONObject customerData(CustomerData cd) {
+		JSONObject data = new JSONObject();
+		try {
+			data.putOpt("id", cd.id);
+			data.putOpt("name", cd.name);
+			data.putOpt("tableId", cd.tableId);
+			data.putOpt("seatId", cd.seatId);
+			data.putOpt("headPic", cd.headPic);
+			data.putOpt("gender", cd.gender);
+			data.putOpt("provicy", cd.provicy);
+			data.putOpt("localURL", cd.localURL);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

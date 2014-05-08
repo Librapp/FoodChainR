@@ -79,13 +79,12 @@ public class MessageAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				if (cd.direction == 1)
-					UserData.self().id = cd.sId;
+					UserData.self().id = cd.sender.id;
 				else
-					UserData.self().id = cd.rId;
+					UserData.self().id = cd.receiver.id;
 				// TODO 用户详情
 			}
 		});
-		holder.name.setText(cd.userName);
 		holder.content.setText(cd.content);
 		text2Emotion(holder.content);
 		holder.time.setText(cd.time);

@@ -5,7 +5,6 @@ import java.util.List;
 import lms.foodchainR.R;
 import lms.foodchainR.data.CommentData;
 import lms.foodchainR.widget.AsyncImageLoader.ImageCallback;
-
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -98,12 +97,6 @@ public class ChatListAdapter extends BaseAdapter {
 			cache.pic.setVisibility(View.VISIBLE);
 			cache.voice.setVisibility(View.GONE);
 			// TODO 加载图片
-			break;
-		case CommentData.VOICE:
-			cache.txt.setVisibility(View.GONE);
-			cache.pic.setVisibility(View.GONE);
-			cache.voice.setVisibility(View.VISIBLE);
-			// TODO 加载音频
 			break;
 		default:
 			break;

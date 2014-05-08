@@ -18,6 +18,7 @@ import lms.foodchainR.util.InfomationHelper;
 import lms.foodchainR.util.MediaInfoUtils;
 import lms.foodchainR.util.PicUtils;
 import lms.foodchainR.util.SharePerformanceUtil;
+import lms.foodchainR.widget.OnRefreshTableStyleDataListener;
 import lms.foodchainR.widget.TableStyleAdapter;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -56,7 +57,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ManageFragment extends Fragment implements OnClickListener,
-		OnItemLongClickListener {
+		OnItemLongClickListener, OnRefreshTableStyleDataListener {
 
 	private RelativeLayout rdButtom;
 	private LinearLayout rdMiddle;
@@ -179,7 +180,7 @@ public class ManageFragment extends Fragment implements OnClickListener,
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case EDIT:
 			editTableStyle();
@@ -190,7 +191,7 @@ public class ManageFragment extends Fragment implements OnClickListener,
 		default:
 			break;
 		}
-		return super.onOptionsItemSelected(item);
+		return super.onContextItemSelected(item);
 	}
 
 	@Override
@@ -288,8 +289,9 @@ public class ManageFragment extends Fragment implements OnClickListener,
 	}
 
 	private void createNewTableStyle() {
-		MyDialogFragment.tableStyleInstance("", 4, 10).show(
-				getChildFragmentManager(), "dialog");
+		MyDialogFragment mdf = MyDialogFragment.tableStyleInstance("", 4, 10);
+		mdf.setRefreshTableStyleDataListener(this);
+		mdf.show(getChildFragmentManager(), "dialog");
 	}
 
 	private void editTableStyle() {
@@ -299,7 +301,9 @@ public class ManageFragment extends Fragment implements OnClickListener,
 	}
 
 	private void deleteTableStyle() {
-
+		TableStyleData ts = tableStyleList.get(whatItem);
+		tdb.deleteTableStyleData(ts);
+		getData();
 	}
 
 	@Override
@@ -390,10 +394,8 @@ public class ManageFragment extends Fragment implements OnClickListener,
 					photoResult = MediaStore.Images.Media.getBitmap(
 							getActivity().getContentResolver(), thisUri);
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				String[] proj = { MediaStore.Images.Media.DATA };
@@ -441,5 +443,10 @@ public class ManageFragment extends Fragment implements OnClickListener,
 		} else {
 
 		}
+	}
+
+	@Override
+	public void onDismiss() {
+		getData();
 	}
 }

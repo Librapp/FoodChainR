@@ -28,4 +28,8 @@ public class OrderData {
 	public String createTime;
 	/** 备注(可选) */
 	public String remark;
+	/** 状态 */
+	public int state;
+	/** 对应菜品 */
+	public CaseData caseData;
 }

@@ -16,13 +16,12 @@ public class CommentData {
 	// 用户Id
 	public String userId;
 	// 评论Id
-	public String id;
-	// 评论类别
+	public String commentId;
+	/** 类别 */
 	public int type;
-	// 评论类型
 	public static final int TXT = 0;
 	public static final int PIC = 1;
-	public static final int VOICE = 2;
+	/** 类型 */
 	public int style;
 	// 文字内容
 	public String txt;
@@ -30,8 +29,6 @@ public class CommentData {
 	public String time;
 	// 图片内容
 	public String pic;
-	// 声音内容
-	public String voice;
 
 	public static CommentData current;
 
@@ -45,12 +42,11 @@ public class CommentData {
 		this.userId = userId;
 		this.name = name;
 		this.icon = icon;
-		this.id = id;
+		this.commentId = id;
 		this.type = type;
 		this.style = style;
 		this.txt = txt;
 		this.pic = pic;
-		this.voice = voice;
 		this.time = time;
 	}
 

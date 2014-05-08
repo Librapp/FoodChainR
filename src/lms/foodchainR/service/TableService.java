@@ -1,7 +1,6 @@
 package lms.foodchainR.service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import lms.foodchainR.dao.Table_DBHelper;
 import lms.foodchainR.data.SeatData;
@@ -56,7 +55,7 @@ public class TableService extends BaseService {
 
 	/** 删除餐桌类型 */
 	public static boolean deleteTableStyle(TableStyleData ts) {
-		return tdb.deleteSeatDataByStyle(ts);
+		return tdb.deleteTableStyleData(ts);
 	}
 
 	/** 获取餐桌类型列表 */
@@ -67,11 +66,6 @@ public class TableService extends BaseService {
 	/** 获取餐桌类型详情 */
 	public static boolean getTableStyleDetail(TableStyleData tableStyle) {
 		return tdb.getTableStyleDetail(tableStyle);
-	}
-
-	/** 获取餐桌列表 */
-	public static List<TableData> getTableList() {
-		return tdb.getTableList();
 	}
 
 	/** 选座位或者排号 */

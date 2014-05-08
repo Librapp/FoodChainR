@@ -4,7 +4,6 @@ import java.util.List;
 
 import lms.foodchainR.R;
 import lms.foodchainR.data.BillData;
-import lms.foodchainR.data.CaseData;
 import android.app.Service;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -52,42 +51,13 @@ public class BillAdapter extends BaseAdapter {
 			bc = (BillCache) view.getTag();
 		}
 		BillData c = lc.get(position);
-		bc.getId().setText(c.id);
-		bc.getType().setText(c.type);
+		bc.getId().setText(c.billId);
 		bc.getPrice().setText(c.cost + "元");
 		bc.getCreateTime().setText(c.createTime);
 		if (c.state == 1) {
 			bc.getPaid().setText("已付款");
 		} else {
 			bc.getPaid().setText("未付款");
-		}
-		switch (c.type) {
-		case CaseData.HERE:
-			bc.getType().setText("即食");
-			if (!c.seatId.equals("")) {
-				bc.getAddress().setText("座位号" + c.seatId);
-			} else if (!c.tableId.equals("")) {
-				bc.getAddress().setText("桌号" + c.tableId);
-			} else {
-				bc.getAddress().setText(c.customerName);
-			}
-			break;
-		case CaseData.PACK:
-			bc.getType().setText("带走");
-			if (!c.seatId.equals("")) {
-				bc.getAddress().setText("座位号" + c.seatId);
-			} else if (!c.tableId.equals("")) {
-				bc.getAddress().setText("桌号" + c.tableId);
-			} else {
-				bc.getAddress().setText(c.customerName);
-			}
-			break;
-		case CaseData.AWAY:
-			bc.getType().setText("外卖");
-			bc.getAddress().setText(c.address + c.customerName);
-			break;
-		default:
-			break;
 		}
 
 		return view;

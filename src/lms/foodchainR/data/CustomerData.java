@@ -36,10 +36,8 @@ public class CustomerData extends UserData {
 	public boolean share = false;
 	/** 就餐人数 */
 	public int peopleCount = 1;
-	/** 排号 */
-	public int number = 0;
-	/** 排队桌子类型 */
-	public String tableStyleId;
+	/** 隐私设置 */
+	public int provicy = 0;
 
 	public CustomerData(String name, String id, int gender, int credit,
 			String address, String tel, int status, String seatId,

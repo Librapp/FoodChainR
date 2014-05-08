@@ -3,7 +3,7 @@ package lms.foodchainR.service;
 import java.util.ArrayList;
 
 import lms.foodchainR.dao.Bill_DBHelper;
-import lms.foodchainR.data.CaseData;
+import lms.foodchainR.data.OrderData;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
@@ -38,7 +38,7 @@ public class BillService extends BaseService {
 		bdb = new Bill_DBHelper(context);
 	}
 
-	public static boolean getOrderList(ArrayList<CaseData> list) {
+	public static boolean getOrderList(ArrayList<OrderData> list) {
 		return bdb.getOrderList(list);
 	}
 

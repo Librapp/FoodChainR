@@ -48,13 +48,13 @@ public class BillDetailAdapter extends BaseAdapter {
 		view = inflate.inflate(R.layout.billdetail_list_item, null);
 		c = lc.get(position);
 		TextView name = (TextView) view.findViewById(R.id.name);
-		name.setText(c.name);
+		name.setText(c.caseData.name);
 
 		TextView price = (TextView) view.findViewById(R.id.price);
-		price.setText(c.price + "元");
+		price.setText(c.caseData.price + "元");
 
 		TextView orderTime = (TextView) view.findViewById(R.id.createtime);
-		orderTime.setText(c.orderTime);
+		orderTime.setText(c.createTime);
 
 		ImageView status = (ImageView) view.findViewById(R.id.state);
 		switch (c.state) {

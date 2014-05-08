@@ -44,7 +44,6 @@ public class Table_DBHelper extends Base_DBHelper {
 
 	/** 生成表 */
 	private void createTable() {
-		db = getWritableDatabase();
 		db.execSQL(createTableDataTable());
 		db.execSQL(createTableStyleDataTable());
 		db.execSQL(createSeatDataTable());
@@ -68,13 +67,14 @@ public class Table_DBHelper extends Base_DBHelper {
 	/** 生成座位表 */
 	private String createSeatDataTable() {
 		return CREATE + SEATDATA + " (" + "seatId varchar" + ",tableId varchar"
-				+ ",state integer" + ",customerId integer" + ")";
+				+ ",styleId varchar" + ",state integer" + ",customerId integer"
+				+ ")";
 	}
 
 	/** 生成排号表 */
 	private String createListDataTable() {
 		return CREATE + LISTDATA + " (" + "listId" + AUTO_KEY
-				+ "customerId varchar" + ",number integer"
+				+ ",customerId varchar" + ",number integer"
 				+ ",comeTime varchar" + ",styleId varchar" + ")";
 	}
 
@@ -225,29 +225,29 @@ public class Table_DBHelper extends Base_DBHelper {
 		try {
 			cursor = db.query(TABLEDATA, null, "styleId=? ", selectArgs, null,
 					null, null);
-			if (cursor != null) {
-				while (cursor.moveToNext()) {
-					TableData table = new TableData();
-					table.tableId = cursor.getString(cursor
-							.getColumnIndex("tableId"));
-					table.styleId = cursor.getString(cursor
-							.getColumnIndex("styleId"));
-					table.seatCount = cursor.getInt(cursor
-							.getColumnIndex("seatCount"));
-					table.state = cursor.getInt(cursor.getColumnIndex("state"));
+			while (cursor.moveToNext()) {
+				TableData table = new TableData();
+				table.tableId = cursor.getString(cursor
+						.getColumnIndex("tableId"));
+				table.styleId = cursor.getString(cursor
+						.getColumnIndex("styleId"));
+				table.seatCount = cursor.getInt(cursor
+						.getColumnIndex("seatCount"));
+				table.state = cursor.getInt(cursor.getColumnIndex("state"));
+				if (table.state != TableData.AVAILIABLE) {
 					CustomerData c = new CustomerData();
 					c.id = cursor.getInt(cursor.getColumnIndex("customerId"));
 					// TODO 查顾客表
 					table.customer = c;
 					table.bookTime = cursor.getString(cursor
 							.getColumnIndex("bookTime"));
-					table.freeSeat = cursor.getInt(cursor
-							.getColumnIndex("freeSeat"));
-					table.waiterId = cursor.getInt(cursor
-							.getColumnIndex("waiterId"));
-					getSeatDataByTable(table);
-					list.add(table);
 				}
+				table.freeSeat = cursor.getInt(cursor
+						.getColumnIndex("freeSeat"));
+				table.waiterId = cursor.getInt(cursor
+						.getColumnIndex("waiterId"));
+				getSeatDataByTable(table);
+				list.add(table);
 			}
 			ts.setTable(list);
 			return true;
@@ -278,10 +278,13 @@ public class Table_DBHelper extends Base_DBHelper {
 					seat.tableId = cursor.getString(cursor
 							.getColumnIndex("tableId"));
 					seat.state = cursor.getInt(cursor.getColumnIndex("state"));
-					CustomerData c = new CustomerData();
-					c.id = cursor.getInt(cursor.getColumnIndex("customerId"));
-					// TODO 查顾客表
-					seat.customer = c;
+					if (seat.state != SeatData.AVAILIABLE) {
+						CustomerData c = new CustomerData();
+						c.id = cursor.getInt(cursor
+								.getColumnIndex("customerId"));
+						// TODO 查顾客表
+						seat.customer = c;
+					}
 					list.add(seat);
 				}
 			}
@@ -300,15 +303,13 @@ public class Table_DBHelper extends Base_DBHelper {
 	// ------------------------------------------------------------ 插入单个对象
 	/** 插入单个座位 */
 	private void insertSeatData(SeatData s) {
-		if (db == null)
-			db = getWritableDatabase();
 		if (s == null)
 			return;
 		try {
 			ContentValues values = new ContentValues();
 			values.put("seatId", s.seatId);
 			values.put("tableId", s.tableId);
-			values.put("customerId", s.customerId);
+			values.put("styleId", s.styleId);
 			values.put("state", s.state);
 			db.insert(SEATDATA, null, values);
 		} catch (Exception e) {
@@ -318,8 +319,6 @@ public class Table_DBHelper extends Base_DBHelper {
 
 	/** 插入单个餐桌 */
 	private boolean insertTableData(TableData s) {
-		if (db == null)
-			db = getWritableDatabase();
 		if (s == null)
 			return false;
 		try {
@@ -328,9 +327,8 @@ public class Table_DBHelper extends Base_DBHelper {
 			values.put("styleId", s.styleId);
 			values.put("state", s.state);
 			values.put("seatCount", s.seatCount);
-			values.put("customerId", s.customerId);
-			values.put("bookTime", s.bookTime);
-			db.beginTransaction();
+			// values.put("customerId", s.customer.id);
+			// values.put("bookTime", s.bookTime);
 			db.insert(TABLEDATA, null, values);
 			List<SeatData> list = new ArrayList<SeatData>();
 			for (int i = 0; i < s.seatCount; i++) {
@@ -338,21 +336,17 @@ public class Table_DBHelper extends Base_DBHelper {
 				insertSeatData(t);
 				list.add(t);
 			}
-			db.setTransactionSuccessful();
 			s.setSeat(list);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
-		} finally {
-			db.endTransaction();
 		}
 	}
 
 	/** 插入单个餐桌类型 */
 	public boolean insertTableStyle(TableStyleData s) {
-		if (db == null)
-			db = getWritableDatabase();
+		db = getWritableDatabase();
 		try {
 			ContentValues values = new ContentValues();
 
@@ -382,14 +376,14 @@ public class Table_DBHelper extends Base_DBHelper {
 	// ------------------------------------------------------------ 修改单个对象
 	/** 修改单个座位 */
 	public boolean upgradeSeat(SeatData s) {
+		db = getWritableDatabase();
+		ContentValues values = new ContentValues();
+		String[] whereArgs = { s.seatId };
+		values.put("seatId", s.seatId);
+		values.put("state", s.state);
+		values.put("customerId", s.customer.id);
 		try {
 			db.beginTransaction();
-			ContentValues values = new ContentValues();
-
-			String[] whereArgs = { s.seatId };
-			values.put("seatId", s.seatId);
-			values.put("state", s.state);
-			values.put("customerId", s.customerId);
 			db.update(SEATDATA, values, "seatId=?", whereArgs);
 			db.setTransactionSuccessful();
 			return true;
@@ -403,14 +397,14 @@ public class Table_DBHelper extends Base_DBHelper {
 
 	/** 修改单个餐桌 */
 	public boolean upgradeTable(TableData t) {
+		db = getWritableDatabase();
+		ContentValues values = new ContentValues();
+		selectArgs = new String[] { t.tableId };
+		values.put("customerId", t.customer.id);
+		values.put("bookTime", t.bookTime);
+		values.put("state", t.state);
 		try {
 			db.beginTransaction();
-			ContentValues values = new ContentValues();
-			selectArgs = new String[] { t.tableId };
-			values.put("customerId", t.customerId);
-			values.put("bookTime", t.bookTime);
-			values.put("state", t.state);
-
 			db.update(TABLEDATA, values, "tableId=?", selectArgs);
 			db.update(SEATDATA, values, "tableId=?", selectArgs);
 			db.setTransactionSuccessful();
@@ -425,19 +419,19 @@ public class Table_DBHelper extends Base_DBHelper {
 
 	/** 修改餐桌类型 */
 	public boolean upgradeTableStyle(TableStyleData ts) {
-		if (deleteSeatDataByStyle(ts) && insertTableStyle(ts))
+		if (deleteTableStyleData(ts) && insertTableStyle(ts))
 			return true;
 		else
 			return false;
 	}
 
 	// --------------------------------------------------------- 删除数据
-	/** 根据类型删除 */
-	public boolean deleteSeatDataByStyle(TableStyleData ts) {
+	/** 删除餐桌类型 */
+	public boolean deleteTableStyleData(TableStyleData ts) {
+		db = getWritableDatabase();
+		selectArgs = new String[] { ts.styleId };
 		try {
-			db = getWritableDatabase();
 			db.beginTransaction();
-			selectArgs = new String[] { ts.styleId };
 			db.delete(SEATDATA, "styleId=?", selectArgs);
 			db.delete(TABLEDATA, "styleId=?", selectArgs);
 			db.delete(TABLESTYLEDATA, "styleId=?", selectArgs);
@@ -454,15 +448,14 @@ public class Table_DBHelper extends Base_DBHelper {
 	/** 选座排队 */
 	public void setSeat(SeatData seat, CustomerData customer) {
 		Cursor cursor = null;
-		db = getReadableDatabase();
+		if (db == null)
+			db = getReadableDatabase();
 		String sql = "";
 		if (seat == null) {
 			sql = "seatCount>=?";
 			selectArgs = new String[] { customer.peopleCount + "" };
-			db.beginTransaction();
 			cursor = db.query(TABLESTYLEDATA, null, sql, selectArgs, null,
 					null, "seatCount");
-			db.setTransactionSuccessful();
 			if (cursor.moveToNext()) {
 				TableStyleData tsd = new TableStyleData();
 				tsd.styleId = cursor
@@ -471,19 +464,63 @@ public class Table_DBHelper extends Base_DBHelper {
 				selectArgs = new String[] {
 						String.valueOf(customer.peopleCount), tsd.styleId,
 						String.valueOf(customer.share) };
-				db.beginTransaction();
 				cursor = db.query(TABLEDATA, null, sql, selectArgs, "styleId",
 						null, "freeSeat");
-				db.setTransactionSuccessful();
 				if (cursor.moveToNext()) {
 					// TODO 分配座位
+					TableData table = new TableData();
+					table.tableId = cursor.getString(cursor
+							.getColumnIndex("tableId"));
+					table.styleId = cursor.getString(cursor
+							.getColumnIndex("styleId"));
+					table.seatCount = cursor.getInt(cursor
+							.getColumnIndex("seatCount"));
+					table.state = cursor.getInt(cursor.getColumnIndex("state"));
+					CustomerData c = new CustomerData();
+					c.id = cursor.getInt(cursor.getColumnIndex("customerId"));
+					// TODO 查顾客表
+					table.customer = c;
+					table.bookTime = cursor.getString(cursor
+							.getColumnIndex("bookTime"));
+					table.freeSeat = cursor.getInt(cursor
+							.getColumnIndex("freeSeat"));
+					table.waiterId = cursor.getInt(cursor
+							.getColumnIndex("waiterId"));
+					sql = "state=?,tableId=?";
+					selectArgs = new String[] {
+							String.valueOf(SeatData.AVAILIABLE), table.tableId };
+					cursor = db.query(SEATDATA, null, sql, selectArgs,
+							"tableId", null, null);
+					db = getWritableDatabase();
+					db.beginTransaction();
+					int i = 0;
+					ContentValues values = new ContentValues();
+					values.put("state", SeatData.OCCUPY);
+					values.put("customerId", customer.id);
+					while (cursor.moveToNext() && i < customer.peopleCount) {
+						db.update(SEATDATA, values, "seatId=?",
+								new String[] { cursor.getString(cursor
+										.getColumnIndex("seatId")) });
+						i++;
+					}
+					values = new ContentValues();
+					values.put("customerId", customer.id);
+					values.put("freeSeat", table.freeSeat - i);
+					db.update(TABLEDATA, values, "tableId=?",
+							new String[] { table.tableId });
+					db.setTransactionSuccessful();
+					db.endTransaction();
 				} else {
+					selectArgs = new String[] { tsd.styleId };
+					cursor = db.query(LISTDATA, null, "styleId=?", selectArgs,
+							null, null, "listId");
+					int number = 0;
+					if (cursor.moveToNext())
+						number = cursor.getCount();
 					ContentValues values = new ContentValues();
 					values.put("styleId", tsd.styleId);
 					values.put("customerId", customer.id);
-					values.put("customerName", customer.name);
-					values.put("tel", customer.tel);
-					values.put("peopleCount", customer.peopleCount);
+					values.put("number", number);
 					values.put("comeTime", new Date().toLocaleString());
 					db = getWritableDatabase();
 					db.beginTransaction();
@@ -498,67 +535,38 @@ public class Table_DBHelper extends Base_DBHelper {
 			selectArgs = new String[] { seat.tableId,
 					String.valueOf(customer.share),
 					String.valueOf(customer.peopleCount) };
-			db.beginTransaction();
 			cursor = db.query(TABLEDATA, null, sql, selectArgs, null, null,
 					null);
-			db.setTransactionSuccessful();
 			if (cursor.moveToNext()) {
 				TableData td = new TableData();
 				td.freeSeat = cursor.getInt(cursor.getColumnIndex("freeSeat"))
 						- customer.peopleCount;
 				td.tableId = cursor.getString(cursor.getColumnIndex("tableId"));
-				db.setTransactionSuccessful();
 				db.beginTransaction();
 				selectArgs = new String[] { seat.tableId,
 						String.valueOf(SeatData.AVAILIABLE) };
 				cursor = db.query(SEATDATA, null, "tableId=?,state=?",
 						selectArgs, null, null, null);
-				List<SeatData> list = new ArrayList<SeatData>();
-				while (cursor.moveToNext()) {
-					SeatData sd = new SeatData();
-					sd.seatId = cursor.getString(cursor
-							.getColumnIndex("seatId"));
-					// TODO
+				int i = 0;
+				ContentValues values = new ContentValues();
+				values.put("state", SeatData.OCCUPY);
+				values.put("customerId", customer.id);
+				while (cursor.moveToNext() && i < customer.peopleCount) {
+					db.update(SEATDATA, values, "seatId=?",
+							new String[] { cursor.getString(cursor
+									.getColumnIndex("seatId")) });
+					i++;
 				}
-
-				db = getWritableDatabase();
-
+				values = new ContentValues();
+				values.put("customerId", customer.id);
+				values.put("freeSeat", td.freeSeat - i);
+				db.update(TABLEDATA, values, "tableId=?",
+						new String[] { td.tableId });
+				db.setTransactionSuccessful();
+				db.endTransaction();
+			} else {
+				// TODO 返回错误信息 当前座位不符合要求
 			}
 		}
 	}
-	/** 控制数据库读写 */
-	// public final static int SET_SEAT = 1;
-	// private Handler writeHandler;
-	// private Thread writeThread = new Thread() {
-	// public void run() {
-	// Looper.prepare();
-	// writeHandler = new Handler() {
-	// @Override
-	// public void handleMessage(Message msg) {
-	// try {
-	// switch (msg.what) {
-	// case SET_SEAT:
-	//
-	// break;
-	// default:
-	// break;
-	// }
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// db.close();
-	// }
-	// }
-	// };
-	// Looper.loop();
-	// };
-	// };
-	//
-	// public void setSQLData(int type, int id, Object obj) {
-	// Message msg = writeHandler.obtainMessage();
-	// msg.what = type;
-	// msg.arg1 = id;
-	// msg.obj = obj;
-	//
-	// writeHandler.sendMessage(msg);
-	// }
 }

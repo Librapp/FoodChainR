@@ -5,6 +5,7 @@ import java.util.List;
 
 import lms.foodchainR.data.BillData;
 import lms.foodchainR.data.CaseData;
+import lms.foodchainR.data.OrderData;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -42,21 +43,19 @@ public class Bill_DBHelper extends Base_DBHelper {
 
 	/** 生成账单表 */
 	private String createBillDataTable() {
-		return CREATE + BILLDATA + " ("
-				+ "billId integer primary key autoincrement,"
-				+ "customerId varchar," + "customerName varchar,"
-				+ "seatId varchar," + "tableId varchar,"
-				+ "createTime varchar," + "state integer," + "tip integer,"
-				+ "discount float," + "cost float" + ")";
+		return CREATE + BILLDATA + " (" + "billId" + AUTO_KEY
+				+ "customerId varchar," + "createTime varchar,"
+				+ "state integer," + "tip float," + "discount float,"
+				+ "cost float" + ")";
 	}
 
 	/** 生成订单表 */
 	private String createOrderDataTable() {
-		return CREATE + ORDERDATA + " ("
-				+ "orderId integer primary key autoincrement," + "id integer,"
-				+ "billId integer," + "caseId varchar," + "caseName varchar,"
-				+ "price float," + "orderTime varchar," + "state integer,"
-				+ "type integer," + "message varchar" + ")";
+		return CREATE + ORDERDATA + " (" + "orderId" + AUTO_KEY
+				+ "billId integer," + "caseId varchar," + "createTime varchar,"
+				+ "state integer," + "type integer," + "remark varchar"
+				+ ",cookerId integer" + ",waiterId integer" + ",count integer"
+				+ ")";
 	}
 
 	/** 获取帐单 */
@@ -64,32 +63,21 @@ public class Bill_DBHelper extends Base_DBHelper {
 		Cursor cursor = null;
 		try {
 			db = getReadableDatabase();
-			selectArgs = new String[] { b.customerId + "", b.customerName,
-					b.seatId, b.tableId };
-			cursor = db.query(BILLDATA, null,
-					"customerId=? OR customerName=? OR seatId=? OR tableId=?",
-					selectArgs, "tableId", null, "seatId");
-			if (cursor != null) {
-				b.id = cursor.getInt(cursor.getColumnIndex("billId"));
-				b.customerId = cursor.getInt(cursor
+			selectArgs = new String[] { b.customer.id + "" };
+			cursor = db.query(BILLDATA, null, "customerId=?", selectArgs, null,
+					null, null);
+			if (cursor.moveToNext()) {
+				b.billId = cursor.getInt(cursor.getColumnIndex("billId"));
+				b.customer.id = cursor.getInt(cursor
 						.getColumnIndex("customerId"));
-				b.customerName = cursor.getString(cursor
-						.getColumnIndex("customerName"));
-				b.seatId = cursor.getString(cursor.getColumnIndex("seatId"));
-				b.tableId = cursor.getString(cursor.getColumnIndex("tableId"));
 				b.createTime = cursor.getString(cursor
 						.getColumnIndex("createTime"));
-				b.type = cursor.getInt(cursor.getColumnIndex("type"));
-				b.address = cursor.getString(cursor.getColumnIndex("address"));
-				b.tel = cursor.getString(cursor.getColumnIndex("tel"));
 				b.state = cursor.getInt(cursor.getColumnIndex("state"));
 				b.cost = cursor.getFloat(cursor.getColumnIndex("cost"));
 				b.discount = cursor.getFloat(cursor.getColumnIndex("discount"));
 				b.tip = cursor.getInt(cursor.getColumnIndex("tip"));
-			}
-			if (getOrderData(b))
 				return true;
-			else
+			} else
 				return false;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -107,26 +95,13 @@ public class Bill_DBHelper extends Base_DBHelper {
 		try {
 			db = getReadableDatabase();
 			List<CaseData> list = new ArrayList<CaseData>();
-			selectArgs = new String[] { b.id + "" };
+			selectArgs = new String[] { b.billId + "" };
 			cursor = db.query(ORDERDATA, null, "billId=?", selectArgs, null,
 					null, null);
-
 			if (cursor != null) {
 				while (cursor.moveToNext()) {
-					CaseData c = new CaseData(
-							cursor.getInt(cursor.getColumnIndex("orderId")),
-							cursor.getInt(cursor.getColumnIndex("id")),
-							cursor.getInt(cursor.getColumnIndex("caseId")),
-							cursor.getString(cursor.getColumnIndex("caseName")),
-							cursor.getFloat(cursor.getColumnIndex("price")),
-							cursor.getInt(cursor.getColumnIndex("billId")),
-							cursor.getString(cursor.getColumnIndex("orderTime")),
-							cursor.getInt(cursor.getColumnIndex("state")),
-							cursor.getInt(cursor.getColumnIndex("type")),
-							cursor.getString(cursor.getColumnIndex("message")));
-					list.add(c);
+
 				}
-				b.setCaseList(list);
 			}
 			return true;
 		} catch (Exception e) {
@@ -140,7 +115,7 @@ public class Bill_DBHelper extends Base_DBHelper {
 	}
 
 	/** 获取订单 */
-	public boolean getOrderList(ArrayList<CaseData> list) {
+	public boolean getOrderList(ArrayList<OrderData> list) {
 		Cursor cursor = null;
 		try {
 			db = getReadableDatabase();
@@ -148,18 +123,7 @@ public class Bill_DBHelper extends Base_DBHelper {
 					"orederId");
 			if (cursor != null) {
 				while (cursor.moveToNext()) {
-					CaseData c = new CaseData(
-							cursor.getInt(cursor.getColumnIndex("orderId")),
-							cursor.getInt(cursor.getColumnIndex("id")),
-							cursor.getInt(cursor.getColumnIndex("caseId")),
-							cursor.getString(cursor.getColumnIndex("caseName")),
-							cursor.getFloat(cursor.getColumnIndex("price")),
-							cursor.getInt(cursor.getColumnIndex("billId")),
-							cursor.getString(cursor.getColumnIndex("orderTime")),
-							cursor.getInt(cursor.getColumnIndex("state")),
-							cursor.getInt(cursor.getColumnIndex("type")),
-							cursor.getString(cursor.getColumnIndex("message")));
-					list.add(c);
+					// TODO
 				}
 			}
 			return true;
@@ -179,12 +143,8 @@ public class Bill_DBHelper extends Base_DBHelper {
 			db = getWritableDatabase();
 		try {
 			ContentValues values = new ContentValues();
-			values.put("customerId", b.customerId);
-			values.put("customerName", b.customerName);
-			values.put("seatId", b.seatId);
-			values.put("tableId", b.tableId);
+			values.put("customerId", b.customer.id);
 			values.put("createTime", b.createTime);
-			values.put("type", b.type);
 			db.insert(BILLDATA, null, values);
 			createOrderData(b);
 			db.setTransactionSuccessful();
@@ -200,17 +160,18 @@ public class Bill_DBHelper extends Base_DBHelper {
 	/** 创建订单 */
 	private void createOrderData(BillData b) {
 		try {
-			for (CaseData c : b.getCaseList()) {
+			for (OrderData c : b.getOrder()) {
 				ContentValues values = new ContentValues();
-				values.put("caseId", c.id);
-				values.put("caseName", c.name);
-				values.put("price", c.price);
-				values.put("billId", b.id);
-				values.put("orderTime", c.orderTime);
+				values.put("caseId", c.caseId);
+				values.put("billId", b.billId);
+				values.put("createTime", c.createTime);
 				values.put("state", c.state);
 				values.put("type", c.type);
-				values.put("message", c.message);
-				db.insert(BILLDATA, null, values);
+				values.put("remark", c.remark);
+				values.put("waiterId", c.waiterId);
+				values.put("cookerId", c.cookerId);
+				values.put("count", c.count);
+				db.insert(ORDERDATA, null, values);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -219,10 +180,9 @@ public class Bill_DBHelper extends Base_DBHelper {
 
 	/** 删除账单 */
 	public boolean deleteBill(BillData b) {
-		if (db == null)
-			db = getWritableDatabase();
+		db = getWritableDatabase();
+		selectArgs = new String[] { b.billId + "" };
 		try {
-			selectArgs = new String[] { b.id + "" };
 			db.delete(BILLDATA, "billId=?", selectArgs);
 			db.delete(ORDERDATA, "billId=?", selectArgs);
 			db.setTransactionSuccessful();
@@ -236,11 +196,10 @@ public class Bill_DBHelper extends Base_DBHelper {
 	}
 
 	/** 删除订单 */
-	public boolean deleteOrder(CaseData c) {
-		if (db == null)
-			db = getWritableDatabase();
+	public boolean deleteOrder(OrderData c) {
+		db = getWritableDatabase();
+		selectArgs = new String[] { c.orderId + "" };
 		try {
-			selectArgs = new String[] { c.orderId + "" };
 			db.delete(ORDERDATA, "oiderId=?", selectArgs);
 			db.setTransactionSuccessful();
 			return true;

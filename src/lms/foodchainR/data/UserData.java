@@ -48,6 +48,8 @@ public class UserData {
 	public int state = 0;
 	// 设备
 	public Device device;
+	/** 局域网内地址 */
+	public String localURL;
 	// 评论
 	private List<CommentData> comment;
 	// 消息

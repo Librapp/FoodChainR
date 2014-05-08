@@ -6,6 +6,7 @@ import lms.foodchainR.dao.Case_DBHelper;
 import lms.foodchainR.data.CaseStyleData;
 import lms.foodchainR.data.TableStyleData;
 import lms.foodchainR.service.TableService;
+import lms.foodchainR.widget.OnRefreshTableStyleDataListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -25,6 +26,7 @@ public class MyDialogFragment extends DialogFragment {
 	private TableStyleData tsb;
 	private EditText edit1, edit2, edit3;
 	private TextView text1, text2;
+	private OnRefreshTableStyleDataListener refreshTableStyleDataListener;
 
 	public static MyDialogFragment caseStyleInstance() {
 		MyDialogFragment f = new MyDialogFragment();
@@ -149,6 +151,7 @@ public class MyDialogFragment extends DialogFragment {
 					if (isNew) {
 						if (TableService.createTableStyle(tsb)) {
 							// TODO 刷新数据
+							refreshTableStyleDataListener.onDismiss();
 							dismiss();
 						} else {
 							Toast.makeText(getActivity(), "创建失败",
@@ -158,6 +161,7 @@ public class MyDialogFragment extends DialogFragment {
 					} else {
 						if (TableService.upgradeTableStyle(tsb)) {
 							// TODO 刷新数据
+							refreshTableStyleDataListener.onDismiss();
 							dismiss();
 						} else {
 							Toast.makeText(getActivity(), "修改失败",
@@ -225,6 +229,11 @@ public class MyDialogFragment extends DialogFragment {
 			break;
 		}
 		return v;
+	}
+
+	public void setRefreshTableStyleDataListener(
+			OnRefreshTableStyleDataListener refreshTableStyleDataListener) {
+		this.refreshTableStyleDataListener = refreshTableStyleDataListener;
 	}
 
 }

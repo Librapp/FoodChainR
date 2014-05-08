@@ -19,7 +19,7 @@ public class TableData {
 	public static final int WAITING = 5;
 	public static final int PAY = 6;
 	// 服务生Id
-	public int waiterId;
+	public int waiterId = 0;
 	// 座位数
 	public int seatCount = 4;
 	// 状态
@@ -31,9 +31,7 @@ public class TableData {
 	// 类型
 	public String styleId;
 	// 预定时间
-	public String bookTime;
-	/** 顾客Id */
-	public int customerId;
+	public String bookTime = "";
 	private static TableData current;
 	/** 空座位数 */
 	public int freeSeat = 4;

@@ -3,10 +3,7 @@ package lms.foodchainR.net;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import lms.foodchainR.dao.Bill_DBHelper;
-import lms.foodchainR.data.BillData;
 import lms.foodchainR.data.CaseData;
 import lms.foodchainR.data.CaseStyleData;
 import lms.foodchainR.data.MessageData;
@@ -18,8 +15,6 @@ import lms.foodchainR.data.TableStyleData;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.content.Context;
 
 /**
  * 
@@ -59,8 +54,6 @@ public class JSONParser {
 			JSONObject data = new JSONObject(result);
 			csd.styleId = data.optInt("id");
 			csd.name = data.optString("name");
-			csd.startTime = data.optString("startTime");
-			csd.endTime = data.optString("endTime");
 		} catch (JSONException e) {
 			e.printStackTrace();
 			msg = e.getMessage();
@@ -73,26 +66,13 @@ public class JSONParser {
 		msg = "";
 		try {
 			JSONObject data = new JSONObject(result);
-			cd.id = data.optInt("id");
 			cd.caseId = data.optInt("caseId");
-			cd.billId = data.optInt("billId");
-			cd.family = data.optInt("family");
-			cd.cookerId = data.optInt("cookerId");
-			cd.waiterId = data.optInt("waiterId");
-			cd.type = data.optInt("type");
 			cd.state = data.optInt("state");
-			cd.style = data.optInt("style");
+			cd.styleId = data.optInt("styleId");
 			cd.cookTime = data.optInt("cookTime");
-			cd.orderId = data.optInt("orderId");
 			cd.name = data.optString("name");
 			cd.picPath = data.optString("picPath");
 			cd.intro = data.optString("intro");
-			cd.orderTime = data.optString("orderTime");
-			cd.waitTime = data.optString("waitTime");
-			cd.message = data.optString("message");
-			cd.mark = data.optDouble("mark");
-			cd.price = data.optDouble("price");
-			cd.special = data.optDouble("special");
 		} catch (JSONException e) {
 			e.printStackTrace();
 			msg = e.getMessage();
@@ -113,7 +93,7 @@ public class JSONParser {
 			current.sms = data.optString("sms");
 			current.opentime = data.optString("opentime");
 			current.email = data.optString("email");
-			current.id = data.optString("id");
+			current.id = data.optInt("id");
 			current.credit = data.optInt("credit");
 			current.state = data.optInt("state");
 		} catch (JSONException e) {
@@ -177,7 +157,6 @@ public class JSONParser {
 		try {
 			JSONObject data = new JSONObject(result);
 			td.tableId = data.optString("id");
-			td.icon = data.optString("icon");
 			td.seatCount = data.optInt("seatCount");
 			JSONArray array = data.optJSONArray("seatList");
 			ArrayList<SeatData> list = new ArrayList<SeatData>();
@@ -251,35 +230,4 @@ public class JSONParser {
 		}
 		return msg;
 	}
-
-	/** 解析CaseStyleDataList */
-	public static String order(Context context, String result) {
-		msg = "";
-		Bill_DBHelper bdb = new Bill_DBHelper(context);
-		try {
-			JSONObject data = new JSONObject(result);
-			BillData bd = new BillData();
-			bd.customerId = data.getInt("id");
-			bd.customerName = data.getString("name");
-			bd.address = data.getString("address");
-			JSONArray array = data.getJSONArray("caseList");
-			List<CaseData> list = new ArrayList<CaseData>();
-			for (int i = 0; i < array.length(); i++) {
-				CaseData cd = new CaseData();
-				JSONObject item = array.getJSONObject(i);
-				cd.id = item.getInt("id");
-				cd.name = item.getString("name");
-				cd.message = item.getString("message");
-				cd.orderTime = item.getString("orderTime");
-				list.add(cd);
-			}
-			bd.setCaseList(list);
-			bdb.createBillData(bd);
-		} catch (JSONException e) {
-			e.printStackTrace();
-			msg = e.getMessage();
-		}
-		return msg;
-	}
-
 }
