@@ -3,5 +3,6 @@
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="orange">#f19814</color>
-    <color name="DeepSkyBlue">#00BFFF</color>
+    <color name="deep_sky_blue">#00BFFF</color>
+    <color name="red">#FF0000</color>
 </resources>
