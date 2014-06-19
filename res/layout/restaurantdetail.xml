@@ -69,10 +69,10 @@
                         android:text="@string/num" />
                     <EditText
                         android:id="@+id/rd_tel_edit"
+                        style="@style/edittext"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        style="@style/edittext"
                         android:visibility="gone" />
                 </TableRow>
                 <TableRow>
@@ -88,10 +88,10 @@
                         android:text="@string/num" />
                     <EditText
                         android:id="@+id/rd_sms_edit"
+                        style="@style/edittext"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        style="@style/edittext"
                         android:visibility="gone" />
                 </TableRow>
                 <TableRow>
@@ -179,6 +179,7 @@
                 android:layout_height="150dp"
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/rd_intro"
+                android:gravity="left|top"
                 android:inputType="textMultiLine"
                 android:maxLines="5"
                 android:minLines="3"

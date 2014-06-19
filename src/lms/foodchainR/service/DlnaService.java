@@ -5,9 +5,7 @@ import java.util.UUID;
 import lms.foodchainR.data.CustomerData;
 import lms.foodchainR.data.EmployeeData;
 import lms.foodchainR.data.OtherData;
-import lms.foodchainR.data.RestaurantData;
 import lms.foodchainR.data.Self;
-import lms.foodchainR.util.FileInfoUtils;
 
 import org.cybergarage.upnp.Action;
 import org.cybergarage.upnp.ArgumentList;
@@ -87,29 +85,28 @@ public class DlnaService extends Service implements DeviceChangeListener,
 
 	private void initServer() {
 		Node root = new Node(RootDescription.ROOT_ELEMENT);
-		root.setNameSpace("", RootDescription.ROOT_ELEMENT_NAMESPACE);
-		Node spec = new Node(RootDescription.SPECVERSION_ELEMENT);
-		Node maj = new Node(RootDescription.MAJOR_ELEMENT);
-		maj.setValue("1");
-		Node min = new Node(RootDescription.MINOR_ELEMENT);
-		min.setValue("0");
-		spec.addNode(maj);
-		spec.addNode(min);
-		root.addNode(spec);
+		// root.setNameSpace("", RootDescription.ROOT_ELEMENT_NAMESPACE);
+		// Node spec = new Node(RootDescription.SPECVERSION_ELEMENT);
+		// Node maj = new Node(RootDescription.MAJOR_ELEMENT);
+		// maj.setValue("1");
+		// Node min = new Node(RootDescription.MINOR_ELEMENT);
+		// min.setValue("0");
+		// spec.addNode(maj);
+		// spec.addNode(min);
+		// root.addNode(spec);
 
 		Node device = new Node(Device.ELEM_NAME);
 		root.addNode(device);
-
 		d = new lms.foodchainR.upnp.Device(root, device);
 		d.setFriendlyName(Self.current().name);
 		d.setActionListener(this);
-		d.setUDN("uuid:" + getMyUUID());
-		d.setUserData(RestaurantData.self().id);
-		d.setDeviceType(OtherData.RESTAURANTDEVICETYPE);
-		d.setDescriptionURI(OtherData.DESCRIPTIONURL);
-		if (FileInfoUtils.writeFile(d.getRootNode().toString().getBytes(),
-				"FCR", "description.xml"))
-			d.start();
+		// d.setUDN("uuid:" + getMyUUID());
+		// d.setUserData(RestaurantData.self().id);
+		// d.setDeviceType(OtherData.RESTAURANTDEVICETYPE);
+		// d.setDescriptionURI(OtherData.DESCRIPTIONURL);
+		// if (FileInfoUtils.writeFile(d.getRootNode().toString().getBytes(),
+		// "FCR", "description.xml"))
+		d.start();
 	}
 
 	private String getMyUUID() {
