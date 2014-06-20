@@ -96,9 +96,18 @@
 
 package lms.foodchainR.upnp;
 
+import lms.foodchainR.net.JSONRequest;
+import lms.foodchainR.net.JSONResponse;
+
+import org.cybergarage.http.HTTPRequest;
+import org.cybergarage.http.HTTPResponse;
+import org.cybergarage.http.HTTPStatus;
 import org.cybergarage.upnp.device.SearchListener;
 import org.cybergarage.upnp.ssdp.SSDPPacket;
+import org.cybergarage.util.Debug;
 import org.cybergarage.xml.Node;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Device extends org.cybergarage.upnp.Device implements
 		org.cybergarage.http.HTTPRequestListener, SearchListener {
@@ -118,12 +127,48 @@ public class Device extends org.cybergarage.upnp.Device implements
 			return;
 
 		String devUSN = getUDN();
-
 		if (ssdpST.equals("FC") == true) {
-			String devNT = devUSN;
 			int repeatCnt = 3;
 			for (int n = 0; n < repeatCnt; n++)
 				postSearchResponse(ssdpPacket, ssdpST, devUSN);
 		}
+	}
+
+	public void httpRequestRecieved(HTTPRequest httpReq) {
+		if (Debug.isOn() == true)
+			httpReq.print();
+		if (httpReq.isPostRequest() == true) {
+			httpPostRequestRecieved(httpReq);
+			return;
+		}
+		httpReq.returnBadRequest();
+	}
+
+	private void httpPostRequestRecieved(HTTPRequest httpReq) {
+		byte[] b = httpReq.getContent();
+		HTTPResponse httpRes = new HTTPResponse();
+		try {
+			JSONObject data = new JSONObject(new String(b));
+			String method = data.getString(JSONRequest.METHOD);
+			if (method.equals(JSONRequest.RESTAURANTINFO)) {
+				httpRes.setContent(JSONResponse.restaurantInfo().toString());
+			} else if (method.equals(JSONRequest.HALLINFO)) {
+				httpRes.setContent(JSONResponse.hallInfo().toString());
+			} else if (method.equals(JSONRequest.MENU)) {
+				httpRes.setContent(JSONResponse.menuData().toString());
+			} else if (method.equals(JSONRequest.SETSEAT)) {
+				httpRes.setContent(JSONResponse.result("").toString());
+			} else if (method.equals(JSONRequest.MESSAGE)) {
+
+			} else if (method.equals(JSONRequest.CASEDETAIL)) {
+				// httpRes.setContent(JSONResponse.caseDetailResponse(msg, c));
+			}
+			httpRes.setStatusCode(HTTPStatus.OK);
+			httpReq.post(httpRes);
+			return;
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		httpReq.returnBadRequest();
 	}
 }
