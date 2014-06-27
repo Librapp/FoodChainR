@@ -1,11 +1,11 @@
 package lms.foodchainR.fragment;
 
 import lms.foodchainR.R;
-import lms.foodchainR.activity.CaseStyleDetailActivity;
 import lms.foodchainR.dao.Case_DBHelper;
 import lms.foodchainR.data.CaseStyleData;
 import lms.foodchainR.data.TableStyleData;
 import lms.foodchainR.service.TableService;
+import lms.foodchainR.ui.SecondaryActivity;
 import lms.foodchainR.widget.OnRefreshTableStyleDataListener;
 import android.content.Intent;
 import android.os.Bundle;
@@ -204,9 +204,11 @@ public class MyDialogFragment extends DialogFragment {
 								new Case_DBHelper(getActivity())
 										.getCaseStyleDataByName(csd);
 								Intent intent = new Intent(getActivity(),
-										CaseStyleDetailActivity.class);
+										SecondaryActivity.class);
 								intent.putExtra("id", csd.styleId);
 								intent.putExtra("name", csd.name);
+								intent.putExtra("title",
+										R.string.casestyledetail);
 								startActivity(intent);
 								dismiss();
 							}

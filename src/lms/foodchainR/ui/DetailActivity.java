@@ -48,8 +48,6 @@ public class DetailActivity extends FragmentActivity implements OnClickListener 
 			mContent = new WebBrowserFragment();
 			break;
 		case R.string.casedetail:
-			int id = getIntent().getIntExtra("id", 0);
-			b.putInt("id", id);
 			mContent = new CaseDetailFragment();
 			break;
 		default:

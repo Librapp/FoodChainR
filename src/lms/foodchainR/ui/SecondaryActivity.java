@@ -2,6 +2,7 @@ package lms.foodchainR.ui;
 
 import lms.foodchainR.R;
 import lms.foodchainR.fragment.AboutFragment;
+import lms.foodchainR.fragment.CaseStyleDetailFragment;
 import lms.foodchainR.fragment.FeedbackFragment;
 import lms.foodchainR.fragment.LoginFragment;
 import lms.foodchainR.fragment.SendCommentFragment;
@@ -47,9 +48,14 @@ public class SecondaryActivity extends FragmentActivity implements
 		case R.string.editstyle:
 
 			break;
+		case R.string.casestyledetail:
+			title.setText(getIntent().getStringExtra("name"));
+			mContent = new CaseStyleDetailFragment();
+			break;
 		default:
 			break;
 		}
+		mContent.setArguments(getIntent().getExtras());
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.frame, mContent).commit();
 	}

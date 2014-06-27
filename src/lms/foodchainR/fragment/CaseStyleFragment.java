@@ -1,9 +1,9 @@
 package lms.foodchainR.fragment;
 
 import lms.foodchainR.R;
-import lms.foodchainR.activity.CaseStyleDetailActivity;
 import lms.foodchainR.dao.Case_DBHelper;
 import lms.foodchainR.data.CaseStyleData;
+import lms.foodchainR.ui.SecondaryActivity;
 import lms.foodchainR.widget.MenuAdapter;
 import android.app.Activity;
 import android.content.Intent;
@@ -30,7 +30,6 @@ public class CaseStyleFragment extends ListFragment implements OnClickListener {
 
 	@Override
 	public void onAttach(Activity activity) {
-		// TODO Auto-generated method stub
 		super.onAttach(activity);
 	}
 
@@ -55,6 +54,7 @@ public class CaseStyleFragment extends ListFragment implements OnClickListener {
 		cdb = new Case_DBHelper(getActivity());
 		edit = new Button(getActivity());
 		edit.setText(R.string.edit);
+		edit.setBackgroundResource(R.drawable.btn_bg);
 		edit.setOnClickListener(this);
 		getListView().addFooterView(edit);
 		if (cdb.getCaseStyleData(csd) && csd.getList().size() > 0) {
@@ -80,9 +80,10 @@ public class CaseStyleFragment extends ListFragment implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		Intent intent = new Intent(getActivity(), CaseStyleDetailActivity.class);
+		Intent intent = new Intent(getActivity(), SecondaryActivity.class);
 		intent.putExtra("id", csd.styleId);
 		intent.putExtra("name", csd.name);
+		intent.putExtra("title", R.string.casestyledetail);
 		startActivity(intent);
 	}
 

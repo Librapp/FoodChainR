@@ -1,4 +1,4 @@
-package lms.foodchainR.activity;
+package lms.foodchainR.fragment;
 
 import java.util.List;
 
@@ -7,12 +7,14 @@ import lms.foodchainR.dao.Case_DBHelper;
 import lms.foodchainR.data.CaseData;
 import lms.foodchainR.data.CaseStyleData;
 import lms.foodchainR.service.MenuService;
+import lms.foodchainR.ui.DetailActivity;
 import lms.foodchainR.util.ViewHolder;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -37,10 +39,9 @@ import android.widget.Toast;
  * @version 1.0
  * 
  */
-public class CaseStyleDetailActivity extends Activity implements
+public class CaseStyleDetailFragment extends Fragment implements
 		OnClickListener, OnItemLongClickListener, OnItemClickListener {
 
-	private TextView name;
 	private ListView listView;
 	private Button edit, create;
 
@@ -55,41 +56,41 @@ public class CaseStyleDetailActivity extends Activity implements
 	private List<CaseData> list;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.casestyledetail);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.casestyledetail, null);
+	}
 
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 		initViews();
 		initData();
 	}
 
 	private void initViews() {
-		name = (TextView) findViewById(R.id.name);
-		listView = (ListView) findViewById(R.id.list);
-		findViewById(R.id.back).setOnClickListener(this);
-		edit = (Button) findViewById(R.id.edit);
-		edit.setOnClickListener(this);
+		View v = getView();
+		listView = (ListView) v.findViewById(R.id.list);
 	}
 
 	private void initData() {
 		listener = new mlistener();
-		cdb = new Case_DBHelper(this);
+		cdb = new Case_DBHelper(getActivity());
 		csd = new CaseStyleData();
-		csd.styleId = getIntent().getIntExtra("id", 0);
-		csd.name = getIntent().getStringExtra("name");
-		if (MenuService.getCaseStyleData(csd)) {
-			name.setText(csd.name);
-		} else {
-			setResult(RESULT_CANCELED);
-			finish();
+		csd.styleId = getArguments().getInt("id", 0);
+		csd.name = getArguments().getString("name");
+		if (!MenuService.getCaseStyleData(csd)) {
+			getActivity().setResult(Activity.RESULT_CANCELED);
+			getActivity().finish();
 		}
-		create = new Button(this);
+		create = new Button(getActivity());
 		create.setId(0);
 		create.setText(R.string.create);
+		create.setBackgroundResource(R.drawable.btn_bg);
 		create.setOnClickListener(listener);
 		listView.addFooterView(create);
 		list = csd.getList();
-		ma = new MenuAdapter(this, list);
+		ma = new MenuAdapter(getActivity(), list);
 		listView.setAdapter(ma);
 		// listView.setOnItemLongClickListener(this);
 		// listView.setOnCreateContextMenuListener(this);
@@ -98,9 +99,6 @@ public class CaseStyleDetailActivity extends Activity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.back:
-			finish();
-			break;
 		case R.id.edit:
 			isEdit = !isEdit;
 			if (isEdit)
@@ -115,12 +113,14 @@ public class CaseStyleDetailActivity extends Activity implements
 	}
 
 	private void openCreateNewCaseActivity() {
-		Intent i = new Intent(this, CaseDetailActivity.class);
 		CaseData.current = new CaseData();
 		CaseData.current().isNew = true;
 		CaseData.current().styleId = csd.styleId;
-		startActivityForResult(i, REQUEST_CREATECASE);
-
+		Intent intent = new Intent(getActivity(), DetailActivity.class);
+		intent.putExtra("id", CaseData.current.caseId);
+		intent.putExtra("name", CaseData.current.name);
+		intent.putExtra("title", R.string.casedetail);
+		startActivityForResult(intent, REQUEST_CREATECASE);
 	}
 
 	@Override
@@ -142,20 +142,23 @@ public class CaseStyleDetailActivity extends Activity implements
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case DETAIL:
-			Intent i = new Intent(this, CaseDetailActivity.class);
-			CaseData.current = new CaseData();
-			CaseData.current().isNew = false;
-			CaseData.current().caseId = currentItem;
-			startActivity(i);
+			CaseData.current = list.get(currentItem);
+			Intent intent = new Intent(getActivity(), DetailActivity.class);
+			intent.putExtra("id", CaseData.current.caseId);
+			intent.putExtra("name", CaseData.current.name);
+			intent.putExtra("title", R.string.casedetail);
+			startActivity(intent);
 			return true;
 		case DELETE:
 			CaseData c = new CaseData();
 			c.caseId = currentItem;
 			if (MenuService.deleteCase(c)) {
 				// TODO 刷新
-				Toast.makeText(this, "删除成功", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_SHORT)
+						.show();
 			} else
-				Toast.makeText(this, "删除失败", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), "删除失败", Toast.LENGTH_SHORT)
+						.show();
 			return true;
 		default:
 			return super.onContextItemSelected(item);
@@ -240,7 +243,7 @@ public class CaseStyleDetailActivity extends Activity implements
 				if (MenuService.deleteCase(c)) {
 					if (cdb.getCaseStyleData(csd))
 						list = csd.getList();
-					ma = new MenuAdapter(CaseStyleDetailActivity.this, list);
+					ma = new MenuAdapter(getActivity(), list);
 					listView.setAdapter(ma);
 				}
 				break;
@@ -256,8 +259,11 @@ public class CaseStyleDetailActivity extends Activity implements
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		currentItem = arg2;
-		Intent i = new Intent(this, CaseDetailActivity.class);
-		CaseData.current = list.get(arg2);
-		startActivity(i);
+		CaseData.current = list.get(currentItem);
+		Intent intent = new Intent(getActivity(), DetailActivity.class);
+		intent.putExtra("id", CaseData.current.caseId);
+		intent.putExtra("name", CaseData.current.name);
+		intent.putExtra("title", R.string.casedetail);
+		startActivity(intent);
 	}
 }

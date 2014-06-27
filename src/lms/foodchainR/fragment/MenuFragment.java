@@ -3,10 +3,10 @@ package lms.foodchainR.fragment;
 import java.util.ArrayList;
 
 import lms.foodchainR.R;
-import lms.foodchainR.activity.CaseStyleDetailActivity;
 import lms.foodchainR.dao.Case_DBHelper;
 import lms.foodchainR.data.CaseStyleData;
 import lms.foodchainR.service.MenuService;
+import lms.foodchainR.ui.SecondaryActivity;
 import lms.foodchainR.util.ViewHolder;
 import android.content.Context;
 import android.content.Intent;
@@ -55,8 +55,7 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 	private Button edit;
 	private ArrayList<CaseStyleData> styleList;
 	private MenuFragAdapter mfa;
-	private final int DELETE = 1;
-	private final int EDIT = 2;
+	private final int DELETE = 1, EDIT = 2;
 	private int currentItem = 0;
 	private boolean isEdit = false;
 	private mlistener listener;
@@ -69,7 +68,6 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 	}
@@ -94,6 +92,7 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 			name.setId(csd.styleId);
 			name.setLayoutParams(rl);
 			name.setText(csd.name);
+			name.setBackgroundResource(R.drawable.btn_bg);
 			name.setOnLongClickListener(this);
 			name.setOnCreateContextMenuListener(this);
 			title.addView(name);
@@ -229,10 +228,10 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 			}
 			break;
 		case EDIT:
-			Intent intent = new Intent(getActivity(),
-					CaseStyleDetailActivity.class);
+			Intent intent = new Intent(getActivity(), SecondaryActivity.class);
 			intent.putExtra("id", c.styleId);
 			intent.putExtra("name", c.name);
+			intent.putExtra("title", R.string.casestyledetail);
 			startActivity(intent);
 			break;
 		default:
@@ -325,9 +324,10 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		currentItem = arg2;
 		CaseStyleData c = styleList.get(arg2);
-		Intent intent = new Intent(getActivity(), CaseStyleDetailActivity.class);
+		Intent intent = new Intent(getActivity(), SecondaryActivity.class);
 		intent.putExtra("id", c.styleId);
 		intent.putExtra("name", c.name);
+		intent.putExtra("title", R.string.casestyledetail);
 		startActivity(intent);
 	}
 

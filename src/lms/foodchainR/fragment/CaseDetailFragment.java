@@ -60,10 +60,9 @@ public class CaseDetailFragment extends Fragment implements OnClickListener {
 
 	private TextView name, price, intro, cooktime;
 	private EditText nameEd, priceEd, introEd, cooktimeEd;
-	private Button edit;
+	private Button edit, cancel;
 	private RatingBar mark;
 
-	public static final int DETAIL = 0, CREATE = 1, EDIT = 2;
 	private boolean isEdit = false;
 
 	@Override
@@ -97,7 +96,8 @@ public class CaseDetailFragment extends Fragment implements OnClickListener {
 		mark = (RatingBar) v.findViewById(R.id.mark);
 		edit = (Button) v.findViewById(R.id.edit);
 		edit.setOnClickListener(this);
-		v.findViewById(R.id.back).setOnClickListener(this);
+		cancel = (Button) v.findViewById(R.id.cancel);
+		cancel.setOnClickListener(this);
 		pic = (ImageView) v.findViewById(R.id.case_pic);
 		pic.setOnClickListener(this);
 
@@ -134,6 +134,7 @@ public class CaseDetailFragment extends Fragment implements OnClickListener {
 
 			mark.setEnabled(true);
 			edit.setText("保存");
+			cancel.setText("取消");
 			pic.setClickable(true);
 		} else {
 			nameEd.setVisibility(View.GONE);
@@ -153,6 +154,7 @@ public class CaseDetailFragment extends Fragment implements OnClickListener {
 
 			mark.setEnabled(false);
 			edit.setText("编辑");
+			cancel.setText("返回");
 			pic.setClickable(false);
 		}
 	}
@@ -216,10 +218,8 @@ public class CaseDetailFragment extends Fragment implements OnClickListener {
 		case R.id.case_pic:
 			MyAlertDialogFragment.choosePicInstance().show(
 					getChildFragmentManager(), "Dialog");
-			// CharSequence[] items = { "相册", "拍照" };
-			// ChooseImage(items);
 			break;
-		case R.id.back:
+		case R.id.cancel:
 			if (isEdit) {
 				isEdit = false;
 				initData();
