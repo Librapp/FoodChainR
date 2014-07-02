@@ -3,6 +3,7 @@ package lms.foodchainR.service;
 import java.util.ArrayList;
 
 import lms.foodchainR.dao.Table_DBHelper;
+import lms.foodchainR.data.CustomerData;
 import lms.foodchainR.data.SeatData;
 import lms.foodchainR.data.TableData;
 import lms.foodchainR.data.TableStyleData;
@@ -69,7 +70,8 @@ public class TableService extends BaseService {
 	}
 
 	/** 选座位或者排号 */
-	public static void setSeat(SeatData data, int peopleCount, boolean share) {
-
+	public static String setSeat(SeatData seat, CustomerData customer) {
+		return tdb.setSeat(seat, customer);
 	}
+
 }

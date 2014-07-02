@@ -273,4 +273,21 @@ public class JSONResponse {
 		}
 		return data;
 	}
+
+	public static JSONObject setSeat(JSONObject customer, JSONObject seat) {
+		String msg = "";
+		CustomerData cd = new CustomerData();
+		SeatData sd = new SeatData();
+		try {
+			cd.id = customer.getInt("id");
+			cd.peopleCount = customer.getInt("peoplecount");
+			sd.seatId = seat.getString("seatId");
+			sd.tableId = seat.getString("tableId");
+			msg = TableService.setSeat(sd, cd);
+		} catch (JSONException e) {
+			e.printStackTrace();
+			msg = e.getMessage();
+		}
+		return result(msg);
+	}
 }

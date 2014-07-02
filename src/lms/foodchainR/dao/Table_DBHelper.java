@@ -446,11 +446,11 @@ public class Table_DBHelper extends Base_DBHelper {
 	}
 
 	/** 选座排队 */
-	public void setSeat(SeatData seat, CustomerData customer) {
+	public String setSeat(SeatData seat, CustomerData customer) {
 		Cursor cursor = null;
 		if (db == null)
 			db = getReadableDatabase();
-		String sql = "";
+		String sql = "", msg = "";
 		if (seat == null) {
 			sql = "seatCount>=?";
 			selectArgs = new String[] { customer.peopleCount + "" };
@@ -460,12 +460,11 @@ public class Table_DBHelper extends Base_DBHelper {
 				TableStyleData tsd = new TableStyleData();
 				tsd.styleId = cursor
 						.getString(cursor.getColumnIndex("styleId"));
-				sql = "freeSeat>=?,styleId=?,share=?";
+				sql = "seatCount>=?,styleId=?";
 				selectArgs = new String[] {
-						String.valueOf(customer.peopleCount), tsd.styleId,
-						String.valueOf(customer.share) };
+						String.valueOf(customer.peopleCount), tsd.styleId };
 				cursor = db.query(TABLEDATA, null, sql, selectArgs, "styleId",
-						null, "freeSeat");
+						null, "seatCount");
 				if (cursor.moveToNext()) {
 					// TODO 分配座位
 					TableData table = new TableData();
@@ -531,42 +530,39 @@ public class Table_DBHelper extends Base_DBHelper {
 				}
 			}
 		} else {
-			sql = "tableId=?,share=?,freeSeat>=?";
+			sql = "tableId=?,state=?";
 			selectArgs = new String[] { seat.tableId,
-					String.valueOf(customer.share),
-					String.valueOf(customer.peopleCount) };
+					String.valueOf(SeatData.AVAILIABLE) };
 			cursor = db.query(TABLEDATA, null, sql, selectArgs, null, null,
 					null);
 			if (cursor.moveToNext()) {
 				TableData td = new TableData();
-				td.freeSeat = cursor.getInt(cursor.getColumnIndex("freeSeat"))
-						- customer.peopleCount;
 				td.tableId = cursor.getString(cursor.getColumnIndex("tableId"));
 				db.beginTransaction();
 				selectArgs = new String[] { seat.tableId,
 						String.valueOf(SeatData.AVAILIABLE) };
 				cursor = db.query(SEATDATA, null, "tableId=?,state=?",
 						selectArgs, null, null, null);
-				int i = 0;
 				ContentValues values = new ContentValues();
 				values.put("state", SeatData.OCCUPY);
 				values.put("customerId", customer.id);
-				while (cursor.moveToNext() && i < customer.peopleCount) {
+				while (cursor.moveToNext()) {
 					db.update(SEATDATA, values, "seatId=?",
 							new String[] { cursor.getString(cursor
 									.getColumnIndex("seatId")) });
-					i++;
 				}
-				values = new ContentValues();
-				values.put("customerId", customer.id);
-				values.put("freeSeat", td.freeSeat - i);
-				db.update(TABLEDATA, values, "tableId=?",
+				ContentValues tvalues = new ContentValues();
+				tvalues.put("customerId", customer.id);
+				tvalues.put("state", SeatData.OCCUPY);
+				db.update(TABLEDATA, tvalues, "tableId=?",
 						new String[] { td.tableId });
 				db.setTransactionSuccessful();
 				db.endTransaction();
+				msg = "选座成功";
 			} else {
-				// TODO 返回错误信息 当前座位不符合要求
+				msg = "座位已被占用";
 			}
 		}
+		return msg;
 	}
 }

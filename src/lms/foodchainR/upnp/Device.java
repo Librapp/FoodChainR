@@ -96,8 +96,10 @@
 
 package lms.foodchainR.upnp;
 
+import lms.foodchainR.data.CaseData;
 import lms.foodchainR.net.JSONRequest;
 import lms.foodchainR.net.JSONResponse;
+import lms.foodchainR.service.MenuService;
 
 import org.cybergarage.http.HTTPRequest;
 import org.cybergarage.http.HTTPResponse;
@@ -157,11 +159,22 @@ public class Device extends org.cybergarage.upnp.Device implements
 			} else if (method.equals(JSONRequest.MENU)) {
 				httpRes.setContent(JSONResponse.menuData().toString());
 			} else if (method.equals(JSONRequest.SETSEAT)) {
-				httpRes.setContent(JSONResponse.result("").toString());
+				JSONObject user = data.getJSONObject("user");
+				JSONObject seat = data.getJSONObject("seat");
+				httpRes.setContent(JSONResponse.setSeat(user, seat).toString());
 			} else if (method.equals(JSONRequest.MESSAGE)) {
 
 			} else if (method.equals(JSONRequest.CASEDETAIL)) {
-				// httpRes.setContent(JSONResponse.caseDetailResponse(msg, c));
+				CaseData c = new CaseData();
+				c.caseId = data.getInt("caseId");
+				String msg = "";
+				if (!MenuService.getCaseDetail(c)) {
+					msg = "没有相关数据";
+				}
+				httpRes.setContent(JSONResponse.caseDetailResponse(msg, c)
+						.toString());
+			} else if (method.equals(JSONRequest.ORDER)) {
+
 			}
 			httpRes.setStatusCode(HTTPStatus.OK);
 			httpReq.post(httpRes);

@@ -78,7 +78,7 @@ public class SplashActivity extends Activity {
 	}
 
 	private void openMainPageFast() {
-		Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+		Intent intent = new Intent(SplashActivity.this, TabActivity.class);
 		startActivity(intent);
 		finish();
 	}

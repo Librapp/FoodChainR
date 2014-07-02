@@ -56,30 +56,24 @@ public class Case_DBHelper extends Base_DBHelper {
 		Cursor cursor = null;
 		try {
 			db = getReadableDatabase();
-			selectArgs = new String[] { c.name };
-			cursor = db.query(CASEDATA, null, "name=?", selectArgs, null, null,
-					null);
-			if (cursor != null && cursor.moveToNext()) {
-				if (cursor.getCount() > 0 && !c.isNew) {
-					c.caseId = cursor.getInt(cursor.getColumnIndex("caseId"));
-					c.name = cursor.getString(cursor.getColumnIndex("name"));
-					c.price = cursor.getFloat(cursor.getColumnIndex("price"));
-					c.picPath = cursor.getString(cursor
-							.getColumnIndex("picPath"));
-					c.intro = cursor.getString(cursor.getColumnIndex("intro"));
-					c.cookTime = cursor.getInt(cursor
-							.getColumnIndex("cookTime"));
-					c.styleId = cursor.getInt(cursor.getColumnIndex("styleId"));
-					c.special = cursor.getFloat(cursor
-							.getColumnIndex("special"));
-					c.mark = cursor.getFloat(cursor.getColumnIndex("mark"));
-					c.state = cursor.getInt(cursor.getColumnIndex("state"));
-					c.isNew = false;
-				} else
-					c.isNew = true;
-				return true;
+			selectArgs = new String[] { String.valueOf(c.caseId), c.name };
+			cursor = db.query(CASEDATA, null, "caseId=?||name=?", selectArgs,
+					null, null, null);
+			if (cursor.moveToNext() && !c.isNew) {
+				c.caseId = cursor.getInt(cursor.getColumnIndex("caseId"));
+				c.name = cursor.getString(cursor.getColumnIndex("name"));
+				c.price = cursor.getFloat(cursor.getColumnIndex("price"));
+				c.picPath = cursor.getString(cursor.getColumnIndex("picPath"));
+				c.intro = cursor.getString(cursor.getColumnIndex("intro"));
+				c.cookTime = cursor.getInt(cursor.getColumnIndex("cookTime"));
+				c.styleId = cursor.getInt(cursor.getColumnIndex("styleId"));
+				c.special = cursor.getFloat(cursor.getColumnIndex("special"));
+				c.mark = cursor.getFloat(cursor.getColumnIndex("mark"));
+				c.state = cursor.getInt(cursor.getColumnIndex("state"));
+				c.isNew = false;
 			} else
-				return false;
+				c.isNew = true;
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
