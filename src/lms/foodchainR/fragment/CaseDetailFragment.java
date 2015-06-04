@@ -68,7 +68,7 @@ public class CaseDetailFragment extends Fragment implements OnClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.casedetail, null);
+		return inflater.inflate(R.layout.case_detail, null);
 	}
 
 	@Override
