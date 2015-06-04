@@ -166,7 +166,7 @@ public class Device extends org.cybergarage.upnp.Device implements
 
 			} else if (method.equals(JSONRequest.CASEDETAIL)) {
 				CaseData c = new CaseData();
-				c.caseId = data.getInt("caseId");
+				c.id = data.getInt("caseId");
 				String msg = "";
 				if (!MenuService.getCaseDetail(c)) {
 					msg = "没有相关数据";

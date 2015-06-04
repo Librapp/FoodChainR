@@ -105,7 +105,7 @@ public class CaseDetailFragment extends Fragment implements OnClickListener {
 
 	// 加载本地图片
 	private void loadLocalPic() {
-		Drawable d = Drawable.createFromPath(CaseData.current().picPath);
+		Drawable d = Drawable.createFromPath(CaseData.current().pic);
 		if (d != null) {
 			pic.setImageDrawable(d);
 		}
@@ -294,7 +294,7 @@ public class CaseDetailFragment extends Fragment implements OnClickListener {
 					BitmapUtils.saveBitmap(OtherData.CASE_PIC_SHORT,
 							CaseData.current().name + ".jpg", result);
 					pic.setImageBitmap(result);
-					CaseData.current().picPath = OtherData.CASE_PIC
+					CaseData.current().pic = OtherData.CASE_PIC
 							+ CaseData.current().name + ".jpg";
 				}
 				break;

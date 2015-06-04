@@ -2,6 +2,9 @@ package lms.foodchainR.data;
 
 import java.util.List;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 /**
  * @author 李梦思
  * @description 菜单分类数据类
@@ -9,10 +12,13 @@ import java.util.List;
  * @version 1.0
  * 
  */
+@DatabaseTable(tableName = "tb_casestyle")
 public class CaseStyleData {
 	/** 类型Id */
-	public int styleId;
+	@DatabaseField(id = true)
+	public int id;
 	/** 名称 */
+	@DatabaseField
 	public String name;
 	List<CaseData> list;
 
@@ -21,7 +27,7 @@ public class CaseStyleData {
 	}
 
 	public CaseStyleData(int styleId, String name) {
-		this.styleId = styleId;
+		this.id = styleId;
 		this.name = name;
 	}
 

@@ -12,18 +12,88 @@ import java.util.List;
 
 import org.cybergarage.upnp.Device;
 
-public class CustomerData extends UserData {
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
-	private static CustomerData current;
+@DatabaseTable(tableName = "tb_customer")
+public class CustomerData extends UserData {
+	// ID
+	@DatabaseField(id = true)
+	public int id;
+	// 用户名
+	@DatabaseField
+	public String name = "";
+	/** 签名 */
+	@DatabaseField
+	public String signature;
+	/** 昵称 */
+	@DatabaseField
+	public String nickname;
+	// 头像
+	@DatabaseField
+	public String headPic = "";
+	// 地址
+	@DatabaseField
+	public String address = "";
+	// 简介
+	@DatabaseField
+	public String intro = "";
+	// 邮箱
+	@DatabaseField
+	public String email = "";
+	// 电话
+	@DatabaseField
+	public String phone = "";
+	// 来的时间
+	@DatabaseField
+	public String comeTime = "";
+	// 离开时间
+	@DatabaseField
+	public String leaveTime = "";
+	/** 密码 */
+	@DatabaseField
+	public String password = "";
+	// 级别
+	@DatabaseField
+	public int level = 0;
+	// 信用
+	@DatabaseField
+	public int credit = 0;
+	// 积分
+	@DatabaseField
+	public int point = 0;
+	// 性别0女1男2其他
+	@DatabaseField
+	public int gender = 0;
+	// 性取向0女1男2其他
+	@DatabaseField
+	public int sex = 0;
+	// 状态
+	@DatabaseField
+	public int state = 0;
+	/** 类型 */
+	@DatabaseField
+	public int style;
 	// 座位Id
-	public String seatId;
+	@DatabaseField
+	public int seatId;
 	// 桌Id
-	public String tableId;
-	// 状态0未点餐1已点餐未上菜2所有已点已上3买单4已买单
+	@DatabaseField
+	public int tableId;
 	// 是否在店
 	public boolean isIn = false;
 	// 是否好友
 	public boolean isFriend = false;
+	/** 是否拼桌 */
+	public boolean share = false;
+	/** 隐私设置 */
+	public int provicy = 0;
+	/** 就餐人数 */
+	@DatabaseField
+	public int count = 1;
+	/** 余额 */
+	@DatabaseField
+	public float money;
 	// 账单
 	public BillData bill;
 	// 喜欢的菜
@@ -32,24 +102,14 @@ public class CustomerData extends UserData {
 	private List<RestaurantData> favoriteRes;
 	// 黑名单
 	private List<RestaurantData> blackList;
-	/** 是否拼桌 */
-	public boolean share = false;
-	/** 就餐人数 */
-	public int peopleCount = 1;
-	/** 隐私设置 */
-	public int provicy = 0;
 
-	public CustomerData(String name, String id, int gender, int credit,
-			String address, String tel, int status, String seatId,
-			String tableId) {
-		this.name = name;
-		this.gender = gender;
-		this.credit = credit;
-		this.address = address;
-		this.tel = tel;
-		this.state = status;
-		this.seatId = seatId;
-		this.tableId = tableId;
+	private static CustomerData current;
+
+	public static CustomerData current() {
+		if (current == null) {
+			current = new CustomerData();
+		}
+		return current;
 	}
 
 	public CustomerData(Device d) {
@@ -59,13 +119,6 @@ public class CustomerData extends UserData {
 
 	public CustomerData() {
 
-	}
-
-	public static CustomerData current() {
-		if (current == null) {
-			current = new CustomerData();
-		}
-		return current;
 	}
 
 	public void setFavoriteCase(List<CaseData> favoriteCase) {

@@ -11,61 +11,43 @@ import java.util.ArrayList;
  */
 import java.util.List;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "tb_table")
 public class TableData {
-	public static final int DIRTY = 1;
-	public static final int AVAILIABLE = 2;
-	public static final int OCCUPY = 3;
-	public static final int HAVING = 4;
-	public static final int WAITING = 5;
-	public static final int PAY = 6;
-	// 服务生Id
-	public int waiterId = 0;
-	// 座位数
-	public int seatCount = 4;
-	// 状态
-	public int state = AVAILIABLE;
-	/** 座位 */
-	private List<SeatData> seat = new ArrayList<SeatData>();
 	// 桌号
-	public String tableId;
+	@DatabaseField(id = true)
+	public int id;
+	public static final int DIRTY = 1, AVAILIABLE = 2, OCCUPY = 3, HAVING = 4,
+			WAITING = 5, PAY = 6;
+	// 状态
+	@DatabaseField
+	public int state = AVAILIABLE;
+	/** 类别 */
+	@DatabaseField
+	public int type = 0;
 	// 类型
-	public String styleId;
+	@DatabaseField
+	public int styleId;
+	// 座位数
+	@DatabaseField
+	public int seatCount = 4;
 	// 预定时间
+	@DatabaseField
 	public String bookTime = "";
-	private static TableData current;
+	/** 顾客Id */
+	@DatabaseField
+	public int customerId;
+	// 服务生Id
+	@DatabaseField
+	public int waiterId = 0;
 	/** 空座位数 */
 	public int freeSeat = 4;
 	/** 第一个来的顾客 */
 	public CustomerData customer;
+	/** 座位 */
+	private List<SeatData> seat = new ArrayList<SeatData>();
+	private static TableData current;
 
-	public TableData() {
-
-	}
-
-	public TableData(TableStyleData ts, int i) {
-		String id = i + "";
-		if (i < 10) {
-			id = "00" + id;
-		} else if (i < 100) {
-			id = "0" + id;
-		}
-		this.tableId = ts.styleId + id;
-		this.styleId = ts.styleId;
-		this.seatCount = ts.seatCount;
-	}
-
-	public static TableData current() {
-		if (current == null) {
-			current = new TableData();
-		}
-		return current;
-	}
-
-	public void setSeat(List<SeatData> seat) {
-		this.seat = seat;
-	}
-
-	public List<SeatData> getSeat() {
-		return seat;
-	}
 }

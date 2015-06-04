@@ -13,7 +13,7 @@ public class SharePerformanceUtil {
 				OtherData.LOCALSETTING, Context.MODE_PRIVATE);
 		// 自定义
 		Self.current().name = spl.getString("name", "名字");
-		Self.current().tel = spl.getString("tel", "订餐电话");
+		Self.current().phone = spl.getString("tel", "订餐电话");
 		Self.current().sms = spl.getString("sms", "订餐短信");
 		Self.current().opentime = spl.getString("opentime", "营业时间");
 		Self.current().passWord = spl.getString("passWord", "******");
@@ -27,7 +27,7 @@ public class SharePerformanceUtil {
 				OtherData.LOCALSETTING, Context.MODE_PRIVATE);
 		Editor ed = spl.edit();
 		ed.putString("name", Self.current().name);
-		ed.putString("tel", Self.current().tel);
+		ed.putString("tel", Self.current().phone);
 		ed.putString("sms", Self.current().sms);
 		ed.putString("opentime", Self.current().opentime);
 		ed.putString("passWord", Self.current().passWord);

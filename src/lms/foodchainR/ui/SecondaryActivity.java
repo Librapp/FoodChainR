@@ -4,7 +4,6 @@ import lms.foodchainR.R;
 import lms.foodchainR.fragment.AboutFragment;
 import lms.foodchainR.fragment.CaseStyleDetailFragment;
 import lms.foodchainR.fragment.FeedbackFragment;
-import lms.foodchainR.fragment.LoginFragment;
 import lms.foodchainR.fragment.SendCommentFragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -40,7 +39,7 @@ public class SecondaryActivity extends FragmentActivity implements
 			mContent = new AboutFragment();
 			break;
 		case R.string.login:
-			mContent = new LoginFragment();
+			// TODO
 			break;
 		case R.string.feedback:
 			mContent = new FeedbackFragment();

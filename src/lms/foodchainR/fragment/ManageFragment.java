@@ -137,9 +137,9 @@ public class ManageFragment extends Fragment implements OnClickListener,
 		nameE = (EditText) getView().findViewById(R.id.rd_name_edit);
 
 		tel = (TextView) getView().findViewById(R.id.rd_tel_num);
-		tel.setText(Self.current().tel);
+		tel.setText(Self.current().phone);
 		telE = (EditText) getView().findViewById(R.id.rd_tel_edit);
-		telE.setText(Self.current().tel);
+		telE.setText(Self.current().phone);
 
 		sms = (TextView) getView().findViewById(R.id.rd_sms_num);
 		sms.setText(Self.current().sms);
@@ -206,8 +206,8 @@ public class ManageFragment extends Fragment implements OnClickListener,
 				nameE.setVisibility(View.GONE);
 				name.setVisibility(View.VISIBLE);
 				if (!telE.getText().toString().equals("")) {
-					Self.current().tel = telE.getText().toString();
-					tel.setText(Self.current().tel);
+					Self.current().phone = telE.getText().toString();
+					tel.setText(Self.current().phone);
 				}
 				telE.setVisibility(View.GONE);
 				tel.setVisibility(View.VISIBLE);

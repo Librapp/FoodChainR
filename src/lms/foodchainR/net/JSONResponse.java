@@ -71,7 +71,7 @@ public class JSONResponse {
 	private static JSONObject caseStyleDataResponse(CaseStyleData csd) {
 		JSONObject data = new JSONObject();
 		try {
-			data.putOpt("id", csd.styleId);
+			data.putOpt("id", csd.id);
 			data.putOpt("name", csd.name);
 			JSONArray array = new JSONArray();
 			List<CaseData> list = csd.getList();
@@ -91,7 +91,7 @@ public class JSONResponse {
 		try {
 			if (msg.equals("")) {
 				data.put(CODE, SUCCESS);
-				data.putOpt("id", csd.styleId);
+				data.putOpt("id", csd.id);
 				data.putOpt("name", csd.name);
 				List<CaseData> list = csd.getList();
 				JSONArray array = new JSONArray();
@@ -111,14 +111,14 @@ public class JSONResponse {
 	private static JSONObject caseDataResponse(CaseData c) {
 		JSONObject data = new JSONObject();
 		try {
-			data.putOpt("caseId", c.caseId);
+			data.putOpt("caseId", c.id);
 			data.putOpt("name", c.name);
 			data.putOpt("cookTime", c.cookTime);
 			data.putOpt("state", c.state);
-			data.putOpt("styleId", c.styleId);
+			data.putOpt("styleId", c.style);
 			data.putOpt("intro", c.intro);
 			data.putOpt("mark", c.mark);
-			data.putOpt("picPath", c.picPath);
+			data.putOpt("picPath", c.pic);
 			data.putOpt("price", c.price);
 			data.putOpt("special", c.special);
 		} catch (JSONException e) {
@@ -132,14 +132,14 @@ public class JSONResponse {
 		try {
 			if (msg.equals("")) {
 				data.put(CODE, SUCCESS);
-				data.putOpt("caseId", c.caseId);
+				data.putOpt("caseId", c.id);
 				data.putOpt("name", c.name);
 				data.putOpt("cookTime", c.cookTime);
 				data.putOpt("state", c.state);
-				data.putOpt("styleId", c.styleId);
+				data.putOpt("styleId", c.style);
 				data.putOpt("intro", c.intro);
 				data.putOpt("mark", c.mark);
-				data.putOpt("picPath", c.picPath);
+				data.putOpt("picPath", c.pic);
 				data.putOpt("price", c.price);
 				data.putOpt("special", c.special);
 			} else
@@ -160,7 +160,7 @@ public class JSONResponse {
 			data.putOpt("id", Self.current().id);
 			data.putOpt("headPic", Self.current().headPic);
 			data.putOpt("address", Self.current().address);
-			data.putOpt("tel", Self.current().tel);
+			data.putOpt("tel", Self.current().phone);
 			data.putOpt("sms", Self.current().sms);
 			data.putOpt("opentime", Self.current().opentime);
 			data.putOpt("credit", Self.current().credit);

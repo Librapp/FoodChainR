@@ -89,7 +89,7 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 		for (int i = 0; i < styleList.size(); i++) {
 			CaseStyleData csd = styleList.get(i);
 			Button name = new Button(getActivity());
-			name.setId(csd.styleId);
+			name.setId(csd.id);
 			name.setLayoutParams(rl);
 			name.setText(csd.name);
 			name.setBackgroundResource(R.drawable.btn_bg);
@@ -130,7 +130,7 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 		@Override
 		public Fragment getItem(int arg0) {
 			CaseStyleData csd = styleList.get(arg0);
-			return CaseStyleFragment.newInstance(csd.styleId, csd.name);
+			return CaseStyleFragment.newInstance(csd.id, csd.name);
 		}
 
 		@Override
@@ -229,7 +229,7 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 			break;
 		case EDIT:
 			Intent intent = new Intent(getActivity(), SecondaryActivity.class);
-			intent.putExtra("id", c.styleId);
+			intent.putExtra("id", c.id);
 			intent.putExtra("name", c.name);
 			intent.putExtra("title", R.string.casestyledetail);
 			startActivity(intent);
@@ -287,7 +287,7 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 			switch (v.getId()) {
 			case R.id.cli_edit:
 				c = styleList.get(currentItem);
-				MyDialogFragment.caseStyleInstance(c.name, c.styleId).show(
+				MyDialogFragment.caseStyleInstance(c.name, c.id).show(
 						getChildFragmentManager(), "dialog");
 				break;
 			case R.id.cli_delete:
@@ -325,7 +325,7 @@ public class MenuFragment extends Fragment implements OnPageChangeListener,
 		currentItem = arg2;
 		CaseStyleData c = styleList.get(arg2);
 		Intent intent = new Intent(getActivity(), SecondaryActivity.class);
-		intent.putExtra("id", c.styleId);
+		intent.putExtra("id", c.id);
 		intent.putExtra("name", c.name);
 		intent.putExtra("title", R.string.casestyledetail);
 		startActivity(intent);
