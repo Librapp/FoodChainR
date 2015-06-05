@@ -5,13 +5,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import lms.foodchainR.FoodchainRApplication;
 import lms.foodchainR.R;
 import lms.foodchainR.dao.Case_DBHelper;
 import lms.foodchainR.data.CaseData;
-import lms.foodchainR.data.OtherData;
 import lms.foodchainR.service.MenuService;
 import lms.foodchainR.util.BitmapUtils;
-import lms.foodchainR.util.CommonUtils;
 import lms.foodchainR.util.FileInfoUtils;
 import lms.foodchainR.util.InfomationHelper;
 import lms.foodchainR.util.MediaInfoUtils;
@@ -68,7 +67,7 @@ public class CaseDetailFragment extends Fragment implements OnClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.casedetail, null);
+		return inflater.inflate(R.layout.case_detail, null);
 	}
 
 	@Override
@@ -105,7 +104,7 @@ public class CaseDetailFragment extends Fragment implements OnClickListener {
 
 	// 加载本地图片
 	private void loadLocalPic() {
-		Drawable d = Drawable.createFromPath(CaseData.current().picPath);
+		Drawable d = Drawable.createFromPath(CaseData.current().pic);
 		if (d != null) {
 			pic.setImageDrawable(d);
 		}
@@ -291,10 +290,11 @@ public class CaseDetailFragment extends Fragment implements OnClickListener {
 					result = extras.getParcelable("data");
 					ByteArrayOutputStream stream = new ByteArrayOutputStream();
 					result.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-					BitmapUtils.saveBitmap(OtherData.CASE_PIC_SHORT,
+					BitmapUtils.saveBitmap(
+							FoodchainRApplication.CASE_PIC_SHORT,
 							CaseData.current().name + ".jpg", result);
 					pic.setImageBitmap(result);
-					CaseData.current().picPath = OtherData.CASE_PIC
+					CaseData.current().pic = FoodchainRApplication.CASE_PIC
 							+ CaseData.current().name + ".jpg";
 				}
 				break;

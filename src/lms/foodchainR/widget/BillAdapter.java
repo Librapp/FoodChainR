@@ -51,7 +51,7 @@ public class BillAdapter extends BaseAdapter {
 			bc = (BillCache) view.getTag();
 		}
 		BillData c = lc.get(position);
-		bc.getId().setText(c.billId);
+		bc.getId().setText(c.id);
 		bc.getPrice().setText(c.cost + "元");
 		bc.getCreateTime().setText(c.createTime);
 		if (c.state == 1) {

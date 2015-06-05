@@ -52,7 +52,7 @@ public class JSONParser {
 		msg = "";
 		try {
 			JSONObject data = new JSONObject(result);
-			csd.styleId = data.optInt("id");
+			csd.id = data.optInt("id");
 			csd.name = data.optString("name");
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -66,12 +66,12 @@ public class JSONParser {
 		msg = "";
 		try {
 			JSONObject data = new JSONObject(result);
-			cd.caseId = data.optInt("caseId");
+			cd.id = data.optInt("caseId");
 			cd.state = data.optInt("state");
-			cd.styleId = data.optInt("styleId");
+			cd.style = data.optInt("styleId");
 			cd.cookTime = data.optInt("cookTime");
 			cd.name = data.optString("name");
-			cd.picPath = data.optString("picPath");
+			cd.pic = data.optString("picPath");
 			cd.intro = data.optString("intro");
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -89,7 +89,7 @@ public class JSONParser {
 			current.name = data.optString("name");
 			current.headPic = data.optString("headPic");
 			current.address = data.optString("address");
-			current.tel = data.optString("tel");
+			current.phone = data.optString("tel");
 			current.sms = data.optString("sms");
 			current.opentime = data.optString("opentime");
 			current.email = data.optString("email");
@@ -127,7 +127,7 @@ public class JSONParser {
 		msg = "";
 		try {
 			JSONObject data = new JSONObject(result);
-			ts.styleId = data.optString("id");
+			ts.id = data.optInt("id");
 			ts.icon = data.optString("icon");
 			ts.pic = data.optString("pic");
 			ts.seatCount = data.optInt("seatCount");
@@ -156,7 +156,7 @@ public class JSONParser {
 		msg = "";
 		try {
 			JSONObject data = new JSONObject(result);
-			td.tableId = data.optString("id");
+			td.id = data.optInt("id");
 			td.seatCount = data.optInt("seatCount");
 			JSONArray array = data.optJSONArray("seatList");
 			ArrayList<SeatData> list = new ArrayList<SeatData>();
@@ -169,7 +169,7 @@ public class JSONParser {
 				else
 					return msg;
 			}
-			td.setSeat(list);
+			// td.setSeat(list);
 		} catch (JSONException e) {
 			e.printStackTrace();
 			msg = e.getMessage();

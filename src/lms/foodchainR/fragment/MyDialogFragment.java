@@ -205,7 +205,7 @@ public class MyDialogFragment extends DialogFragment {
 										.getCaseStyleDataByName(csd);
 								Intent intent = new Intent(getActivity(),
 										SecondaryActivity.class);
-								intent.putExtra("id", csd.styleId);
+								intent.putExtra("id", csd.id);
 								intent.putExtra("name", csd.name);
 								intent.putExtra("title",
 										R.string.casestyledetail);

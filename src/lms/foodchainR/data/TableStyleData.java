@@ -3,6 +3,9 @@ package lms.foodchainR.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 /**
  * @author 李梦思
  * @version 1.0
@@ -10,31 +13,26 @@ import java.util.List;
  * @description 桌子类型数据类
  * 
  */
+@DatabaseTable(tableName = "tb_tablestyle")
 public class TableStyleData {
+	@DatabaseField(id = true)
+	public int id;
 	// 有多少张桌子
+	@DatabaseField
 	public int count = 10;
 	// 桌子有多少座位
+	@DatabaseField
 	public int seatCount = 4;
-	// 类型Id
-	public String styleId = "A1";
 	// 图标
+	@DatabaseField
 	public String icon = "";
 	// 图片
+	@DatabaseField
 	public String pic = "";
 	// 桌子列表
 	private List<TableData> table = new ArrayList<TableData>();
 	// 是否为新建
 	public boolean isNew = false;
-
-	public TableStyleData(String id, int seatCount, int count) {
-		this.styleId = id;
-		this.seatCount = seatCount;
-		this.count = count;
-	}
-
-	public TableStyleData() {
-
-	}
 
 	public void setTable(List<TableData> table) {
 		this.table = table;

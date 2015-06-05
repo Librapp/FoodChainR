@@ -47,7 +47,7 @@ public class TableAdapter extends BaseAdapter {
 		TableData t = lt.get(position);
 		if (view == null) {
 			view = LayoutInflater.from(context).inflate(
-					R.layout.table_list_item, null);
+					R.layout.table_item, null);
 			holder = new ViewHolder();
 			holder.id = (TextView) view.findViewById(R.id.tli_table_id);
 			holder.icon = (ImageView) view.findViewById(R.id.tli_table_icon);

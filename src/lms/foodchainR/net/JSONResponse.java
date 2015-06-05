@@ -71,7 +71,7 @@ public class JSONResponse {
 	private static JSONObject caseStyleDataResponse(CaseStyleData csd) {
 		JSONObject data = new JSONObject();
 		try {
-			data.putOpt("id", csd.styleId);
+			data.putOpt("id", csd.id);
 			data.putOpt("name", csd.name);
 			JSONArray array = new JSONArray();
 			List<CaseData> list = csd.getList();
@@ -91,7 +91,7 @@ public class JSONResponse {
 		try {
 			if (msg.equals("")) {
 				data.put(CODE, SUCCESS);
-				data.putOpt("id", csd.styleId);
+				data.putOpt("id", csd.id);
 				data.putOpt("name", csd.name);
 				List<CaseData> list = csd.getList();
 				JSONArray array = new JSONArray();
@@ -111,16 +111,15 @@ public class JSONResponse {
 	private static JSONObject caseDataResponse(CaseData c) {
 		JSONObject data = new JSONObject();
 		try {
-			data.putOpt("caseId", c.caseId);
+			data.putOpt("caseId", c.id);
 			data.putOpt("name", c.name);
 			data.putOpt("cookTime", c.cookTime);
 			data.putOpt("state", c.state);
-			data.putOpt("styleId", c.styleId);
+			data.putOpt("styleId", c.style);
 			data.putOpt("intro", c.intro);
 			data.putOpt("mark", c.mark);
-			data.putOpt("picPath", c.picPath);
+			data.putOpt("picPath", c.pic);
 			data.putOpt("price", c.price);
-			data.putOpt("special", c.special);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -132,16 +131,15 @@ public class JSONResponse {
 		try {
 			if (msg.equals("")) {
 				data.put(CODE, SUCCESS);
-				data.putOpt("caseId", c.caseId);
+				data.putOpt("caseId", c.id);
 				data.putOpt("name", c.name);
 				data.putOpt("cookTime", c.cookTime);
 				data.putOpt("state", c.state);
-				data.putOpt("styleId", c.styleId);
+				data.putOpt("styleId", c.style);
 				data.putOpt("intro", c.intro);
 				data.putOpt("mark", c.mark);
-				data.putOpt("picPath", c.picPath);
+				data.putOpt("picPath", c.pic);
 				data.putOpt("price", c.price);
-				data.putOpt("special", c.special);
 			} else
 				data.put(CODE, FAIL);
 			data.put(MSG, msg);
@@ -160,7 +158,7 @@ public class JSONResponse {
 			data.putOpt("id", Self.current().id);
 			data.putOpt("headPic", Self.current().headPic);
 			data.putOpt("address", Self.current().address);
-			data.putOpt("tel", Self.current().tel);
+			data.putOpt("tel", Self.current().phone);
 			data.putOpt("sms", Self.current().sms);
 			data.putOpt("opentime", Self.current().opentime);
 			data.putOpt("credit", Self.current().credit);
@@ -193,7 +191,7 @@ public class JSONResponse {
 	public static JSONObject tableStyleData(TableStyleData ts) {
 		JSONObject data = new JSONObject();
 		try {
-			data.putOpt("id", ts.styleId);
+			data.putOpt("id", ts.id);
 			data.putOpt("tableCount", ts.count);
 			data.putOpt("seatCount", ts.seatCount);
 			data.putOpt("icon", ts.icon);
@@ -212,16 +210,16 @@ public class JSONResponse {
 	public static JSONObject tableData(TableData td) {
 		JSONObject data = new JSONObject();
 		try {
-			data.putOpt("id", td.tableId);
+			data.putOpt("id", td.id);
 			data.putOpt("seatCount", td.seatCount);
 			data.putOpt("styleId", td.styleId);
 			data.putOpt("state", td.state);
 			data.putOpt("waiterId", td.waiterId);
 			data.putOpt("customer", td.customer);
 			JSONArray array = new JSONArray();
-			for (SeatData sd : td.getSeat()) {
-				array.put(seatData(sd));
-			}
+			// for (SeatData sd : td.getSeat()) {
+			// array.put(seatData(sd));
+			// }
 			data.putOpt("seatList", array);
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -232,7 +230,7 @@ public class JSONResponse {
 	public static JSONObject seatData(SeatData sd) {
 		JSONObject data = new JSONObject();
 		try {
-			data.putOpt("seatId", sd.seatId);
+			data.putOpt("seatId", sd.id);
 			data.putOpt("tableId", sd.tableId);
 			data.putOpt("state", sd.state);
 			data.putOpt("customer", sd.customer);
@@ -245,7 +243,7 @@ public class JSONResponse {
 	public static JSONObject listData(ListData ld) {
 		JSONObject data = new JSONObject();
 		try {
-			data.putOpt("listId", ld.listId);
+			data.putOpt("listId", ld.id);
 			data.putOpt("billId", ld.billId);
 			data.putOpt("number", ld.number);
 			data.putOpt("comeTime", ld.comeTime);
@@ -280,9 +278,9 @@ public class JSONResponse {
 		SeatData sd = new SeatData();
 		try {
 			cd.id = customer.getInt("id");
-			cd.peopleCount = customer.getInt("peoplecount");
-			sd.seatId = seat.getString("seatId");
-			sd.tableId = seat.getString("tableId");
+			// cd.peopleCount = customer.getInt("peoplecount");
+			// sd.seatId = seat.getString("seatId");
+			// sd.tableId = seat.getString("tableId");
 			msg = TableService.setSeat(sd, cd);
 		} catch (JSONException e) {
 			e.printStackTrace();

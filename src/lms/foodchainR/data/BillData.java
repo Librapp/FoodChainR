@@ -2,6 +2,9 @@ package lms.foodchainR.data;
 
 import java.util.List;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 /**
  * 
  * @author 李梦思
@@ -10,20 +13,26 @@ import java.util.List;
  * @description 账单数据类
  * 
  */
+@DatabaseTable(tableName = "tb_bill")
 public class BillData {
-	public static final int UNPAID = 0;
-	public static final int PAID = 1;
 	/** 账单Id */
-	public int billId;
+	@DatabaseField(id = true)
+	public int id;
+	/** 顾客Id */
+	@DatabaseField
+	public int customerId;
 	/** 创建时间 */
+	@DatabaseField
 	public String createTime = "2012-11-17 20:45";
+	public static final int UNPAID = 0, PAID = 1;
 	/** 状态:UNPAID未付账,PAID已付帐 */
+	@DatabaseField
 	public int state = UNPAID;
-	/** 小费 */
-	public float tip = 10;
 	/** 折扣 */
+	@DatabaseField
 	public float discount = 0.88f;
 	/** 消费 */
+	@DatabaseField
 	public float cost = 99.1f;
 	/** 顾客 */
 	public CustomerData customer;

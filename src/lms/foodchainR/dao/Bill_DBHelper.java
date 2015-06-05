@@ -1,11 +1,7 @@
 package lms.foodchainR.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import lms.foodchainR.FoodchainRApplication;
 import lms.foodchainR.data.BillData;
-import lms.foodchainR.data.CaseData;
-import lms.foodchainR.data.OrderData;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -17,204 +13,80 @@ import android.database.sqlite.SQLiteDatabase;
  * @createTime 2013-3-20
  */
 public class Bill_DBHelper extends Base_DBHelper {
-
-	private static int VERSION = 1;
-	private final String BILLDATA = "billData";
-	private final String ORDERDATA = "orderData";
-
 	public Bill_DBHelper(Context context) {
-		super(context, "fcr_bill.db", null, VERSION);
+		super(context, "fcr_bill.db", null, FoodchainRApplication.DB_VERSION);
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		this.db = db;
-		createTable();
+		createTable(db);
 	}
 
-	/** 生成表 */
-	private void createTable() {
-		if (db == null) {
-			db = getWritableDatabase();
-		}
-		db.execSQL(createBillDataTable());
-		db.execSQL(createOrderDataTable());
+	/**
+	 * 生成表
+	 * 
+	 * @param db
+	 */
+	private void createTable(SQLiteDatabase db) {
+		db.execSQL(createStyleDataTable());
 	}
 
-	/** 生成账单表 */
-	private String createBillDataTable() {
-		return CREATE + BILLDATA + " (" + "billId" + AUTO_KEY
-				+ "customerId varchar," + "createTime varchar,"
-				+ "state integer," + "tip float," + "discount float,"
-				+ "cost float" + ")";
+	/** 生成自定义类型表 */
+	private String createStyleDataTable() {
+		return CREATE + FoodchainRApplication.TABLE_BILL + " ("
+				+ FoodchainRApplication.ID + AUTO_KEY + ","
+				+ FoodchainRApplication.CUSTOMER + INTEGER + ","
+				+ FoodchainRApplication.MONEY + FLOAT + ","
+				+ FoodchainRApplication.DISCOUNT + FLOAT + ")";
 	}
 
-	/** 生成订单表 */
-	private String createOrderDataTable() {
-		return CREATE + ORDERDATA + " (" + "orderId" + AUTO_KEY
-				+ "billId integer," + "caseId varchar," + "createTime varchar,"
-				+ "state integer," + "type integer," + "remark varchar"
-				+ ",cookerId integer" + ",waiterId integer" + ",count integer"
-				+ ")";
+	public void insert(BillData data) {
+		ContentValues values = new ContentValues();
+		values.put(FoodchainRApplication.CUSTOMER, data.customerId);
+		values.put(FoodchainRApplication.MONEY, data.cost);
+		values.put(FoodchainRApplication.DISCOUNT, data.discount);
+		getWritableDatabase();
+		dbWrite.insert(FoodchainRApplication.TABLE_BILL, null, values);
+		dbWrite.close();
 	}
 
-	/** 获取帐单 */
-	public boolean getBillData(BillData b) {
-		Cursor cursor = null;
-		try {
-			db = getReadableDatabase();
-			selectArgs = new String[] { b.customer.id + "" };
-			cursor = db.query(BILLDATA, null, "customerId=?", selectArgs, null,
-					null, null);
-			if (cursor.moveToNext()) {
-				b.billId = cursor.getInt(cursor.getColumnIndex("billId"));
-				b.customer.id = cursor.getInt(cursor
-						.getColumnIndex("customerId"));
-				b.createTime = cursor.getString(cursor
-						.getColumnIndex("createTime"));
-				b.state = cursor.getInt(cursor.getColumnIndex("state"));
-				b.cost = cursor.getFloat(cursor.getColumnIndex("cost"));
-				b.discount = cursor.getFloat(cursor.getColumnIndex("discount"));
-				b.tip = cursor.getInt(cursor.getColumnIndex("tip"));
-				return true;
-			} else
-				return false;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		} finally {
-			if (cursor != null) {
-				cursor.close();
-			}
-		}
+	public void delete(BillData data) {
+		getWritableDatabase();
+		dbWrite.delete(FoodchainRApplication.TABLE_BILL, "where "
+				+ FoodchainRApplication.ID + "=?",
+				new String[] { data.id + "" });
+		dbWrite.close();
 	}
 
-	/** 获取订单 */
-	public boolean getOrderData(BillData b) {
-		Cursor cursor = null;
-		try {
-			db = getReadableDatabase();
-			List<CaseData> list = new ArrayList<CaseData>();
-			selectArgs = new String[] { b.billId + "" };
-			cursor = db.query(ORDERDATA, null, "billId=?", selectArgs, null,
-					null, null);
-			if (cursor != null) {
-				while (cursor.moveToNext()) {
-
-				}
-			}
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		} finally {
-			if (cursor != null) {
-				cursor.close();
-			}
-		}
+	public void update(BillData data) {
+		ContentValues values = new ContentValues();
+		values.put(FoodchainRApplication.CUSTOMER, data.customerId);
+		values.put(FoodchainRApplication.MONEY, data.cost);
+		values.put(FoodchainRApplication.DISCOUNT, data.discount);
+		getWritableDatabase();
+		dbWrite.update(FoodchainRApplication.TABLE_BILL, values, "where "
+				+ FoodchainRApplication.ID + "=?",
+				new String[] { data.id + "" });
+		dbWrite.close();
 	}
 
-	/** 获取订单 */
-	public boolean getOrderList(ArrayList<OrderData> list) {
-		Cursor cursor = null;
-		try {
-			db = getReadableDatabase();
-			cursor = db.query(ORDERDATA, null, null, null, null, null,
-					"orederId");
-			if (cursor != null) {
-				while (cursor.moveToNext()) {
-					// TODO
-				}
-			}
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		} finally {
-			if (cursor != null) {
-				cursor.close();
-			}
-		}
+	public BillData getById(int id) {
+		dbRead = getReadableDatabase();
+		Cursor cursor = dbRead.query(FoodchainRApplication.TABLE_BILL, null,
+				"where " + FoodchainRApplication.ID + "=?", new String[] { id
+						+ "" }, null, null, null);
+		dbRead.close();
+		if (cursor.moveToNext()) {
+			BillData data = new BillData();
+			data.id = id;
+			data.customerId = cursor.getInt(cursor
+					.getColumnIndex(FoodchainRApplication.CUSTOMER));
+			data.cost = cursor.getFloat(cursor
+					.getColumnIndex(FoodchainRApplication.MONEY));
+			data.discount = cursor.getFloat(cursor
+					.getColumnIndex(FoodchainRApplication.DISCOUNT));
+			return data;
+		} else
+			return null;
 	}
-
-	/** 创建账单 */
-	public boolean createBillData(BillData b) {
-		if (db == null)
-			db = getWritableDatabase();
-		try {
-			ContentValues values = new ContentValues();
-			values.put("customerId", b.customer.id);
-			values.put("createTime", b.createTime);
-			db.insert(BILLDATA, null, values);
-			createOrderData(b);
-			db.setTransactionSuccessful();
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		} finally {
-			db.endTransaction();
-		}
-	}
-
-	/** 创建订单 */
-	private void createOrderData(BillData b) {
-		try {
-			for (OrderData c : b.getOrder()) {
-				ContentValues values = new ContentValues();
-				values.put("caseId", c.caseId);
-				values.put("billId", b.billId);
-				values.put("createTime", c.createTime);
-				values.put("state", c.state);
-				values.put("type", c.type);
-				values.put("remark", c.remark);
-				values.put("waiterId", c.waiterId);
-				values.put("cookerId", c.cookerId);
-				values.put("count", c.count);
-				db.insert(ORDERDATA, null, values);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/** 删除账单 */
-	public boolean deleteBill(BillData b) {
-		db = getWritableDatabase();
-		selectArgs = new String[] { b.billId + "" };
-		try {
-			db.delete(BILLDATA, "billId=?", selectArgs);
-			db.delete(ORDERDATA, "billId=?", selectArgs);
-			db.setTransactionSuccessful();
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		} finally {
-			db.endTransaction();
-		}
-	}
-
-	/** 删除订单 */
-	public boolean deleteOrder(OrderData c) {
-		db = getWritableDatabase();
-		selectArgs = new String[] { c.orderId + "" };
-		try {
-			db.delete(ORDERDATA, "oiderId=?", selectArgs);
-			db.setTransactionSuccessful();
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		} finally {
-			db.endTransaction();
-		}
-	}
-
-	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

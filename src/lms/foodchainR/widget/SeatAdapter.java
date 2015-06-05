@@ -42,7 +42,7 @@ public class SeatAdapter extends BaseAdapter {
 		ViewHolder holder;
 		if (view == null) {
 			view = LayoutInflater.from(context).inflate(
-					R.layout.seat_list_item, null);
+					R.layout.seat_item, null);
 			holder = new ViewHolder();
 			holder.id = (TextView) view.findViewById(R.id.seat_id);
 			holder.icon = (ImageView) view.findViewById(R.id.seat_icon);

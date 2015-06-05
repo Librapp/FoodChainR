@@ -3,9 +3,6 @@ package lms.foodchainR.ui;
 import lms.foodchainR.R;
 import lms.foodchainR.fragment.AboutFragment;
 import lms.foodchainR.fragment.CaseStyleDetailFragment;
-import lms.foodchainR.fragment.FeedbackFragment;
-import lms.foodchainR.fragment.LoginFragment;
-import lms.foodchainR.fragment.SendCommentFragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -33,17 +30,11 @@ public class SecondaryActivity extends FragmentActivity implements
 		int t = getIntent().getIntExtra("title", R.string.about);
 		title.setText(t);
 		switch (t) {
-		case R.string.dianping:
-			mContent = new SendCommentFragment();
-			break;
 		case R.string.about:
 			mContent = new AboutFragment();
 			break;
 		case R.string.login:
-			mContent = new LoginFragment();
-			break;
-		case R.string.feedback:
-			mContent = new FeedbackFragment();
+			// TODO
 			break;
 		case R.string.editstyle:
 

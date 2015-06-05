@@ -10,29 +10,44 @@ package lms.foodchainR.data;
  */
 import java.util.List;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "tb_case")
 public class CaseData {
 	/** 菜品Id */
-	public int caseId = 0;
+	@DatabaseField(id = true)
+	public int id = 0;
 	/** 图片 */
-	public String picPath = OtherData.CASE_PIC;
+	@DatabaseField
+	public String pic = "";
 	/** 简介 */
+	@DatabaseField
 	public String intro = "经典";
 	/** 菜名 */
+	@DatabaseField
 	public String name = "蛋炒饭";
 	/** 评分 */
+	@DatabaseField
 	public float mark = 5;
 	/** 价格 */
+	@DatabaseField
 	public float price = 10;
-	/** 特价 */
-	public float special = 0;
 	/** 状态类型 */
 	public static final int AVILIABLE = 0;
 	public static final int UNAVILIABLE = 1;
 	/** 状态 AVILIABLE、UNAVILIABLE */
+	@DatabaseField
 	public int state = AVILIABLE;
 	/** 分类 冷菜热菜主副食 */
-	public int styleId = 0;
+	@DatabaseField
+	public int style = 0;
+	@DatabaseField
+	public int type = 0;
+	@DatabaseField
+	public int point = 0;
 	/** 烹饪时间 */
+	@DatabaseField
 	public int cookTime = 10;
 	// 是否是新创建
 	public boolean isNew = false;
@@ -44,7 +59,7 @@ public class CaseData {
 	public static CaseData current;
 
 	public CaseData() {
-		this.picPath += this.name + OtherData.PICTYPE;
+		this.pic += this.name + "";
 	}
 
 	public static CaseData current() {

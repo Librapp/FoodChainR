@@ -1,5 +1,6 @@
 package lms.foodchainR.dao;
 
+import lms.foodchainR.FoodchainRApplication;
 import lms.foodchainR.data.MaterialData;
 import android.content.ContentValues;
 import android.content.Context;
@@ -12,130 +13,93 @@ import android.database.sqlite.SQLiteDatabase;
  * @createTime 2013-9-2
  */
 public class Material_DBHelper extends Base_DBHelper {
-
-	private static int VERSION = 1;
-	private final String MATERIALDATA = "materialData";
-
 	public Material_DBHelper(Context context) {
-		super(context, "fcr_material.db", null, VERSION);
+		super(context, "fcr_material.db", null,
+				FoodchainRApplication.DB_VERSION);
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		this.db = db;
-		createTable();
+		createTable(db);
 	}
 
-	/** 生成表 */
-	private void createTable() {
-		if (db == null) {
-			db = getWritableDatabase();
-		}
+	/**
+	 * 生成表
+	 * 
+	 * @param db
+	 */
+	private void createTable(SQLiteDatabase db) {
 		db.execSQL(createMaterialDataTable());
 	}
 
-	/** 生成材料表 */
+	/** 生成餐桌表 */
 	private String createMaterialDataTable() {
-		return CREATE + MATERIALDATA + " (" + "materialId integer,"
-				+ "name varchar," + "unit varchar," + "price float,"
-				+ "count float" + ")";
+		return CREATE + FoodchainRApplication.TABLE_MATERIAL + " ("
+				+ FoodchainRApplication.ID + AUTO_KEY + ","
+				+ FoodchainRApplication.NAME + TEXT + ","
+				+ FoodchainRApplication.TYPE + INTEGER + ","
+				+ FoodchainRApplication.UNIT + TEXT + ","
+				+ FoodchainRApplication.PRICE + FLOAT + ","
+				+ FoodchainRApplication.SHELFTIME + TEXT + ","
+				+ FoodchainRApplication.CREATETIME + TEXT + ","
+				+ FoodchainRApplication.SHELFCONDATION + TEXT + ","
+				+ FoodchainRApplication.COUNT + FLOAT + ","
+				+ FoodchainRApplication.SEASON + TEXT + ")";
 	}
 
-	/** 获取材料 */
-	public boolean getMaterial(MaterialData b) {
-		Cursor cursor = null;
-		try {
-			db = getReadableDatabase();
-			selectArgs = new String[] { b.materialId + "", b.name, b.unit,
-					b.price + "", b.count + "" };
-			cursor = db.query(MATERIALDATA, null,
-					"materialId=? OR name=? OR unit=? OR price=? OR count=?",
-					selectArgs, "unit", null, "name");
-			if (cursor != null) {
-				b.materialId = cursor.getInt(cursor
-						.getColumnIndex("materialId"));
-				b.name = cursor.getString(cursor.getColumnIndex("name"));
-				b.unit = cursor.getString(cursor.getColumnIndex("unit"));
-				b.price = cursor.getFloat(cursor.getColumnIndex("price"));
-				b.count = cursor.getFloat(cursor.getColumnIndex("count"));
-			}
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		} finally {
-			if (cursor != null) {
-				cursor.close();
-			}
-		}
+	public void insert(MaterialData data) {
+		ContentValues values = new ContentValues();
+		values.put(FoodchainRApplication.ID, data.id);
+		values.put(FoodchainRApplication.NAME, data.name);
+		values.put(FoodchainRApplication.TYPE, data.type);
+		values.put(FoodchainRApplication.UNIT, data.unit);
+		values.put(FoodchainRApplication.PRICE, data.price);
+		values.put(FoodchainRApplication.SHELFTIME, data.shelf_time);
+		values.put(FoodchainRApplication.SHELFCONDATION, data.shelf_condation);
+		values.put(FoodchainRApplication.CREATETIME, data.create_time);
+		values.put(FoodchainRApplication.COUNT, data.count);
+		values.put(FoodchainRApplication.SEASON, data.season);
+		getWritableDatabase();
+		dbWrite.insert(FoodchainRApplication.TABLE_MATERIAL, null, values);
+		dbWrite.close();
 	}
 
-	/** 创建材料 */
-	public boolean createMaterial(MaterialData b) {
-		if (db == null)
-			db = getWritableDatabase();
-		try {
-			ContentValues values = new ContentValues();
-			values.put("materialId", b.materialId);
-			values.put("name", b.name);
-			values.put("unit", b.unit);
-			values.put("price", b.price);
-			values.put("count", b.count);
-			db.insert(MATERIALDATA, null, values);
-			db.setTransactionSuccessful();
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		} finally {
-			db.endTransaction();
-		}
+	public void delete(MaterialData data) {
+		getWritableDatabase();
+		dbWrite.delete(FoodchainRApplication.TABLE_MATERIAL, "where id=?",
+				new String[] { data.id + "" });
+		dbWrite.close();
 	}
 
-	/** 删除材料 */
-	public boolean deleteMaterial(MaterialData b) {
-		if (db == null)
-			db = getWritableDatabase();
-		try {
-			selectArgs = new String[] { b.materialId + "" };
-			db.delete(MATERIALDATA, "materialId=?", selectArgs);
-			db.setTransactionSuccessful();
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		} finally {
-			db.endTransaction();
-		}
+	public void update(MaterialData data) {
+		ContentValues values = new ContentValues();
+		values.put(FoodchainRApplication.NAME, data.name);
+		values.put(FoodchainRApplication.TYPE, data.type);
+		values.put(FoodchainRApplication.UNIT, data.unit);
+		values.put(FoodchainRApplication.PRICE, data.price);
+		values.put(FoodchainRApplication.SHELFTIME, data.shelf_time);
+		values.put(FoodchainRApplication.SHELFCONDATION, data.shelf_condation);
+		values.put(FoodchainRApplication.CREATETIME, data.create_time);
+		values.put(FoodchainRApplication.COUNT, data.count);
+		values.put(FoodchainRApplication.SEASON, data.season);
+		getWritableDatabase();
+		dbWrite.update(FoodchainRApplication.TABLE_MATERIAL, values, "where "
+				+ FoodchainRApplication.ID + "=?",
+				new String[] { data.id + "" });
+		dbWrite.close();
 	}
 
-	/** 更新材料属性 */
-	public boolean upgradeMaterial(MaterialData m) {
-		if (db == null)
-			db = getWritableDatabase();
-		try {
-			selectArgs = new String[] { m.name };
-			ContentValues values = new ContentValues();
-			values.put("materialId", m.materialId);
-			values.put("name", m.name);
-			values.put("unit", m.unit);
-			values.put("price", m.price);
-			values.put("count", m.count);
-			db.update(MATERIALDATA, values, "name=?", selectArgs);
-			db.setTransactionSuccessful();
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		} finally {
-			db.endTransaction();
-		}
+	public MaterialData getById(int id) {
+		getReadableDatabase();
+		Cursor cursor = dbRead.query(FoodchainRApplication.TABLE_MATERIAL,
+				null, "where id=?", new String[] { id + "" }, null, null, null);
+		dbRead.close();
+		if (cursor.moveToNext()) {
+			MaterialData data = new MaterialData();
+			data.id = id;
+			// TODO
+			return data;
+		} else
+			return null;
 	}
-
-	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

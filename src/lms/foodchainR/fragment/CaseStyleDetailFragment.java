@@ -77,7 +77,7 @@ public class CaseStyleDetailFragment extends Fragment implements
 		listener = new mlistener();
 		cdb = new Case_DBHelper(getActivity());
 		csd = new CaseStyleData();
-		csd.styleId = getArguments().getInt("id", 0);
+		csd.id = getArguments().getInt("id", 0);
 		csd.name = getArguments().getString("name");
 		if (!MenuService.getCaseStyleData(csd)) {
 			getActivity().setResult(Activity.RESULT_CANCELED);
@@ -115,9 +115,9 @@ public class CaseStyleDetailFragment extends Fragment implements
 	private void openCreateNewCaseActivity() {
 		CaseData.current = new CaseData();
 		CaseData.current().isNew = true;
-		CaseData.current().styleId = csd.styleId;
+		CaseData.current().style = csd.id;
 		Intent intent = new Intent(getActivity(), DetailActivity.class);
-		intent.putExtra("id", CaseData.current.caseId);
+		intent.putExtra("id", CaseData.current.id);
 		intent.putExtra("name", CaseData.current.name);
 		intent.putExtra("title", R.string.casedetail);
 		startActivityForResult(intent, REQUEST_CREATECASE);
@@ -126,7 +126,7 @@ public class CaseStyleDetailFragment extends Fragment implements
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view,
 			int position, long id) {
-		currentItem = csd.getList().get(position).caseId;
+		currentItem = csd.getList().get(position).id;
 		return false;
 	}
 
@@ -144,14 +144,14 @@ public class CaseStyleDetailFragment extends Fragment implements
 		case DETAIL:
 			CaseData.current = list.get(currentItem);
 			Intent intent = new Intent(getActivity(), DetailActivity.class);
-			intent.putExtra("id", CaseData.current.caseId);
+			intent.putExtra("id", CaseData.current.id);
 			intent.putExtra("name", CaseData.current.name);
 			intent.putExtra("title", R.string.casedetail);
 			startActivity(intent);
 			return true;
 		case DELETE:
 			CaseData c = new CaseData();
-			c.caseId = currentItem;
+			c.id = currentItem;
 			if (MenuService.deleteCase(c)) {
 				// TODO 刷新
 				Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_SHORT)
@@ -224,7 +224,7 @@ public class CaseStyleDetailFragment extends Fragment implements
 				break;
 			}
 
-			Drawable d = Drawable.createFromPath(c.picPath);
+			Drawable d = Drawable.createFromPath(c.pic);
 			if (d != null) {
 				holder.pic.setImageDrawable(d);
 			}
@@ -261,7 +261,7 @@ public class CaseStyleDetailFragment extends Fragment implements
 		currentItem = arg2;
 		CaseData.current = list.get(currentItem);
 		Intent intent = new Intent(getActivity(), DetailActivity.class);
-		intent.putExtra("id", CaseData.current.caseId);
+		intent.putExtra("id", CaseData.current.id);
 		intent.putExtra("name", CaseData.current.name);
 		intent.putExtra("title", R.string.casedetail);
 		startActivity(intent);

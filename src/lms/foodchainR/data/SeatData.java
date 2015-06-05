@@ -1,59 +1,38 @@
 package lms.foodchainR.data;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 /**
- * 
  * @author 李梦思
  * @version 1.0
  * @createTime 2012-11-17
  * @description 座位数据类
- * 
  */
+@DatabaseTable(tableName = "tb_seat")
 public class SeatData {
-	public static final int DIRTY = 1;
-	public static final int AVAILIABLE = 2;
-	public static final int OCCUPY = 3;
-	public static final int HAVING = 4;
-	public static final int WAITING = 5;
-	public static final int PAY = 6;
-
-	public int state = AVAILIABLE;
-	/***/
-	public String styleId;
-	// 桌号
-	public String tableId;
 	// 座位号
-	public String seatId;
+	@DatabaseField(id = true)
+	public int id;
+	public static final int DIRTY = 1, AVAILIABLE = 2, OCCUPY = 3, HAVING = 4,
+			WAITING = 5, PAY = 6;
+	@DatabaseField
+	public int state = AVAILIABLE;
+	@DatabaseField
+	public int styleId;
+	// 桌号
+	@DatabaseField
+	public int tableId;
 	// 图标
+	@DatabaseField
 	public String icon;
+	/** 顾客Id */
+	@DatabaseField
+	public int customerId;
+	// 服务生Id
+	@DatabaseField
+	public int waiterId = 0;
 	/** 顾客实体 */
 	public CustomerData customer;
 
-	private static SeatData current;
-
-	public static SeatData current() {
-		if (current == null) {
-			current = new SeatData();
-		}
-		return current;
-	}
-
-	public SeatData() {
-
-	}
-
-	public SeatData(String seatId, String tableId, int state, int customerId) {
-		this.seatId = seatId;
-		this.tableId = tableId;
-		this.state = state;
-	}
-
-	public SeatData(TableData t, int j) {
-		String id = j + "";
-		if (j < 10) {
-			id = "0" + id;
-		}
-		this.seatId = t.tableId + id;
-		this.tableId = t.tableId;
-		this.styleId = t.styleId;
-	}
 }

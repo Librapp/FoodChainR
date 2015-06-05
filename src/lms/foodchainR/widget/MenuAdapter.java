@@ -67,7 +67,7 @@ public class MenuAdapter extends BaseAdapter {
 			break;
 		}
 
-		Drawable d = Drawable.createFromPath(c.picPath);
+		Drawable d = Drawable.createFromPath(c.pic);
 		if (d != null) {
 			holder.pic.setImageDrawable(d);
 		}
