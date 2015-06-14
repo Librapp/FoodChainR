@@ -1,13 +1,17 @@
 package lms.foodchainR.dao;
 
+import java.sql.SQLException;
+
 import lms.foodchainR.FoodchainRApplication;
 import lms.foodchainR.data.CaseStyleData;
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-public class CaseStyle_DBHelper extends Base_DBHelper {
+import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
+
+public class CaseStyle_DBHelper extends OrmLiteSqliteOpenHelper {
 
 	public CaseStyle_DBHelper(Context context) {
 		super(context, "fcr_caseStyle.db", null,
@@ -15,65 +19,18 @@ public class CaseStyle_DBHelper extends Base_DBHelper {
 	}
 
 	@Override
-	public void onCreate(SQLiteDatabase db) {
-		createTable(db);
+	public void onCreate(SQLiteDatabase arg0, ConnectionSource arg1) {
+		try {
+			TableUtils.createTableIfNotExists(arg1, CaseStyleData.class);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
-	/**
-	 * 生成表
-	 * 
-	 * @param db
-	 */
-	private void createTable(SQLiteDatabase db) {
-		db.execSQL(createStyleDataTable());
-	}
+	@Override
+	public void onUpgrade(SQLiteDatabase arg0, ConnectionSource arg1, int arg2,
+			int arg3) {
+		// TODO Auto-generated method stub
 
-	/** 生成自定义类型表 */
-	private String createStyleDataTable() {
-		return CREATE + FoodchainRApplication.TABLE_CASESTYLE + " ("
-				+ FoodchainRApplication.ID + AUTO_KEY + ","
-				+ FoodchainRApplication.NAME + TEXT + ")";
-	}
-
-	public void insert(CaseStyleData data) {
-		ContentValues values = new ContentValues();
-		values.put(FoodchainRApplication.NAME, data.name);
-		getWritableDatabase();
-		dbWrite.insert(FoodchainRApplication.TABLE_CASESTYLE, null, values);
-		dbWrite.close();
-	}
-
-	public void delete(CaseStyleData data) {
-		getWritableDatabase();
-		dbWrite.delete(FoodchainRApplication.TABLE_CASESTYLE, "where "
-				+ FoodchainRApplication.ID + "=?",
-				new String[] { data.id + "" });
-		dbWrite.close();
-	}
-
-	public void update(CaseStyleData data) {
-		ContentValues values = new ContentValues();
-		values.put(FoodchainRApplication.NAME, data.name);
-		getWritableDatabase();
-		dbWrite.update(FoodchainRApplication.TABLE_CASESTYLE, values, "where "
-				+ FoodchainRApplication.ID + "=?",
-				new String[] { data.id + "" });
-		dbWrite.close();
-	}
-
-	public CaseStyleData getById(int id) {
-		dbRead = getReadableDatabase();
-		Cursor cursor = dbRead.query(FoodchainRApplication.TABLE_CASESTYLE,
-				null, "where " + FoodchainRApplication.ID + "=?",
-				new String[] { id + "" }, null, null, null);
-		dbRead.close();
-		if (cursor.moveToNext()) {
-			CaseStyleData data = new CaseStyleData();
-			data.id = id;
-			data.name = cursor.getString(cursor
-					.getColumnIndex(FoodchainRApplication.NAME));
-			return data;
-		} else
-			return null;
 	}
 }

@@ -15,7 +15,7 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "tb_casestyle")
 public class CaseStyleData {
 	/** 类型Id */
-	@DatabaseField(id = true)
+	@DatabaseField(generatedId = true)
 	public int id;
 	/** 名称 */
 	@DatabaseField

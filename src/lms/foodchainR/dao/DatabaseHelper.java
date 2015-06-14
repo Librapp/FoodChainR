@@ -1,6 +1,8 @@
 package lms.foodchainR.dao;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import lms.foodchainR.data.BillData;
 import lms.foodchainR.data.CaseData;
@@ -22,16 +24,7 @@ import com.j256.ormlite.table.TableUtils;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	private static final String DB_NAME = "fcr.db";
-	private Dao<CustomerData, Integer> customerDao;
-	private Dao<CaseData, Integer> caseDao;
-	private Dao<ListData, Integer> listDao;
-	private Dao<BillData, Integer> billDao;
-	private Dao<CaseStyleData, Integer> caseStyleDao;
-	private Dao<TableData, Integer> tableDao;
-	private Dao<SeatData, Integer> seatDao;
-	private Dao<MaterialData, Integer> materialDao;
-	private Dao<TableStyleData, Integer> tableStyleDao;
-	private Dao<OrderData, Integer> orderDao;
+	private Map<String, Dao> daos = new HashMap<String, Dao>();
 
 	private DatabaseHelper(Context context) {
 		super(context, DB_NAME, null, 1);
@@ -95,134 +88,18 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		return instance;
 	}
 
-	/**
-	 * 获得customerDao
-	 * 
-	 * @return
-	 * @throws SQLException
-	 */
-	public Dao<CustomerData, Integer> getCustomerDao() throws SQLException {
-		if (customerDao == null) {
-			customerDao = getDao(CustomerData.class);
-		}
-		return customerDao;
-	}
+	public synchronized Dao getDao(Class clazz) throws SQLException {
+		Dao dao = null;
+		String className = clazz.getSimpleName();
 
-	/**
-	 * 获得caseDao
-	 * 
-	 * @return
-	 * @throws SQLException
-	 */
-	public Dao<CaseData, Integer> getCaseDao() throws SQLException {
-		if (caseDao == null) {
-			caseDao = getDao(CaseData.class);
+		if (daos.containsKey(className)) {
+			dao = daos.get(className);
 		}
-		return caseDao;
-	}
-
-	/**
-	 * 获得caseStyleDao
-	 * 
-	 * @return
-	 * @throws SQLException
-	 */
-	public Dao<CaseStyleData, Integer> getCaseStyleDao() throws SQLException {
-		if (caseStyleDao == null) {
-			caseStyleDao = getDao(CaseStyleData.class);
+		if (dao == null) {
+			dao = super.getDao(clazz);
+			daos.put(className, dao);
 		}
-		return caseStyleDao;
-	}
-
-	/**
-	 * 获得materialDao
-	 * 
-	 * @return
-	 * @throws SQLException
-	 */
-	public Dao<MaterialData, Integer> getMaterialDao() throws SQLException {
-		if (materialDao == null) {
-			materialDao = getDao(MaterialData.class);
-		}
-		return materialDao;
-	}
-
-	/**
-	 * 获得tableStyleDao
-	 * 
-	 * @return
-	 * @throws SQLException
-	 */
-	public Dao<TableStyleData, Integer> getTableStyleDao() throws SQLException {
-		if (tableStyleDao == null) {
-			tableStyleDao = getDao(TableStyleData.class);
-		}
-		return tableStyleDao;
-	}
-
-	/**
-	 * 获得tableDao
-	 * 
-	 * @return
-	 * @throws SQLException
-	 */
-	public Dao<TableData, Integer> getTableDao() throws SQLException {
-		if (tableDao == null) {
-			tableDao = getDao(TableData.class);
-		}
-		return tableDao;
-	}
-
-	/**
-	 * 获得seatDao
-	 * 
-	 * @return
-	 * @throws SQLException
-	 */
-	public Dao<SeatData, Integer> getSeatDao() throws SQLException {
-		if (seatDao == null) {
-			seatDao = getDao(SeatData.class);
-		}
-		return seatDao;
-	}
-
-	/**
-	 * 获得billDao
-	 * 
-	 * @return
-	 * @throws SQLException
-	 */
-	public Dao<BillData, Integer> getBillDao() throws SQLException {
-		if (billDao == null) {
-			billDao = getDao(BillData.class);
-		}
-		return billDao;
-	}
-
-	/**
-	 * 获得orderDao
-	 * 
-	 * @return
-	 * @throws SQLException
-	 */
-	public Dao<OrderData, Integer> getOrderDao() throws SQLException {
-		if (orderDao == null) {
-			orderDao = getDao(OrderData.class);
-		}
-		return orderDao;
-	}
-
-	/**
-	 * 获得listDao
-	 * 
-	 * @return
-	 * @throws SQLException
-	 */
-	public Dao<ListData, Integer> getListDao() throws SQLException {
-		if (listDao == null) {
-			listDao = getDao(ListData.class);
-		}
-		return listDao;
+		return dao;
 	}
 
 	/**
@@ -231,6 +108,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	@Override
 	public void close() {
 		super.close();
-		customerDao = null;
+		for (String key : daos.keySet()) {
+			Dao dao = daos.get(key);
+			dao = null;
+		}
 	}
 }

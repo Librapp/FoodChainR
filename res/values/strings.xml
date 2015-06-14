@@ -161,4 +161,10 @@
     <string name="weibosdk_demo_toast_auth_canceled">取消授权</string>
     <string name="editstyle">编辑分类</string>
     <string name="casestyledetail">菜品类别详情</string>
+    <string name="addCase">添加菜</string>
+    <string name="addCaseStyle">添加菜类</string>
+    <string name="addTable">添加餐桌</string>
+    <string name="addTableStyle">添加桌型</string>
+    <string name="manageMenu">管理菜单</string>
+    <string name="manageSeat">管理餐位</string>
 </resources>

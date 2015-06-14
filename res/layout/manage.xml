@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <TextView
+        android:id="@+id/tv_manage_menu"
+        style="@style/TextView_Add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/manageMenu" />
+    <TextView
+        android:id="@+id/tv_add_manage_seat"
+        style="@style/TextView_Add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/manageSeat" />
+    <TextView
+        android:id="@+id/tv_add_case"
+        style="@style/TextView_Add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/addCase" />
+    <TextView
+        android:id="@+id/tv_add_case_style"
+        style="@style/TextView_Add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/addCaseStyle" />
+    <TextView
+        android:id="@+id/tv_add_table"
+        style="@style/TextView_Add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/addTable" />
+    <TextView
+        android:id="@+id/tv_add_table_style"
+        style="@style/TextView_Add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/addTableStyle" />
+</LinearLayout>
