@@ -24,6 +24,7 @@ import com.j256.ormlite.table.TableUtils;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	private static final String DB_NAME = "fcr.db";
+	@SuppressWarnings("rawtypes")
 	private Map<String, Dao> daos = new HashMap<String, Dao>();
 
 	private DatabaseHelper(Context context) {
@@ -84,10 +85,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 					instance = new DatabaseHelper(context);
 			}
 		}
-
 		return instance;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public synchronized Dao getDao(Class clazz) throws SQLException {
 		Dao dao = null;
 		String className = clazz.getSimpleName();
@@ -109,6 +110,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public void close() {
 		super.close();
 		for (String key : daos.keySet()) {
+			@SuppressWarnings({ "rawtypes", "unused" })
 			Dao dao = daos.get(key);
 			dao = null;
 		}

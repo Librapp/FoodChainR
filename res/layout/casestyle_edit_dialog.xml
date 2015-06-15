@@ -3,4 +3,5 @@
     android:id="@+id/et_dialog_name"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:hint="@string/pleaseInputStyleName"
     android:inputType="text" />

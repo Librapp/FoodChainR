@@ -1,10 +1,7 @@
 package lms.foodchainR.fragment;
 
-import java.io.File;
-
 import lms.foodchainR.R;
 import lms.foodchainR.data.UserData;
-import lms.foodchainR.ui.DetailActivity;
 import lms.foodchainR.util.ImageLoaderHelper;
 import android.app.Activity;
 import android.content.Intent;
@@ -85,20 +82,6 @@ public class UserInfoEditFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == Activity.RESULT_OK) {
-			switch (requestCode) {
-			case DetailActivity.GETIMAGE_BYCAMERA:
-				Uri uri = Uri.fromFile(new File(UserData.self().headPic));
-				startPhotoZoom(uri);
-				break;
-			case DetailActivity.GETIMAGE_BYSDCARD:
-				if (data == null)
-					return;
-				Uri thisUri = data.getData();
-				startPhotoZoom(thisUri);
-				break;
-			default:
-				break;
-			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
@@ -112,6 +95,5 @@ public class UserInfoEditFragment extends Fragment implements OnClickListener {
 		intent.putExtra("outputX", 150);
 		intent.putExtra("outputY", 150);
 		intent.putExtra("return-data", true);
-		startActivityForResult(intent, DetailActivity.PHOTORESOULT);
 	}
 }

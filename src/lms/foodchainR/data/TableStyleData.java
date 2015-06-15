@@ -15,11 +15,13 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "tb_tablestyle")
 public class TableStyleData {
-	@DatabaseField(id = true)
+	@DatabaseField(generatedId = true)
 	public int id;
+	@DatabaseField
+	public String name;
 	// 有多少张桌子
 	@DatabaseField
-	public int count = 10;
+	public int tableCount = 10;
 	// 桌子有多少座位
 	@DatabaseField
 	public int seatCount = 4;

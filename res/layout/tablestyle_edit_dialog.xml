@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <EditText
+        android:id="@+id/et_dialog_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/pleaseInputStyleName"
+        android:inputType="text" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/seatcount" />
+        <EditText
+            android:id="@+id/et_dialog_seatcount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|right"
+            android:inputType="numberDecimal"
+            android:maxEms="2"
+            android:minEms="2"
+            android:text="@string/zero" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tablecount" />
+        <EditText
+            android:id="@+id/et_dialog_tablecount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|right"
+            android:inputType="numberDecimal"
+            android:maxEms="2"
+            android:minEms="2"
+            android:text="@string/zero" />
+    </LinearLayout>
+</LinearLayout>

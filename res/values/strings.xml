@@ -55,7 +55,7 @@
     <string name="nohalldata">没有开业，请到详情界面设置</string>
     <string name="billcount">订单数量</string>
     <string name="customercount">顾客数量</string>
-    <string name="zero">00</string>
+    <string name="zero">0</string>
     <string name="freeseatcount">空座位数</string>
     <string name="filter">筛选</string>
     <string name="table">桌子</string>
@@ -167,4 +167,5 @@
     <string name="addTableStyle">添加桌型</string>
     <string name="manageMenu">管理菜单</string>
     <string name="manageSeat">管理餐位</string>
+    <string name="pleaseInputStyleName">请输入类型名称</string>
 </resources>
